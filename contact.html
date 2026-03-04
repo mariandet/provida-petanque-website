@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Provida Pétanque Club</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+      .contact-section{
+    text-align:center;
+}
+
+.contact-info{
+    max-width:500px;
+    margin:0 auto;
+}
+
+.contact-item{
+    margin-bottom:25px;
+}
+
+.social-links{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+}
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar__container">
+            <div class="navbar__logo">
+                <span class="logo-icon">⚪</span>
+                <div class="logo-text">
+                    <div class="logo-main">PROVIDA</div>
+                    <div class="logo-sub">Pétanque Club</div>
+                </div>
+            </div>
+            <div class="navbar__menu" id="navMenu">
+                <a href="index.html" class="navbar__link" data-en="Home" data-kh="ដើម">Home</a>
+                <a href="about.html" class="navbar__link" data-en="About" data-kh="អំពី">About</a>
+                <a href="competition.html" class="navbar__link" data-en="Competitions" data-kh="ការប្រកួតប្រជែង">Competitions</a>
+                <a href="gallery.html" class="navbar__link" data-en="Gallery" data-kh="ギャラリー">Gallery</a>
+                <a href="news.html" class="navbar__link" data-en="News" data-kh="ព័ត៌មាន">News</a>
+                <a href="contact.html" class="navbar__link active" data-en="Contact" data-kh="ទាក់ទង">Contact</a>
+            </div>
+            <div class="navbar__actions">
+                <button class="lang-toggle" id="langToggle"><span class="lang-en">EN</span><span class="lang-sep">/</span><span class="lang-kh">KH</span></button>
+                <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-header">
+        <div class="container">
+            <h1 class="page-title" data-en="Contact Us" data-kh="ទាក់ទងយើងខ្ញុំ">Contact Us</h1>
+            <p class="page-subtitle" data-en="Get in touch with Provida" data-kh="ទាក់ទងយើងខ្ញុំ">Get in touch with Provida</p>
+        </div>
+    </div>
+
+    <main class="section-light">
+        <div class="container">
+            <!-- <section class="contact-section">
+                <div class="contact-grid">
+                    <div class="contact-info">
+                        <h2 class="section-title" data-en="Our Location" data-kh="ទីតាំងរបស់យើង">Our Location</h2>
+                        
+                        <div class="contact-item">
+                            <h4 data-en="Address" data-kh="អាសយដ្ឋាន">Address</h4>
+                            <p>Street 106, Sangkat Boeung Keng Kang II<br>Khan Chamkarmon, Phnom Penh<br>Cambodia</p>
+                        </div>
+
+                        <div class="contact-item">
+                            <h4 data-en="Phone" data-kh="ទូរស័ព្ទ">Phone</h4>
+                            <p>📞 +855 (23) 123-4567<br>📱 +855 (12) 345-6789</p>
+                        </div>
+
+                        <div class="contact-item">
+                            <h4 data-en="Email" data-kh="អ៊ីមែល">Email</h4>
+                            <p>📧 info@provida.kh<br>📧 events@provida.kh</p>
+                        </div>
+
+                        <div class="contact-item">
+                            <h4 data-en="Hours" data-kh="ម៉ោង">Hours</h4>
+                            <p data-en="Monday - Friday: 6 AM - 9 PM" data-kh="ច័ន្ទ - សុក្រ: 06:00 - 21:00">Monday - Friday: 6 AM - 9 PM</p>
+                            <p data-en="Saturday - Sunday: 8 AM - 10 PM" data-kh="សៅរ៍ - ថ្ងៃអាទិត្យ: 08:00 - 22:00">Saturday - Sunday: 8 AM - 10 PM</p>
+                        </div>
+
+                        <div class="contact-item">
+                            <h4 data-en="Follow Us" data-kh="តាមដានយើងខ្ញុំ">Follow Us</h4>
+                            <div class="social-links">
+                                <a href="#" class="social-icon">f</a>
+                                <a href="#" class="social-icon">📷</a>
+                                <a href="#" class="social-icon">𝕏</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-form-wrapper">
+                        <h2 class="section-title" data-en="Send us a Message" data-kh="ផ្ញើលិខិតដល់យើងខ្ញុំ">Send us a Message</h2>
+                        
+                        <form id="contactForm" class="contact-form">
+                            <div class="form-group">
+                                <input type="text" placeholder="Your Name" data-en-placeholder="Your Name" data-kh-placeholder="ឈ្មោះរបស់អ្នក" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" placeholder="Your Email" data-en-placeholder="Your Email" data-kh-placeholder="អ៊ីមែលរបស់អ្នក" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="tel" placeholder="Phone Number" data-en-placeholder="Phone Number" data-kh-placeholder="លេខទូរស័ព្ទ" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" placeholder="Subject" data-en-placeholder="Subject" data-kh-placeholder="ប្រធានបទ" required>
+                            </div>
+                            <div class="form-group">
+                                <textarea placeholder="Your Message" data-en-placeholder="Your Message" data-kh-placeholder="សារៀបរៀងរបស់អ្នក" rows="5" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn--primary" style="width: 100%;" data-en="Send Message" data-kh="ផ្ញើលិខិត">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </section> -->
+            <section class="contact-section">
+
+    <h2 class="section-title" data-en="Our Location" data-kh="ទីតាំងរបស់យើង">
+        Our Location
+    </h2>
+
+    <div class="contact-info">
+
+        <div class="contact-item">
+            <h4 data-en="Address" data-kh="អាសយដ្ឋាន">Address</h4>
+            <p>
+                Street 106, Sangkat Boeung Keng Kang II<br>
+                Khan Chamkarmon, Phnom Penh<br>
+                Cambodia
+            </p>
+        </div>
+
+        <div class="contact-item">
+            <h4 data-en="Phone" data-kh="ទូរស័ព្ទ">Phone</h4>
+            <p>
+                📞 +855 (23) 123-4567<br>
+                📱 +855 (12) 345-6789
+            </p>
+        </div>
+
+        <div class="contact-item">
+            <h4 data-en="Email" data-kh="អ៊ីមែល">Email</h4>
+            <p>
+                📧 info@provida.kh<br>
+                📧 events@provida.kh
+            </p>
+        </div>
+
+        <div class="contact-item">
+            <h4 data-en="Hours" data-kh="ម៉ោង">Hours</h4>
+            <p>Monday - Friday: 6 AM - 9 PM</p>
+            <p>Saturday - Sunday: 8 AM - 10 PM</p>
+        </div>
+
+        <div class="contact-item">
+            <h4 data-en="Follow Us" data-kh="តាមដានយើងខ្ញុំ">Follow Us</h4>
+            <div class="social-links">
+                <a href="#" class="social-icon">f</a>
+                <a href="#" class="social-icon">📷</a>
+                <a href="#" class="social-icon">𝕏</a>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+            <!-- Map Section -->
+            <section class="map-section">
+                <h2 class="section-title" data-en="Find Us On The Map" data-kh="ស្វាគមន៍ក្នុងផែនទី">Find Us On The Map</h2>
+                <div class="map-container">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3909.0908170944687!2d104.89314322346863!3d11.557305488683387!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31095413e6f6f6f7%3A0x8f1e5e5e5e5e5e5e!2sPhnom%20Penh%2C%20Cambodia!5e0!3m2!1sen!2skh!4v1234567890123" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4 data-en="About" data-kh="អំពី">About</h4>
+                    <p data-en="Provida Pétanque Club brings together passionate players in a vibrant community dedicated to excellence and friendship." data-kh="ក្លឹប Pétanque Provida នាំឱ្យក្រុមលេង។">Provida Pétanque Club brings together passionate players in a vibrant community dedicated to excellence and friendship.</p>
+                </div>
+                <div class="footer-col">
+                    <h4 data-en="Page" data-kh="តំណភ្ជាប់រហ័ស">Page</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="competition.html">Competitions</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                        <li><a href="news.html">News</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4 data-en="Contact" data-kh="ទាក់ទង">Contact</h4>
+                    <p>📍 Phnom Penh, Cambodia</p>
+                    <p>📧 info@provida.kh</p>
+                    <p>📞 +855 (23) 123-4567</p>
+                </div>
+                <div class="footer-col">
+                    <h4 data-en="Follow Us" data-kh="តាមដានយើងខ្ញុំ">Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-icon">f</a>
+                        <a href="#" class="social-icon">📷</a>
+                        <a href="#" class="social-icon">𝕏</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Provida Pétanque Club. All rights reserved.</p>
+                <a href="admin.html" class="admin-link">Admin</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

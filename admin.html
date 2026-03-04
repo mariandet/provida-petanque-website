@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Provida Pétanque Club</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="admin-body">
+    <!-- Admin Navigation -->
+    <nav class="admin-navbar">
+        <div class="admin-navbar__container">
+            <h1 class="admin-navbar__title">PROVIDA Admin Panel</h1>
+            <button id="logoutBtn" class="btn btn--outline">Logout</button>
+        </div>
+    </nav>
+
+    <!-- Login Screen (Hidden by default) -->
+    <div class="admin-login" id="adminLogin">
+        <div class="login-container">
+            <h2 data-en="Admin Login" data-kh="ការចូលរបស់ผู้ управления">Admin Login</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <input type="password" id="adminPassword" placeholder="Enter Admin Password" required>
+                </div>
+                <button type="submit" class="btn btn--primary">Login</button>
+            </form>
+            <p class="login-hint" data-en="Password: admin123" data-kh="លេខសម្ងាត់: admin123">Password: admin123</p>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard (Hidden until login) -->
+    <div class="admin-dashboard" id="adminDashboard" style="display: none;">
+        <div class="admin-container">
+            <!-- Tabs Navigation -->
+            <div class="admin-tabs">
+                <button class="admin-tab active" data-tab="registration">Registration Control</button>
+                <button class="admin-tab" data-tab="competitions">Manage Competitions</button>
+                <button class="admin-tab" data-tab="news">Manage Blog Posts</button>
+                <button class="admin-tab" data-tab="registrations">View Registrations</button>
+            </div>
+
+            <!-- Registration Control Tab -->
+            <div class="admin-content active" id="registration">
+                <h2 data-en="Competition Registration Control" data-kh="ការគ្រប់គ្រងលក្ខណ្ឌការណ៍">Competition Registration Control</h2>
+                
+                <div class="control-panel">
+                    <div class="control-item">
+                        <label data-en="Spring Championship Registration:" data-kh="ការចុះឈ្មោះពានរង្វាន់ឆ្នាំផ្ស័ង្ក:">Spring Championship Registration:</label>
+                        <div class="toggle-switch">
+                            <input type="checkbox" id="springRegistration" class="toggle-input">
+                            <span class="toggle-label" data-en-off="CLOSED" data-en-on="OPEN" data-kh-off="បិទ" data-kh-on="បើក">OPEN</span>
+                        </div>
+                        <p class="status-text" id="springStatus" data-en="Status: Open for Registration" data-kh="ស្ថានភាព: បើកចំហរសម្រាប់ការចុះឈ្មោះ">Status: Open for Registration</p>
+                    </div>
+
+                    <div class="control-item">
+                        <label data-en="Friendly League Registration:" data-kh="ការចុះឈ្មោះសាលីងមិត្ត:">Friendly League Registration:</label>
+                        <div class="toggle-switch">
+                            <input type="checkbox" id="friendlyRegistration" class="toggle-input">
+                            <span class="toggle-label" data-en-off="CLOSED" data-en-on="OPEN" data-kh-off="បិទ" data-kh-on="បើក">CLOSED</span>
+                        </div>
+                        <p class="status-text" id="friendlyStatus" data-en="Status: Closed for Registration" data-kh="ស្ថានភាព: បិទសម្រាប់ការចុះឈ្មោះ">Status: Closed for Registration</p>
+                    </div>
+
+                    <div class="control-item">
+                        <label data-en="International Cup Registration:" data-kh="ការចុះឈ្មោះពានរង្វាន់អន្តរជាតិ:">International Cup Registration:</label>
+                        <div class="toggle-switch">
+                            <input type="checkbox" id="internationalRegistration" class="toggle-input">
+                            <span class="toggle-label" data-en-off="CLOSED" data-en-on="OPEN" data-kh-off="បិទ" data-kh-on="បើក">CLOSED</span>
+                        </div>
+                        <p class="status-text" id="internationalStatus" data-en="Status: Closed for Registration" data-kh="ស្ថានភាព: បិទសម្រាប់ការចុះឈ្មោះ">Status: Closed for Registration</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Manage Competitions Tab -->
+            <div class="admin-content" id="competitions">
+                <h2 data-en="Manage Competitions" data-kh="គ្រប់គ្រងលក្ខណ្ឌការណ៍">Manage Competitions</h2>
+                
+                <form id="competitionForm" class="admin-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label data-en="Event Name" data-kh="ឈ្មោះព្រឹត្តិការណ៍">Event Name</label>
+                            <input type="text" name="eventName" required>
+                        </div>
+                        <div class="form-group">
+                            <label data-en="Date" data-kh="កាលបរិច្ឆេទ">Date</label>
+                            <input type="date" name="eventDate" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label data-en="Location" data-kh="ទីតាំង">Location</label>
+                            <input type="text" name="location" required>
+                        </div>
+                        <div class="form-group">
+                            <label data-en="Prize Pool (USD)" data-kh="ប្រាក់រង្វាន់ (ដុល្លារ)">Prize Pool (USD)</label>
+                            <input type="number" name="prizePool" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label data-en="Description" data-kh="ការពិពណ៌នា">Description</label>
+                        <textarea name="description" rows="4" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn--primary" data-en="Add Competition" data-kh="បន្ថែមការប្រកួតប្រជែង">Add Competition</button>
+                </form>
+
+                <div id="competitionsList" class="admin-list">
+                    <!-- Competitions will be listed here -->
+                </div>
+            </div>
+
+            <!-- Manage Blog Posts Tab -->
+            <div class="admin-content" id="news">
+                <h2 data-en="Manage Blog Posts" data-kh="គ្រប់គ្រងប្លក">Manage Blog Posts</h2>
+                
+                <form id="blogForm" class="admin-form">
+                    <div class="form-group">
+                        <label data-en="Title" data-kh="ចំណងជើង">Title</label>
+                        <input type="text" name="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label data-en="Content" data-kh="ខ្លឹមសារ">Content</label>
+                        <textarea name="content" rows="6" required></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label data-en="Author" data-kh="អ្នកនិពន្ធ">Author</label>
+                            <input type="text" name="author" required>
+                        </div>
+                        <div class="form-group">
+                            <label data-en="Publish Date" data-kh="កាលបរិច្ឆេទផ្សាយ">Publish Date</label>
+                            <input type="date" name="publishDate" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn--primary" data-en="Publish Post" data-kh="ផ្សាយលេខ">Publish Post</button>
+                </form>
+
+                <div id="blogList" class="admin-list">
+                    <!-- Blog posts will be listed here -->
+                </div>
+            </div>
+
+            <!-- View Registrations Tab -->
+            <div class="admin-content" id="registrations">
+                <h2 data-en="View Registrations" data-kh="មើលការចុះឈ្មោះ">View Registrations</h2>
+                <div id="registrationsList" class="registrations-table">
+                    <!-- Registrations will be listed here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

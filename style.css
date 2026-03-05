@@ -45,7 +45,7 @@ button { font-family: inherit; cursor: pointer; }
 }
 
 .navbar__container {
-    max-width: 1200px; margin: 0 auto; padding: 1rem 2rem;
+    max-width: 1200px; margin: 0 auto; padding: 0.5rem 2rem;
     display: flex; justify-content: space-between; align-items: center;
 }
 
@@ -1926,4 +1926,10 @@ background:
 .page-header-about .container{
     position:relative;
     z-index:2;
+}
+
+.logo-img{
+    height: 70px;
+    width: auto;
+    object-fit: contain;
 }

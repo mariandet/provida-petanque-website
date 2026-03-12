@@ -464,6 +464,9 @@ button { font-family: inherit; cursor: pointer; }
     grid-template-columns: repeat(4, 1fr);
     gap: 1.5rem; margin-bottom: 3rem;   
 }
+.gallery-preview{
+    padding-bottom: 50px;
+}
 
 .gallery-preview-item {
     position: relative;
@@ -2157,45 +2160,47 @@ background:
     padding: 6px;
 }
 
-/* Khmer Font Family */
+/* ==========================================
+KHMER FONT
+========================================== */
 
 @font-face {
     font-family: "KantumruyPro";
-    src: url("static/KantumruyPro-Regular.ttf") format("truetype");
+    src: url("Kantumruy_Pro/static/KantumruyPro-Regular.ttf") format("truetype");
     font-weight: 400;
+    font-style: normal;
 }
 
 @font-face {
     font-family: "KantumruyPro";
-    src: url("static/KantumruyPro-Bold.ttf") format("truetype");
-    font-weight: 700;
-}
-
-@font-face {
-    font-family: "KantumruyPro";
-    src: url("static/KantumruyPro-Light.ttf") format("truetype");
-    font-weight: 300;
-}
-
-@font-face {
-    font-family: "KantumruyPro";
-    src: url("static/KantumruyPro-Medium.ttf") format("truetype");
+    src: url("Kantumruy_Pro/static/KantumruyPro-Medium.ttf") format("truetype");
     font-weight: 500;
-}
-/* KHMER FONT */
-/* KHMER FONT */
-
-@font-face {
-    font-family: 'KantumruyPro';
-    src: url('fonts/Kantumruy_Pro-Regular.ttf') format('truetype');
-    font-weight: normal;
+    font-style: normal;
 }
 
 @font-face {
-    font-family: 'KantumruyPro';
-    src: url('fonts/Kantumruy_Pro-Bold.ttf') format('truetype');
-    font-weight: bold;
+    font-family: "KantumruyPro";
+    src: url("Kantumruy_Pro/static/KantumruyPro-Bold.ttf") format("truetype");
+    font-weight: 700;
+    font-style: normal;
 }
-html[lang="km"] {
-    font-family: 'KantumruyPro', sans-serif;
+
+html[lang="km"],
+html[lang="km"] body,
+html[lang="km"] button,
+html[lang="km"] input,
+html[lang="km"] textarea,
+html[lang="km"] select,
+html[lang="km"] a,
+html[lang="km"] h1,
+html[lang="km"] h2,
+html[lang="km"] h3,
+html[lang="km"] h4,
+html[lang="km"] h5,
+html[lang="km"] h6,
+html[lang="km"] p,
+html[lang="km"] span,
+html[lang="km"] div,
+html[lang="km"] li {
+    font-family: "KantumruyPro", sans-serif;
 }

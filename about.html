@@ -7,32 +7,25 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Navigation -->
+
+    <!-- NAVIGATION -->
     <nav class="navbar">
         <div class="navbar__container">
-            <!--<div class="navbar__logo">
-                <img src="images/provida-logo.png" alt="Provida Logo" class="logo-img">
-
-                <div class="logo-text">
-                    <div class="logo-main">PROVIDA</div>
-                    <div class="logo-sub">Pétanque Club</div>
-                </div>
-            </div> -->
             <div class="navbar__logo">
                 <img src="images/provida-logo.png" alt="Provida Logo" class="logo-img">
-
                 <div class="logo-text">
                     <div class="logo-main">PROVIDA</div>
                     <div class="logo-sub">Pétanque Club</div>
                 </div>
             </div>
+
             <div class="navbar__menu" id="navMenu">
-                <a href="index.html" class="navbar__link" data-en="Home" data-kh="ដើម">Home</a>
-                <a href="about.html" class="navbar__link active" data-en="About" data-kh="អំពី">About</a>
-                <a href="competition.html" class="navbar__link" data-en="Competitions" data-kh="ការប្រកួតប្រជែង">Competitions</a>
-                <a href="gallery.html" class="navbar__link" data-en="Gallery" data-kh="ギャラリー">Gallery</a>
+                <a href="index.html" class="navbar__link" data-en="Home" data-kh="ទំព័រដើម">Home</a>
+                <a href="about.html" class="navbar__link active" data-en="About" data-kh="អំពីយើង">About</a>
+                <a href="competition.html" class="navbar__link" data-en="Competitions" data-kh="ការប្រកួត">Competitions</a>
+                <a href="gallery.html" class="navbar__link" data-en="Gallery" data-kh="រូបភាព">Gallery</a>
                 <a href="news.html" class="navbar__link" data-en="News" data-kh="ព័ត៌មាន">News</a>
-                <a href="contact.html" class="navbar__link" data-en="Contact" data-kh="ទាក់ទង">Contact</a>
+                <a href="contact.html" class="navbar__link" data-en="Contact" data-kh="ទំនាក់ទំនង">Contact</a>
             </div>
 
             <div class="navbar__actions">
@@ -46,260 +39,189 @@
         </div>
     </nav>
 
-    <!-- Page Header -->
-    <!-- <div class="page-header">
-        <div class="container">
-            <h1 class="page-title" data-en="About Provida" data-kh="អំពីប្រូវីដា">About Provida</h1>
-            <p class="page-subtitle" data-en="Our Story, Our Values, Our Community" data-kh="រឿងរបស់យើង តម្លៃរបស់យើង សហគមន៍របស់យើង">Our Story, Our Values, Our Community</p>
-        </div>
-    </div> -->
+    <!-- PAGE HEADER -->
     <div class="page-header-about">
         <div class="container">
-            <h1 class="page-title">About Provida</h1>
-            <p class="page-subtitle">Our Story, Our Values, Our Community</p>
+            <h1 class="page-title"
+                data-en="About Us"
+                data-kh="អំពីយើង">
+                About Us
+            </h1>
+            <p class="page-subtitle"
+               data-en="Our Story, Our Values, Our Community"
+               data-kh="ដំណើររឿងរបស់យើង | គុណតម្លៃរបស់យើង | សហគមន៍របស់យើង">
+               Our Story, Our Values, Our Community
+            </p>
         </div>
     </div>
-    <!-- Main Content -->
+
+    <!-- MAIN CONTENT -->
     <main class="section-light">
         <div class="container">
-         
 
-            <!-- Core Values -->
-            <!-- <section class="content-section">
-                <h2 class="section-title" data-en="Core Values" data-kh="តម្លៃក្នុងស្នូល">Core Values</h2>
-                <div class="values-grid">
-                    <div class="value-card-large">
-                        <div class="value-icon">🤝</div>
-                        <h4 data-en="Community" data-kh="សហគមន៍">Community</h4>
-                        <p data-en="We believe in the power of unity. Every member, regardless of skill level, is an essential part of our family. We build lasting bonds through shared passion and mutual respect." data-kh="យើងជឿលើអំណាចនៃការរួបរួម។ សមាជិកម្នាក់ៗ គឺជាផ្នែកគួរឱ្យកោតសរសើរនៃគ្រួសារយើង។">We believe in the power of unity. Every member, regardless of skill level, is an essential part of our family. We build lasting bonds through shared passion and mutual respect.</p>
-                    </div>
-
-                    <div class="value-card-large">
-                        <div class="value-icon">🎯</div>
-                        <h4 data-en="Precision" data-kh="ភាពជាក់លាក់">Precision</h4>
-                        <p data-en="Pétanque demands exactness in technique and strategy. We commit to mastering this ancient art, improving daily, and pushing the boundaries of what's possible." data-kh="Pétanque ទាមទារលក្ខណៈឲយបែងចែកបាន។ យើងប្តេជ្ញាក្នុងការលេងលម្អិត។">Pétanque demands exactness in technique and strategy. We commit to mastering this ancient art, improving daily, and pushing the boundaries of what's possible.</p>
-                    </div>
-
-                    <div class="value-card-large">
-                        <div class="value-icon">⚔️</div>
-                        <h4 data-en="Sportsmanship" data-kh="វិន័យកីឡា">Sportsmanship</h4>
-                        <p data-en="We compete with integrity, respect opponents, celebrate victories humbly, and learn from defeats gracefully. Fair play is the foundation of everything we do." data-kh="យើងប្រកួតប្រជែងដោយយុត្តិធម៌ និងគោរពគ្នាលើសព្វ។">We compete with integrity, respect opponents, celebrate victories humbly, and learn from defeats gracefully. Fair play is the foundation of everything we do.</p>
-                    </div>
-
-                    <div class="value-card-large">
-                        <div class="value-icon">🏆</div>
-                        <h4 data-en="Excellence" data-kh="ភាពល្អឥតខ្ចោះ">Excellence</h4>
-                        <p data-en="We strive for continuous improvement in all aspects. From tournament organization to player development, we maintain the highest standards and never settle for mediocrity." data-kh="យើងព្យាយាមក្នុងការលើកស្ថាបនាក្នុងក្រុមលេងរបស់យើង។">We strive for continuous improvement in all aspects. From tournament organization to player development, we maintain the highest standards and never settle for mediocrity.</p>
-                    </div>
-                </div>
-            </section> -->
-
-            <!-- Team -->
-            <!-- <section class="content-section">
-                <h2 class="section-title" data-en="Meet the Team" data-kh="ស្វាគមន៍ក្រុម">Meet the Team</h2>
-                <div class="team-grid">
-                    <div class="team-card">
-                        <div class="team-avatar" style="background: linear-gradient(135deg, #d4af37, #e5c158);"></div>
-                        <h4 class="team-name" data-en="Khoun Cheng" data-kh="ខោនជេង">Khoun Cheng</h4>
-                        <p class="team-role" data-en="Founder & President" data-kh="ស្ថាបនករ និងប្រធាន">Founder & President</p>
-                        <p class="team-bio" data-en="Passionate about pétanque since 2005, Khoun founded Provida to unite players across Cambodia." data-kh="ចូលចិត្តលេង pétanque ចាប់ពីឆ្នាំ 2005។">Passionate about pétanque since 2005, Khoun founded Provida to unite players across Cambodia.</p>
-                    </div>
-
-                    <div class="team-card">
-                        <div class="team-avatar" style="background: linear-gradient(135deg, #1a2847, #2a3a52);"></div>
-                        <h4 class="team-name" data-en="Makara Srun" data-kh="មការ៉ាស្រុណ">Makara Srun</h4>
-                        <p class="team-role" data-en="Tournament Director" data-kh="នាយកលក្ខណ្ឌការណ៍">Tournament Director</p>
-                        <p class="team-bio" data-en="Organizes world-class competitions and ensures every event runs smoothly with precision." data-kh="រៀបចំការប្រកួតប្រជែងលោកប្រណិត។">Organizes world-class competitions and ensures every event runs smoothly with precision.</p>
-                    </div>
-
-                    <div class="team-card">
-                        <div class="team-avatar" style="background: linear-gradient(135deg, #2a3a52, #3a4a62);"></div>
-                        <h4 class="team-name" data-en="Sophea Nim" data-kh="សូផេអា នីម">Sophea Nim</h4>
-                        <p class="team-role" data-en="Community Manager" data-kh="ក្រុមគ្រប់គ្រង">Community Manager</p>
-                        <p class="team-bio" data-en="Builds connections among players and ensures Provida remains a welcoming community for all." data-kh="សាងសង់ទំនាក់ទំនងរវាងក្រុមលេង។">Builds connections among players and ensures Provida remains a welcoming community for all.</p>
-                    </div>
-
-                    <div class="team-card">
-                        <div class="team-avatar" style="background: linear-gradient(135deg, #d4af37, #c99d2e);"></div>
-                        <h4 class="team-name" data-en="Lim Piseth" data-kh="លីម ពិសេត">Lim Piseth</h4>
-                        <p class="team-role" data-en="Head Coach" data-kh="គ្រូបង្ហាត់ប្រឹក្សា">Head Coach</p>
-                        <p class="team-bio" data-en="Former champion with 20+ years of experience, dedicated to developing the next generation." data-kh="ម្ចាស់ពានរង្វាន់ឆ្នាំ 20 ដែលគាត់មានបទពិសោធន៍។">Former champion with 20+ years of experience, dedicated to developing the next generation.</p>
-                    </div>
-                </div>
-            </section> -->
-
-            <!-- Timeline -->
-            <!-- <section class="content-section">
-                <h2 class="section-title" data-en="Our Timeline" data-kh="កាលវ័ណ្ណយើង">Our Timeline</h2>
-                <div class="timeline">
-                    <div class="timeline-item">
-                        <div class="timeline-marker">2018</div>
-                        <div class="timeline-content">
-                            <h4 data-en="Club Founded" data-kh="ក្លឹបបានបង្កើត">Club Founded</h4>
-                            <p data-en="Provida Pétanque Club is established with 50 founding members." data-kh="ក្លឹប Pétanque Provida បានបង្កើតលើក។">Provida Pétanque Club is established with 50 founding members.</p>
-                        </div>
-                    </div>
-
-                    <div class="timeline-item">
-                        <div class="timeline-marker">2019</div>
-                        <div class="timeline-content">
-                            <h4 data-en="First Tournament" data-kh="ការប្រកួតប្រជែងដំបូង">First Tournament</h4>
-                            <p data-en="Hosts the inaugural Spring Championship with 16 teams." data-kh="ប្រកួតប្រជែងលេងដំបូង។">Hosts the inaugural Spring Championship with 16 teams.</p>
-                        </div>
-                    </div>
-
-                    <div class="timeline-item">
-                        <div class="timeline-marker">2020</div>
-                        <div class="timeline-content">
-                            <h4 data-en="Membership Growth" data-kh="ការរីកចម្រើននៃសមាជិក">Membership Growth</h4>
-                            <p data-en="Membership reaches 200 members across all skill levels." data-kh="សមាជិក 200 រូបក្នុងរៀងរាល់មាត្រា។">Membership reaches 200 members across all skill levels.</p>
-                        </div>
-                    </div>
-
-                    <div class="timeline-item">
-                        <div class="timeline-marker">2021</div>
-                        <div class="timeline-content">
-                            <h4 data-en="International Recognition" data-kh="ការទទួលស្គាល់សកល">International Recognition</h4>
-                            <p data-en="Hosts first international tournament with teams from 5 countries." data-kh="ក្លឹបលេងលេខដំបូងពីប្រទេស 5 ។">Hosts first international tournament with teams from 5 countries.</p>
-                        </div>
-                    </div>
-
-                    <div class="timeline-item">
-                        <div class="timeline-marker">2023</div>
-                        <div class="timeline-content">
-                            <h4 data-en="450+ Members" data-kh="សមាជិក 450 រូប">450+ Members</h4>
-                            <p data-en="Provida reaches 450+ active members and becomes Southeast Asia's most active club." data-kh="ក្លឹបឡើងដល់ 450 រូបលើក។">Provida reaches 450+ active members and becomes Southeast Asia's most active club.</p>
-                        </div>
-                    </div>
-
-                    <div class="timeline-item">
-                        <div class="timeline-marker">2024</div>
-                        <div class="timeline-content">
-                            <h4 data-en="New Courts & Expansion" data-kh="ល្មើងលេងថ្មីនិងការពង្រីក">New Courts & Expansion</h4>
-                            <p data-en="Opens new state-of-the-art facilities and launches professional development program." data-kh="បើក វាលលេងថ្មីនិងលក្ខណ្ឌថ្មី។">Opens new state-of-the-art facilities and launches professional development program.</p>
-                        </div>
-                    </div>
-                </div>
-            </section> -->
-            <!-- Club Story -->
+            <!-- OUR STORY -->
             <section class="content-section">
-                <h2 class="section-title" data-en="Our Story" data-kh="រឿងរបស់យើង">Our Story</h2>
-                <div class="story-content">
-                    <p data-en="Provida Pétanque Club was founded on January 1, 2025, by Khoun Cheng, with the vision of creating a strong pétanque community in Cambodia.
+                <h2 class="section-title"
+                    data-en="Our Story"
+                    data-kh="ដំណើររឿងរបស់យើង">
+                    Our Story
+                </h2>
 
+                <div class="story-content">
+                    <p
+                    data-en="Provida Pétanque Club was founded on January 1, 2025, by Neak Oknha Ing Bunhoaw, with the vision of creating a strong pétanque community in Cambodia."
+                    data-kh="ក្លឹបប៉េតង់ប្រូវីដា (Provida Pétanque Club) ត្រូវបានបង្កើតឡើងនៅថ្ងៃទី១ ខែមករា ឆ្នាំ២០២៥ ដោយ អ្នកឧកញ៉ា អ៊ឹង ប៊ុនហ៊ូវ ក្នុងគោលបំណងកសាងសហគមន៍កីឡាប៉េតង់ដ៏រឹងមាំមួយនៅក្នុងប្រទេសកម្ពុជា។">
+                    Provida Pétanque Club was founded on January 1, 2025, by Neak Oknha Ing Bunhoaw, with the vision of creating a strong pétanque community in Cambodia.
+                    </p>
+
+                    <p
+                    data-en="Pétanque is a traditional sport that originated in France in the early 20th century and was later introduced to Cambodia during the French colonial period. Over time, the sport became popular in the country and is now played by people of all ages."
+                    data-kh="ប៉េតង់ គឺជាកីឡាបែបប្រពៃណីដែលមានដើមកំណើតពីប្រទេសបារាំងនៅដើមសតវត្សទី២០ ហើយត្រូវបាននាំចូលមកកាន់ប្រទេសកម្ពុជាក្នុងសម័យអាណានិគមបារាំង។ រហូតមកដល់បច្ចុប្បន្ន កីឡានេះបានក្លាយជាកីឡាដ៏ពេញនិយមបំផុតមួយនៅក្នុងប្រទេស ដែលមានអ្នកលេងគ្រប់វ័យ។">
                     Pétanque is a traditional sport that originated in France in the early 20th century and was later introduced to Cambodia during the French colonial period. Over time, the sport became popular in the country and is now played by people of all ages.
-                    
+                    </p>
+
+                    <p
+                    data-en="The game is played in teams on a small gravel court, usually about 4 meters wide and 12–15 meters long, where players compete using skill, precision, and strategy."
+                    data-kh="ការលេងប៉េតង់ តម្រូវឱ្យមានការប្រកួតជាក្រុមនៅលើទីលានគ្រួស ដែលមានទំហំប្រហែល ៤ ម៉ែត្រ x ១៥ ម៉ែត្រ ដោយប្រើប្រាស់នូវជំនាញ ភាពច្បាស់លាស់ និងយុទ្ធសាស្ត្រខ្ពស់។">
                     The game is played in teams on a small gravel court, usually about 4 meters wide and 12–15 meters long, where players compete using skill, precision, and strategy.
-                    
-                    Provida was established to promote this sport, bring players together, and support the growth of pétanque in Cambodia while connecting with the international pétanque community.</p>
-                    
-                    <p data-en="Today, Provida stands as a beacon of excellence, hosting international tournaments, developing young talent, and fostering deep friendships across cultures. Our courts have hosted players from France, Vietnam, Thailand, and beyond." data-kh="សព្វថ្ងៃ Provida ឈានដល់ការលេចធ្លោដូចផ្កាឆ្លើយលើពិភពលោក។ យើងបានលួយម្ចាស់ក្រុមលេងពីបារាំង វៀតណាម ថៃ និងក្រៅ។">Today, Provida stands as a beacon of excellence, hosting international tournaments, developing young talent, and fostering deep friendships across cultures. Our courts have hosted players from France, Vietnam, Thailand, and beyond.</p>
+                    </p>
+
+                    <p
+                    data-en="Provida Pétanque Club was established to promote this sport, bring players together, and support the growth of pétanque in Cambodia while connecting with the international pétanque community."
+                    data-kh="ក្លឹបប៉េតង់ប្រូវីដា ត្រូវបានបង្កើតឡើងដើម្បីលើកកម្ពស់វិស័យកីឡានេះ ចងក្រងអ្នកលេងឱ្យកាន់តែជិតស្និទ្ធ និងគាំទ្រដល់ការរីកចម្រើននៃកីឡាប៉េតង់កម្ពុជា ឱ្យដើរទន្ទឹមនឹងសហគមន៍ប៉េតង់អន្តរជាតិ។">
+                    Provida Pétanque Club was established to promote this sport, bring players together, and support the growth of pétanque in Cambodia while connecting with the international pétanque community.
+                    </p>
                 </div>
             </section>
 
-            <!-- Mission & Vision -->
+            <!-- ABOUT CLUB -->
+            <section class="content-section">
+                <h2 class="section-title"
+                    data-en="About"
+                    data-kh="អំពីក្លឹប">
+                    About
+                </h2>
+
+                <div class="story-content">
+                    <p
+                    data-en="Provida Pétanque Club is a community dedicated to promoting pétanque and encouraging participation from both youth and adults. The club provides a place where players can practice, compete, and develop their skills while building friendships through sport."
+                    data-kh="ក្លឹបប៉េតង់ប្រូវីដា គឺជាសហគមន៍ដែលឧទ្ទិសដល់ការផ្សព្វផ្សាយកីឡាប៉េតង់ និងជំរុញការចូលរួមទាំងពីសំណាក់យុវជន និងមនុស្សពេញវ័យ។ ក្លឹបផ្តល់នូវទីកន្លែងសម្រាប់កីឡាករក្នុងការហ្វឹកហាត់ ប្រកួតប្រជែង និងអភិវឌ្ឍសមត្ថភាព ព្រមទាំងកសាងចំណងមិត្តភាពតាមរយៈសកម្មភាពកីឡា។">
+                    Provida Pétanque Club is a community dedicated to promoting pétanque and encouraging participation from both youth and adults. The club provides a place where players can practice, compete, and develop their skills while building friendships through sport.
+                    </p>
+                </div>
+            </section>
+
+            <!-- MISSION & VISION -->
             <section class="content-section">
                 <div class="mission-vision-grid">
                     <div class="mission-card">
-                        <h3 data-en="Our Mission" data-kh="បេសកកម្មរបស់យើង">Our Mission</h3>
-                        <p data-en="To build an inclusive, world-class pétanque community in Cambodia that celebrates excellence, respects tradition, and creates lasting friendships through the beautiful sport of pétanque." data-kh="ដើម្បីបង្កើតសហគមន៍លេងដែលដ៏បរិមាណលក្ខណ៍បូណ្ណនៅកម្ពុជា។">To build an inclusive, world-class pétanque community in Cambodia that celebrates excellence, respects tradition, and creates lasting friendships through the beautiful sport of pétanque.</p>
+                        <h3 data-en="Mission" data-kh="បេសកកម្ម">Mission</h3>
+                        <p
+                        data-en="To promote pétanque in Cambodia and make the sport more popular among youth and adults while encouraging participation, teamwork, and international sports exchange."
+                        data-kh="លើកកម្ពស់កីឡាប៉េតង់នៅកម្ពុជា ឱ្យកាន់តែមានប្រជាប្រិយភាពក្នុងចំណោមយុវជន និងមនុស្សពេញវ័យ ព្រមទាំងជំរុញឱ្យមានការចូលរួម ការធ្វើការងារជាក្រុម និងការផ្លាស់ប្តូរបទពិសោធន៍កីឡាកម្រិតអន្តរជាតិ។">
+                        To promote pétanque in Cambodia and make the sport more popular among youth and adults while encouraging participation, teamwork, and international sports exchange.
+                        </p>
                     </div>
 
                     <div class="vision-card">
-                        <h3 data-en="Our Vision" data-kh="ច្រាលមើលរបស់យើង">Our Vision</h3>
-                        <p data-en="To be recognized globally as the premier pétanque club in Southeast Asia, known for developing champions, promoting sports excellence, and embodying the true spirit of community and sportsmanship." data-kh="ដើម្បីបានទទួលស្គាល់សកលលោក ដូចជាក្លឹបលេងលេចធ្លោក្នុងតំបន់អាស៊ីអាគ្នេយ៍។">To be recognized globally as the premier pétanque club in Southeast Asia, known for developing champions, promoting sports excellence, and embodying the true spirit of community and sportsmanship.</p>
+                        <h3 data-en="Vision" data-kh="ចក្ខុវិស័យ">Vision</h3>
+                        <p
+                        data-en="To develop talented players and organize more competitions that help Cambodian athletes compete internationally and potentially represent the country in global events, including future Olympic opportunities."
+                        data-kh="បណ្តុះបណ្តាលកីឡាករដែលមានទេពកោសល្យ និងរៀបចំការប្រកួតឱ្យបានកាន់តែច្រើន ដើម្បីជួយឱ្យអត្តពលិកកម្ពុជាមានសមត្ថភាពអាចទៅប្រកួតលើឆាកអន្តរជាតិ និងតំណាងឱ្យប្រទេសជាតិក្នុងព្រឹត្តិការណ៍ពិភពលោក រួមទាំងឱកាសក្នុងព្រឹត្តិការណ៍អូឡាំពិកនាពេលអនាគត។">
+                        To develop talented players and organize more competitions that help Cambodian athletes compete internationally and potentially represent the country in global events, including future Olympic opportunities.
+                        </p>
                     </div>
                 </div>
             </section>
 
-            <!-- Core Values -->
-            <!-- <section class="content-section">
-                <h2 class="section-title" data-en="Core Values" data-kh="តម្លៃក្នុងស្នូល">Core Values</h2>
-                <div class="values-grid">
-                    <div class="value-card-large">
-                        <div class="value-icon">🤝</div>
-                        <h4 data-en="Community" data-kh="សហគមន៍">Community</h4>
-                        <p data-en="We believe in the power of unity. Every member, regardless of skill level, is an essential part of our family. We build lasting bonds through shared passion and mutual respect." data-kh="យើងជឿលើអំណាចនៃការរួបរួម។ សមាជិកម្នាក់ៗ គឺជាផ្នែកគួរឱ្យកោតសរសើរនៃគ្រួសារយើង។">We believe in the power of unity. Every member, regardless of skill level, is an essential part of our family. We build lasting bonds through shared passion and mutual respect.</p>
-                    </div>
-
-                    <div class="value-card-large">
-                        <div class="value-icon">🎯</div>
-                        <h4 data-en="Precision" data-kh="ភាពជាក់លាក់">Precision</h4>
-                        <p data-en="Pétanque demands exactness in technique and strategy. We commit to mastering this ancient art, improving daily, and pushing the boundaries of what's possible." data-kh="Pétanque ទាមទារលក្ខណៈឲយបែងចែកបាន។ យើងប្តេជ្ញាក្នុងការលេងលម្អិត។">Pétanque demands exactness in technique and strategy. We commit to mastering this ancient art, improving daily, and pushing the boundaries of what's possible.</p>
-                    </div>
-
-                    <div class="value-card-large">
-                        <div class="value-icon">⚔️</div>
-                        <h4 data-en="Sportsmanship" data-kh="វិន័យកីឡា">Sportsmanship</h4>
-                        <p data-en="We compete with integrity, respect opponents, celebrate victories humbly, and learn from defeats gracefully. Fair play is the foundation of everything we do." data-kh="យើងប្រកួតប្រជែងដោយយុត្តិធម៌ និងគោរពគ្នាលើសព្វ។">We compete with integrity, respect opponents, celebrate victories humbly, and learn from defeats gracefully. Fair play is the foundation of everything we do.</p>
-                    </div>
-
-                    <div class="value-card-large">
-                        <div class="value-icon">🏆</div>
-                        <h4 data-en="Excellence" data-kh="ភាពល្អឥតខ្ចោះ">Excellence</h4>
-                        <p data-en="We strive for continuous improvement in all aspects. From tournament organization to player development, we maintain the highest standards and never settle for mediocrity." data-kh="យើងព្យាយាមក្នុងការលើកស្ថាបនាក្នុងក្រុមលេងរបស់យើង។">We strive for continuous improvement in all aspects. From tournament organization to player development, we maintain the highest standards and never settle for mediocrity.</p>
-                    </div>
-                </div>
-            </section> -->
-
-            <!-- Founder Section -->
+            <!-- FOUNDER MESSAGE -->
             <section class="content-section founder-showcase">
-                <h2 class="section-title" data-en="Meet Our Founder" data-kh="ស្វាគមន៍ស្ថាបនក">Meet Our Founder</h2>
-                
+                <h2 class="section-title"
+                    data-en="Message from the Founder"
+                    data-kh="សារពីស្ថាបនិក">
+                    Message from the Founder
+                </h2>
+
                 <div class="founder-hero">
-                    <!-- Left: Founder Image -->
+                    <!-- LEFT: FOUNDER IMAGE -->
                     <div class="founder-hero-image">
-                        <img src="images/DSC09751.jpg" alt="Khoun Cheng - Founder" class="founder-img">
+                        <img src="images/DSC09751.jpg" alt="Neak Oknha Ing Bunhoaw" class="founder-img">
                         <div class="founder-image-overlay"></div>
                     </div>
 
-                    <!-- Right: Founder Content -->
+                    <!-- RIGHT: FOUNDER CONTENT -->
                     <div class="founder-hero-content">
-                        <h3 class="founder-hero-name" data-en="Khoun Cheng" data-kh="ខោនជេង">Neak Oknha Ing Bunhoaw</h3>
-                        <p class="founder-hero-title" data-en="Founder & President" data-kh="ស្ថាបនករ និងប្រធាន">Founder & President</p>
-                        
+                        <h3 class="founder-hero-name"
+                            data-en="Neak Oknha Ing Bunhoaw"
+                            data-kh="អ្នកឧកញ៉ា អ៊ឹង ប៊ុនហ៊ូវ">
+                            Neak Oknha Ing Bunhoaw
+                        </h3>
+
+                        <p class="founder-hero-title"
+                           data-en="Founder"
+                           data-kh="ស្ថាបនិក">
+                           Founder
+                        </p>
+
                         <div class="founder-hero-bio">
-                            <p data-en="With an unwavering passion for pétanque since 2005, Khoun Cheng envisioned a place where players of all levels could come together to celebrate this beautiful sport. What began as a dream to unite Cambodia's pétanque community has blossomed into Provida—a thriving hub of excellence, friendship, and international recognition." data-kh="ដោយមានការលើកទឹកចិត្តយូរ ៗ សម្រាប់ pétanque ចាប់ពីឆ្នាំ 2005 ខោនជេង បានមានស្វាគមន៍ឱ្យក្រុមលេងក្នុងទីកន្លែងមួយដែលពួកគេអាចរួមគ្នាបានដឹង។">With an unwavering passion for pétanque since 2005, Khoun Cheng envisioned a place where players of all levels could come together to celebrate this beautiful sport. What began as a dream to unite Cambodia's pétanque community has blossomed into Provida—a thriving hub of excellence, friendship, and international recognition.</p>
+                            <p
+                            data-en="We encourage all players to learn the sport, practice regularly, and do their best to show their skills and strategies."
+                            data-kh="ខ្ញុំសូមលើកទឹកចិត្តដល់កីឡាករទាំងអស់ឱ្យសិក្សាពីបច្ចេកទេសកីឡា ហ្វឹកហាត់ឱ្យបានទៀងទាត់ និងខិតខំបញ្ចេញឱ្យអស់ពីសមត្ថភាព និងយុទ្ធសាស្ត្រ។">
+                            We encourage all players to learn the sport, practice regularly, and do their best to show their skills and strategies.
+                            </p>
 
-                            <p data-en="His leadership philosophy centers on inclusivity, continuous improvement, and building a legacy that inspires future generations. Today, Provida stands as a testament to his vision—a club where every member, regardless of background or skill level, feels valued and empowered to pursue their passion for pétanque." data-kh="ទស្សនៈដឹកនាំរបស់គាត់ផ្អែកលើការរួមបញ្ចូល ការកែលម្អឈានន័យ និងការសាងសង់មរតកដែលលើកទឹកចិត្ត។">His leadership philosophy centers on inclusivity, continuous improvement, and building a legacy that inspires future generations. Today, Provida stands as a testament to his vision—a club where every member, regardless of background or skill level, feels valued and empowered to pursue their passion for pétanque.</p>
+                            <p
+                            data-en="Provida Pétanque Club welcomes everyone—both male and female, especially young players—to join our activities and competitions."
+                            data-kh="ក្លឹបប៉េតង់ប្រូវីដា រង់ចាំស្វាគមន៍អ្នកគ្រប់គ្នា ទាំងបុរស ស្រ្តី និងជាពិសេសយុវជន ឱ្យមកចូលរួមក្នុងសកម្មភាព និងការប្រកួតរបស់យើង។">
+                            Provida Pétanque Club welcomes everyone—both male and female, especially young players—to join our activities and competitions.
+                            </p>
 
-                            <p data-en="Khoun believes that pétanque is more than a sport—it's a bridge between cultures, a celebration of precision and strategy, and a platform for friendship that transcends borders. Under his stewardship, Provida has grown from 50 founding members to over 450 active players, hosting international tournaments and establishing itself as Southeast Asia's premier pétanque destination." data-kh="ខោនជឿថា pétanque គឺជាច្រើនជាងកីឡា វាគឺជាស្ពាននៃវប្បធម៌ និងប្រទេស។">Khoun believes that pétanque is more than a sport—it's a bridge between cultures, a celebration of precision and strategy, and a platform for friendship that transcends borders. Under his stewardship, Provida has grown from 50 founding members to over 450 active players, hosting international tournaments and establishing itself as Southeast Asia's premier pétanque destination.</p>
+                            <p
+                            data-en="Through pétanque, we hope to build friendship, discipline, and opportunities for the next generation of Cambodian athletes."
+                            data-kh="តាមរយៈកីឡាប៉េតង់ យើងសង្ឃឹមថានឹងអាចកសាងមិត្តភាព វិន័យ និងបង្កើតឱកាសថ្មីៗសម្រាប់អត្តពលិកកម្ពុជាជំនាន់ក្រោយ។">
+                            Through pétanque, we hope to build friendship, discipline, and opportunities for the next generation of Cambodian athletes.
+                            </p>
                         </div>
                     </div>
                 </div>
             </section>
+
         </div>
     </main>
 
-    <!-- Footer -->
+    <!-- FOOTER -->
     <footer class="footer">
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col">
                     <h4 data-en="About" data-kh="អំពី">About</h4>
-                    <p data-en="Provida Pétanque Club brings together passionate players in a vibrant community dedicated to excellence and friendship." data-kh="ក្លឹប Pétanque Provida នាំឱ្យក្រុមលេង។">Provida Pétanque Club brings together passionate players in a vibrant community dedicated to excellence and friendship.</p>
+                    <p
+                    data-en="Provida Pétanque Club is a community dedicated to promoting pétanque and building friendship through sport."
+                    data-kh="ក្លឹបប៉េតង់ប្រូវីដា គឺជាសហគមន៍ដែលឧទ្ទិសដល់ការផ្សព្វផ្សាយកីឡាប៉េតង់ និងកសាងមិត្តភាពតាមរយៈសកម្មភាពកីឡា។">
+                    Provida Pétanque Club is a community dedicated to promoting pétanque and building friendship through sport.
+                    </p>
                 </div>
 
                 <div class="footer-col">
-                    <h4 data-en="Page" data-kh="តំណភ្ជាប់រហ័ស">Page</h4>
+                    <h4 data-en="Page" data-kh="ទំព័រ">Page</h4>
                     <ul>
-                        <li><a href="index.html" data-en="Home" data-kh="ដើម">Home</a></li>
-                        <li><a href="about.html" data-en="About" data-kh="អំពី">About</a></li>
-                        <li><a href="competition.html" data-en="Competitions" data-kh="ការប្រកួតប្រជែង">Competitions</a></li>
-                        <li><a href="gallery.html" data-en="Gallery" data-kh="ギャラリー">Gallery</a></li>
+                        <li><a href="index.html" data-en="Home" data-kh="ទំព័រដើម">Home</a></li>
+                        <li><a href="about.html" data-en="About" data-kh="អំពីយើង">About</a></li>
+                        <li><a href="competition.html" data-en="Competitions" data-kh="ការប្រកួត">Competitions</a></li>
+                        <li><a href="gallery.html" data-en="Gallery" data-kh="រូបភាព">Gallery</a></li>
                         <li><a href="news.html" data-en="News" data-kh="ព័ត៌មាន">News</a></li>
                     </ul>
                 </div>
 
                 <div class="footer-col">
-                    <h4 data-en="Contact" data-kh="ទាក់ទង">Contact</h4>
+                    <h4 data-en="Contact" data-kh="ទំនាក់ទំនង">Contact</h4>
                     <p>📍 Phnom Penh, Cambodia</p>
                     <p>📧 info@provida.kh</p>
                     <p>📞 +855 (23) 123-4567</p>
                 </div>
 
                 <div class="footer-col">
-                    <h4 data-en="Follow Us" data-kh="តាមដានយើងខ្ញុំ">Follow Us</h4>
+                    <h4 data-en="Follow Us" data-kh="តាមដានយើង">Follow Us</h4>
                     <div class="social-links">
                         <a href="#" class="social-icon">f</a>
                         <a href="#" class="social-icon">📷</a>
@@ -307,11 +229,6 @@
                     </div>
                 </div>
             </div>
-
-                        <!-- <div class="footer-bottom">
-                <p data-en="&copy; 2024 Provida Pétanque Club. All rights reserved." data-kh="© 2024 ក្លឹប Pétanque Provida។ រក្សាសិទ្ធិទាំងអស់។">&copy; 2024 Provida Pétanque Club. All rights reserved.</p>
-                <a href="admin.html" class="admin-link">Admin</a>
-            </div> -->
         </div>
     </footer>
 

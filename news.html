@@ -7,137 +7,194 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+    <!-- NAVIGATION -->
     <nav class="navbar">
         <div class="navbar__container">
-           <div class="navbar__logo">
+            <div class="navbar__logo">
                 <img src="images/provida-logo.png" alt="Provida Logo" class="logo-img">
-
                 <div class="logo-text">
                     <div class="logo-main">PROVIDA</div>
                     <div class="logo-sub">Pétanque Club</div>
                 </div>
             </div>
+
             <div class="navbar__menu" id="navMenu">
-                <a href="index.html" class="navbar__link" data-en="Home" data-kh="ដើម">Home</a>
-                <a href="about.html" class="navbar__link" data-en="About" data-kh="អំពី">About</a>
-                <a href="competition.html" class="navbar__link" data-en="Competitions" data-kh="ការប្រកួតប្រជែង">Competitions</a>
-                <a href="gallery.html" class="navbar__link" data-en="Gallery" data-kh="ギャラリー">Gallery</a>
+                <a href="index.html" class="navbar__link" data-en="Home" data-kh="ទំព័រដើម">Home</a>
+                <a href="about.html" class="navbar__link" data-en="About" data-kh="អំពីយើង">About</a>
+                <a href="competition.html" class="navbar__link" data-en="Competitions" data-kh="ទំព័រការប្រកួត">Competitions</a>
+                <a href="gallery.html" class="navbar__link" data-en="Gallery" data-kh="រូបភាព">Gallery</a>
                 <a href="news.html" class="navbar__link active" data-en="News" data-kh="ព័ត៌មាន">News</a>
-                <a href="contact.html" class="navbar__link" data-en="Contact" data-kh="ទាក់ទង">Contact</a>
+                <a href="contact.html" class="navbar__link" data-en="Contact" data-kh="ទំនាក់ទំនង">Contact</a>
             </div>
+
             <div class="navbar__actions">
-                <button class="lang-toggle" id="langToggle"><span class="lang-en">EN</span><span class="lang-sep">/</span><span class="lang-kh">KH</span></button>
-                <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+                <button class="lang-toggle" id="langToggle" aria-label="Toggle language">
+                    <span class="lang-en">EN</span><span class="lang-sep">/</span><span class="lang-kh">KH</span>
+                </button>
+                <button class="hamburger" id="hamburger" aria-label="Menu">
+                    <span></span><span></span><span></span>
+                </button>
             </div>
         </div>
     </nav>
 
+    <!-- PAGE HEADER -->
     <div class="page-header">
         <div class="container">
-            <h1 class="page-title" data-en="News & Blog" data-kh="ព័ត៌មាននិងប្លក">News & Blog</h1>
-            <p class="page-subtitle" data-en="Latest updates from Provida" data-kh="ការធ្វើបច្ចុប្បន្នភាពចាប់ផ្តើម">Latest updates from Provida</p>
+            <h1 class="page-title"
+                data-en="News & Blog"
+                data-kh="ព័ត៌មាន និងអត្ថបទ">
+                News & Blog
+            </h1>
+            <p class="page-subtitle"
+               data-en="Latest updates from Provida PÉTANQUE CLUB"
+               data-kh="ព័ត៌មានថ្មីៗពីក្លឹបប៉េតង់ប្រូវីដា">
+               Latest updates from Provida Pétanque Club
+            </p>
         </div>
     </div>
 
-    <!-- <main class="section-light">
+    <!-- MAIN CONTENT -->
+    <main class="section-light">
         <div class="container">
+
+            <!-- NEWS SECTION -->
             <section class="content-section">
-                <div id="newsList" class="news-list">
-                    <article class="news-card-full">
-                        <div class="news-card-image" style="background: linear-gradient(135deg, #d4af37, #e5c158);"></div>
-                        <div class="news-card-content">
-                            <time class="news-card-date" data-en="Mar 10, 2024" data-kh="ថ្ងៃទី 10 ខែមីនា 2024">Mar 10, 2024</time>
-                            <h3 class="news-card-title" data-en="International Tournament Starts" data-kh="ការប្រកួតប្រជែងអន្តរជាតិចាប់ផ្តើម">International Tournament Starts</h3>
-                            <p class="news-card-excerpt" data-en="Teams from France, Vietnam, and Thailand gather for Provida's biggest event ever. This championship will feature elite players showcasing world-class pétanque talent..." data-kh="ក្រុមលេងពីបារាំង វៀតណាម និងថៃជួបគ្នា...">Teams from France, Vietnam, and Thailand gather for Provida's biggest event ever. This championship will feature elite players showcasing world-class pétanque talent...</p>
-                            <a href="#" class="read-more" data-en="Read Full Story →" data-kh="អានរឿងពេញលេញ →">Read Full Story →</a>
+                <h2 class="section-title"
+                    data-en="Latest News"
+                    data-kh="ព័ត៌មានថ្មីៗ">
+                    Latest News
+                </h2>
+
+                <div class="news-grid">
+
+                    <article class="news-item">
+                        <img src="images/news1.jpg" alt="Spring Championship Announcement" class="news-image">
+                        <div class="news-content">
+                            <span class="news-date"
+                                  data-en="March 2026"
+                                  data-kh="មីនា ២០២៦">
+                                  March 2026
+                            </span>
+
+                            <h3 class="news-title"
+                                data-en="Spring Championship Registration Now Open"
+                                data-kh="បើកចុះឈ្មោះសម្រាប់ការប្រកួតជើងឯកនិទាឃរដូវ">
+                                Spring Championship Registration Now Open
+                            </h3>
+
+                            <p class="news-excerpt"
+                               data-en="Provida Pétanque Club is pleased to announce that registration for the upcoming Spring Championship is now open. Players and teams are invited to join this exciting competition."
+                               data-kh="ក្លឹបប៉េតង់ប្រូវីដា មានសេចក្តីរីករាយក្នុងការប្រកាសថា ការចុះឈ្មោះសម្រាប់ការប្រកួតជើងឯកនិទាឃរដូវបានបើកហើយ។ កីឡាករ និងក្រុមទាំងអស់ អាចចូលរួមការប្រកួតដ៏រំភើបនេះបាន។">
+                               Provida Pétanque Club is pleased to announce that registration for the upcoming Spring Championship is now open. Players and teams are invited to join this exciting competition.
+                            </p>
+
+                            <a href="fullNewsPage.html" class="news-link"
+                               data-en="Read More"
+                               data-kh="អានបន្ថែម">
+                               Read More
+                            </a>
                         </div>
                     </article>
 
-                    <article class="news-card-full">
-                        <div class="news-card-image" style="background: linear-gradient(135deg, #1a2847, #2a3a52);"></div>
-                        <div class="news-card-content">
-                            <time class="news-card-date" data-en="Mar 5, 2024" data-kh="ថ្ងៃទី 5 ខែមីនា 2024">Mar 5, 2024</time>
-                            <h3 class="news-card-title" data-en="New Training Program Launched" data-kh="កម្មវិធីរៀបរៀងថ្មីបានបង្កើត">New Training Program Launched</h3>
-                            <p class="news-card-excerpt" data-en="Beginner-friendly courses designed to help new members master the fundamentals. Our expert coaches will guide you through basic techniques, strategy, and competitive play..." data-kh="វគ្គសិក្សាដែលសមស្របសម្រាប់អ្នកចាប់ផ្តើម...">Beginner-friendly courses designed to help new members master the fundamentals. Our expert coaches will guide you through basic techniques, strategy, and competitive play...</p>
-                            <a href="#" class="read-more" data-en="Read Full Story →" data-kh="អានរឿងពេញលេញ →">Read Full Story →</a>
+                    <article class="news-item">
+                        <img src="images/news2.jpg" alt="Community Training Session" class="news-image">
+                        <div class="news-content">
+                            <span class="news-date"
+                                  data-en="February 2026"
+                                  data-kh="កុម្ភៈ ២០២៦">
+                                  February 2026
+                            </span>
+
+                            <h3 class="news-title"
+                                data-en="Community Training Session Highlights"
+                                data-kh="សកម្មភាពលេចធ្លោក្នុងវគ្គហ្វឹកហាត់សហគមន៍">
+                                Community Training Session Highlights
+                            </h3>
+
+                            <p class="news-excerpt"
+                               data-en="Our recent community training session brought together players of all levels to improve technique, strategy, and teamwork in a friendly atmosphere."
+                               data-kh="វគ្គហ្វឹកហាត់សហគមន៍ថ្មីៗរបស់យើង បានប្រមូលផ្តុំអ្នកលេងគ្រប់កម្រិត ដើម្បីអភិវឌ្ឍបច្ចេកទេស យុទ្ធសាស្ត្រ និងការងារជាក្រុម ក្នុងបរិយាកាសមិត្តភាព។">
+                               Our recent community training session brought together players of all levels to improve technique, strategy, and teamwork in a friendly atmosphere.
+                            </p>
+
+                            <a href="fullNewsPage.html" class="news-link"
+                               data-en="Read More"
+                               data-kh="អានបន្ថែម">
+                               Read More
+                            </a>
                         </div>
                     </article>
 
-                    <article class="news-card-full">
-                        <div class="news-card-image" style="background: linear-gradient(135deg, #2a3a52, #3a4a62);"></div>
-                        <div class="news-card-content">
-                            <time class="news-card-date" data-en="Feb 28, 2024" data-kh="ថ្ងៃទី 28 ខែកុម្ភៈ 2024">Feb 28, 2024</time>
-                            <h3 class="news-card-title" data-en="Member Profile: Rising Star" data-kh="ម្តងទៀត៖ តារាលេចឡើង">Member Profile: Rising Star</h3>
-                            <p class="news-card-excerpt" data-en="Meet Sokha, who conquered the pétanque world in just 18 months. From beginner to champion, his journey inspires us all. Learn about his training methods and what drives his passion..." data-kh="ស្វាគមន៍សម្រាប់សោខា ដែលបានចាប់ក្ដើម...">Meet Sokha, who conquered the pétanque world in just 18 months. From beginner to champion, his journey inspires us all. Learn about his training methods and what drives his passion...</p>
-                            <a href="#" class="read-more" data-en="Read Full Story →" data-kh="អានរឿងពេញលេញ →">Read Full Story →</a>
+                    <article class="news-item">
+                        <img src="images/news3.jpg" alt="Club Expansion Update" class="news-image">
+                        <div class="news-content">
+                            <span class="news-date"
+                                  data-en="January 2026"
+                                  data-kh="មករា ២០២៦">
+                                  January 2026
+                            </span>
+
+                            <h3 class="news-title"
+                                data-en="Provida Continues to Grow"
+                                data-kh="ប្រូវីដាបន្តរីកចម្រើន">
+                                Provida Continues to Grow
+                            </h3>
+
+                            <p class="news-excerpt"
+                               data-en="Provida Pétanque Club continues to expand its activities and strengthen its role in promoting pétanque across Cambodia through events, training, and competitions."
+                               data-kh="ក្លឹបប៉េតង់ប្រូវីដា បន្តពង្រីកសកម្មភាពរបស់ខ្លួន និងពង្រឹងតួនាទីក្នុងការលើកកម្ពស់កីឡាប៉េតង់ទូទាំងប្រទេសកម្ពុជា តាមរយៈព្រឹត្តិការណ៍ ការហ្វឹកហាត់ និងការប្រកួត។">
+                               Provida Pétanque Club continues to expand its activities and strengthen its role in promoting pétanque across Cambodia through events, training, and competitions.
+                            </p>
+
+                            <a href="fullNewsPage.html" class="news-link"
+                               data-en="Read More"
+                               data-kh="អានបន្ថែម">
+                               Read More
+                            </a>
                         </div>
                     </article>
+
                 </div>
             </section>
+
         </div>
-    </main> -->
-<main class="section-light">
-    <div class="container">
+    </main>
 
-        <section class="content-section">
-            <div id="newsList" class="news-list">
-
-                <article class="news-card-full">
-                    <div class="news-card-image">
-                        <img src="images/news1.jpg" alt="International Tournament">
-                    </div>
-
-                    <div class="news-card-content">
-                        <time class="news-card-date">Mar 10, 2024</time>
-
-                        <h3 class="news-card-title">
-                            International Tournament Starts
-                        </h3>
-
-                        <p class="news-card-excerpt">
-                            Teams from France, Vietnam, and Thailand gather for Provida's biggest event ever. 
-                            This championship will feature elite players showcasing world-class pétanque talent...
-                        </p>
-
-                         <!-- <a href="fullNewsPage.html" class="read-more">Read Full Story →</a> -->
-                         <a href="news.html" class="read-more">View Story →</a>
-
-                    </div>
-                </article>
-
-
-               
-
-            </div>
-        </section>
-
-    </div>
-</main>
+    <!-- FOOTER -->
     <footer class="footer">
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col">
                     <h4 data-en="About" data-kh="អំពី">About</h4>
-                    <p data-en="Provida Pétanque Club brings together passionate players in a vibrant community dedicated to excellence and friendship." data-kh="ក្លឹប Pétanque Provida នាំឱ្យក្រុមលេង។">Provida Pétanque Club brings together passionate players in a vibrant community dedicated to excellence and friendship.</p>
+                    <p
+                    data-en="Provida Pétanque Club brings together passionate players in a vibrant community dedicated to excellence and friendship."
+                    data-kh="ក្លឹបប៉េតង់ប្រូវីដា ប្រមូលផ្តុំអ្នកលេងដែលមានចំណង់ចំណូលចិត្ត នៅក្នុងសហគមន៍ដ៏រស់រវើកដែលផ្តោតលើភាពល្អឥតខ្ចោះ និងមិត្តភាព។">
+                    Provida Pétanque Club brings together passionate players in a vibrant community dedicated to excellence and friendship.
+                    </p>
                 </div>
+
                 <div class="footer-col">
-                    <h4 data-en="Page" data-kh="តំណភ្ជាប់រហ័ស">Page</h4>
+                    <h4 data-en="Page" data-kh="ទំព័រ">Page</h4>
                     <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="about.html">About</a></li>
-                        <li><a href="competition.html">Competitions</a></li>
-                        <li><a href="gallery.html">Gallery</a></li>
-                        <li><a href="news.html">News</a></li>
+                        <li><a href="index.html" data-en="Home" data-kh="ទំព័រដើម">Home</a></li>
+                        <li><a href="about.html" data-en="About" data-kh="អំពីយើង">About</a></li>
+                        <li><a href="competition.html" data-en="Competitions" data-kh="ទំព័រការប្រកួត">Competitions</a></li>
+                        <li><a href="gallery.html" data-en="Gallery" data-kh="រូបភាព">Gallery</a></li>
+                        <li><a href="news.html" data-en="News" data-kh="ព័ត៌មាន">News</a></li>
                     </ul>
                 </div>
+
                 <div class="footer-col">
-                    <h4 data-en="Contact" data-kh="ទាក់ទង">Contact</h4>
+                    <h4 data-en="Contact" data-kh="ទំនាក់ទំនង">Contact</h4>
                     <p>📍 Phnom Penh, Cambodia</p>
                     <p>📧 info@provida.kh</p>
                     <p>📞 +855 (23) 123-4567</p>
                 </div>
+
                 <div class="footer-col">
-                    <h4 data-en="Follow Us" data-kh="តាមដានយើងខ្ញុំ">Follow Us</h4>
+                    <h4 data-en="Follow Us" data-kh="តាមដានយើង">Follow Us</h4>
                     <div class="social-links">
                         <a href="#" class="social-icon">f</a>
                         <a href="#" class="social-icon">📷</a>
@@ -145,9 +202,13 @@
                     </div>
                 </div>
             </div>
+
             <div class="footer-bottom">
-                <p>&copy; 2024 Provida Pétanque Club. All rights reserved.</p>
-                <!-- <a href="admin.html" class="admin-link">Admin</a> -->
+                <p
+                data-en="© 2026 Provida Pétanque Club. All rights reserved."
+                data-kh="© 2026 ក្លឹបប៉េតង់ប្រូវីដា។ រក្សាសិទ្ធិគ្រប់យ៉ាង។">
+                &copy; 2026 Provida Pétanque Club. All rights reserved.
+                </p>
             </div>
         </div>
     </footer>

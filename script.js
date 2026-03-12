@@ -21,10 +21,10 @@ const translations = {
     },
     kh: {
         // Common
-        "home": "ដើម",
+        "home": "ទំព័រដើម",
         "about": "អំពី",
         "competitions": "ការប្រកួតប្រជែង",
-        "gallery": "ギャラリー",
+        "gallery": "រូបភាព",
         "news": "ព័ត៌មាន",
         "contact": "ទាក់ទង",
         // Messages
@@ -56,31 +56,75 @@ document.addEventListener('DOMContentLoaded', function() {
 // ==========================================
 function initializeLanguage() {
     const langToggle = document.getElementById('langToggle');
+
+    // Load saved language from localStorage
+    const savedLang = localStorage.getItem('language') || 'en';
+    currentLanguage = savedLang;
+
+    // Update html lang attribute for Khmer font
+    document.documentElement.lang = currentLanguage === 'kh' ? 'km' : 'en';
+    
+    // Update all text on page
+    updateAllText();
+    updateLanguageToggleUI();
+
+    // Toggle button event
     if (langToggle) {
         langToggle.addEventListener('click', toggleLanguage);
     }
-    updateAllText();
 }
 
 function toggleLanguage() {
     currentLanguage = currentLanguage === 'en' ? 'kh' : 'en';
+
+    localStorage.setItem('language', currentLanguage);
+    document.documentElement.lang = currentLanguage === 'kh' ? 'km' : 'en';
+
     updateAllText();
     updateLanguageToggleUI();
-    localStorage.setItem('language', currentLanguage);
 }
 
 function updateLanguageToggleUI() {
     const enSpan = document.querySelector('.lang-en');
     const khSpan = document.querySelector('.lang-kh');
-    if (enSpan && khSpan) {
-        if (currentLanguage === 'en') {
-            enSpan.style.opacity = '1';
-            khSpan.style.opacity = '0.5';
-        } else {
-            enSpan.style.opacity = '0.5';
-            khSpan.style.opacity = '1';
-        }
+
+    if (!enSpan || !khSpan) return;
+
+    if (currentLanguage === 'en') {
+        enSpan.style.opacity = '1';
+        khSpan.style.opacity = '0.5';
+    } else {
+        enSpan.style.opacity = '0.5';
+        khSpan.style.opacity = '1';
     }
+}
+
+function updateAllText() {
+    // Update elements with data-en and data-kh
+    document.querySelectorAll('[data-en]').forEach(el => {
+        const text = currentLanguage === 'en'
+            ? el.getAttribute('data-en')
+            : el.getAttribute('data-kh');
+
+        if (!text) return;
+
+        if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+            el.setAttribute('placeholder', text);
+        } else {
+            el.textContent = text;
+        }
+    });
+
+    // Update placeholder-specific elements
+    document.querySelectorAll('[data-en-placeholder]').forEach(el => {
+        const placeholder = currentLanguage === 'en'
+            ? el.getAttribute('data-en-placeholder')
+            : el.getAttribute('data-kh-placeholder');
+
+        if (placeholder) {
+            el.setAttribute('placeholder', placeholder);
+        }
+    });
 }
 
 function updateAllText() {
@@ -532,6 +576,8 @@ function initializeLightbox() {
     if (!lightbox) return;
 
     const galleryItems = document.querySelectorAll('.gallery-item');
+    if (!galleryItems.length) return;
+
     let currentIndex = 0;
 
     galleryItems.forEach((item, index) => {
@@ -546,23 +592,28 @@ function initializeLightbox() {
     const nextBtn = lightbox.querySelector('.lightbox-next');
 
     if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
-    if (prevBtn) prevBtn.addEventListener('click', () => {
-        currentIndex = (currentIndex - 1 + galleryItems.length) % galleryItems.length;
-        openLightbox(currentIndex, galleryItems);
-    });
-    if (nextBtn) nextBtn.addEventListener('click', () => {
-        currentIndex = (currentIndex + 1) % galleryItems.length;
-        openLightbox(currentIndex, galleryItems);
-    });
 
-    // Close on outside click
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + galleryItems.length) % galleryItems.length;
+            openLightbox(currentIndex, galleryItems);
+        });
+    }
+
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % galleryItems.length;
+            openLightbox(currentIndex, galleryItems);
+        });
+    }
+
     lightbox.addEventListener('click', (e) => {
         if (e.target === lightbox) closeLightbox();
     });
 
-    // Keyboard navigation
     document.addEventListener('keydown', (e) => {
         if (!lightbox.classList.contains('active')) return;
+
         if (e.key === 'ArrowLeft') {
             currentIndex = (currentIndex - 1 + galleryItems.length) % galleryItems.length;
             openLightbox(currentIndex, galleryItems);
@@ -577,9 +628,14 @@ function initializeLightbox() {
 
 function openLightbox(index, items) {
     const lightbox = document.getElementById('lightbox');
-    if (lightbox) {
-        const img = items[index].querySelector('img');
-        lightbox.querySelector('.lightbox-img').src = img.src;
+    if (!lightbox || !items[index]) return;
+
+    const img = items[index].querySelector('img');
+    const lightboxImg = lightbox.querySelector('.lightbox-img');
+
+    if (img && lightboxImg) {
+        lightboxImg.src = img.src;
+        lightboxImg.alt = img.alt || '';
         lightbox.classList.add('active');
         document.body.style.overflow = 'hidden';
     }
@@ -587,10 +643,10 @@ function openLightbox(index, items) {
 
 function closeLightbox() {
     const lightbox = document.getElementById('lightbox');
-    if (lightbox) {
-        lightbox.classList.remove('active');
-        document.body.style.overflow = 'auto';
-    }
+    if (!lightbox) return;
+
+    lightbox.classList.remove('active');
+    document.body.style.overflow = 'auto';
 }
 
 // ==========================================
@@ -622,33 +678,30 @@ function initializeScrollAnimations() {
 // ==========================================
 // UTILITIES
 // ==========================================
-// function smooth Scroll(target) {
+// function smoothScroll(target) {
 //     target.scrollIntoView({ behavior: 'smooth' });
 // }
 
-// // Restore language on page load
-// window.addEventListener('load', () => {
-//     const savedLanguage = localStorage.getItem('language');
-//     if (savedLanguage) {
-//         currentLanguage = savedLanguage;
-//         updateLanguageToggleUI();
-//     }
-// });
+// ==========================================
+// GALLERY HOVER PREVIEW
+// ==========================================
+const galleryItems = document.querySelectorAll('.gallery-item');
+const hoverModal = document.getElementById('imageHoverModal');
+const hoverPreview = document.getElementById('imageHoverPreview');
 
-const galleryItems = document.querySelectorAll(".gallery-item");
-const hoverModal = document.getElementById("imageHoverModal");
-const hoverPreview = document.getElementById("imageHoverPreview");
+if (galleryItems.length && hoverModal && hoverPreview) {
+    galleryItems.forEach(item => {
+        const img = item.querySelector('img');
+        if (!img) return;
 
-galleryItems.forEach(item => {
-    const img = item.querySelector("img");
+        item.addEventListener('mouseenter', () => {
+            hoverPreview.src = img.src;
+            hoverPreview.alt = img.alt || '';
+            hoverModal.classList.add('active');
+        });
 
-    item.addEventListener("mouseenter", () => {
-        hoverPreview.src = img.src;
-        hoverPreview.alt = img.alt;
-        hoverModal.classList.add("active");
+        item.addEventListener('mouseleave', () => {
+            hoverModal.classList.remove('active');
+        });
     });
-
-    item.addEventListener("mouseleave", () => {
-        hoverModal.classList.remove("active");
-    });
-});
+}

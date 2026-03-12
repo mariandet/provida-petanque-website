@@ -622,15 +622,33 @@ function initializeScrollAnimations() {
 // ==========================================
 // UTILITIES
 // ==========================================
-function smooth Scroll(target) {
-    target.scrollIntoView({ behavior: 'smooth' });
-}
+// function smooth Scroll(target) {
+//     target.scrollIntoView({ behavior: 'smooth' });
+// }
 
-// Restore language on page load
-window.addEventListener('load', () => {
-    const savedLanguage = localStorage.getItem('language');
-    if (savedLanguage) {
-        currentLanguage = savedLanguage;
-        updateLanguageToggleUI();
-    }
+// // Restore language on page load
+// window.addEventListener('load', () => {
+//     const savedLanguage = localStorage.getItem('language');
+//     if (savedLanguage) {
+//         currentLanguage = savedLanguage;
+//         updateLanguageToggleUI();
+//     }
+// });
+
+const galleryItems = document.querySelectorAll(".gallery-item");
+const hoverModal = document.getElementById("imageHoverModal");
+const hoverPreview = document.getElementById("imageHoverPreview");
+
+galleryItems.forEach(item => {
+    const img = item.querySelector("img");
+
+    item.addEventListener("mouseenter", () => {
+        hoverPreview.src = img.src;
+        hoverPreview.alt = img.alt;
+        hoverModal.classList.add("active");
+    });
+
+    item.addEventListener("mouseleave", () => {
+        hoverModal.classList.remove("active");
+    });
 });

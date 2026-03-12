@@ -799,18 +799,54 @@ button { font-family: inherit; cursor: pointer; }
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
 }
 
-.event-header{
+.event-header {
+    width: 50%;
+    aspect-ratio: 4 / 5;   /* keeps 1080x1350 ratio */
     position: relative;
-    height: 180px;
     overflow: hidden;
-    border-radius:10px 10px 0 0;
-}
-.event-header-img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
+    margin: auto; /* center the image */
 }
 
+.event-header-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.event-header-img:hover {
+    transform: scale(1.05);
+}
+
+/* modal */
+.img-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+}
+
+.img-modal.active {
+    display: flex;
+}
+
+.img-preview {
+    max-width: 85vw;
+    max-height: 85vh;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.img-close {
+    position: absolute;
+    top: 25px;
+    right: 35px;
+    font-size: 40px;
+    color: white;
+    cursor: pointer;
+}
 /* badge */
 .event-badge{
     position:absolute;
@@ -1932,4 +1968,234 @@ background:
     height: 70px;
     width: auto;
     object-fit: contain;
+}
+/* ========== FOUNDER SHOWCASE ========== */
+.fade-in { animation: fade-in 0.5s ease-out; }
+.founder-showcase {
+.slide-up { animation: slide-up 0.5s ease-out; }
+    padding: 4rem 0;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.05), rgba(212, 175, 55, 0.02));
+    border-radius: 16px;
+    margin-bottom: 4rem;
+}
+.founder-hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+}
+/* Founder Image */
+.founder-hero-image {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+    aspect-ratio: 3 / 4;
+}
+.founder-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.founder-image-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.3), rgba(212, 175, 55, 0.1));
+    pointer-events: none;
+}
+/* Founder Content */
+.founder-hero-content {
+    padding: 2rem 0;
+}
+.founder-hero-name {
+    font-size: 2.2rem;
+    color: var(--color-navy);
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+.founder-hero-title {
+    font-size: 1.1rem;
+    color: var(--color-gold);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 2rem;
+    font-weight: 600;
+}
+.founder-hero-bio {
+    display: grid;
+    gap: 1.5rem;
+}
+.founder-hero-bio p {
+    color: var(--color-text);
+    line-height: 1.9;
+    font-size: 1rem;
+    margin: 0;
+}
+.founder-hero-bio p:first-child {
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--color-text);
+}
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .founder-hero {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    .founder-hero-image {
+        aspect-ratio: 16 / 9;
+    }
+    .founder-hero-name {
+        font-size: 1.8rem;
+    }
+    .founder-hero-content {
+        padding: 1rem 0;
+    }
+}
+@media (max-width: 768px) {
+    .founder-showcase {
+        padding: 2rem 0;
+        margin-bottom: 3rem;
+    }
+    .founder-hero {
+        gap: 1.5rem;
+    }
+    .founder-hero-image {
+        aspect-ratio: 16 / 10;
+    }
+    .founder-hero-name {
+        font-size: 1.5rem;
+    }
+    .founder-hero-title {
+        font-size: 0.95rem;
+        margin-bottom: 1.5rem;
+    }
+    .founder-hero-bio p {
+        font-size: 0.95rem;
+        line-height: 1.8;
+    }
+    .founder-hero-bio p:first-child {
+        font-size: 1rem;
+    }
+}
+@media (max-width: 480px) {
+    .founder-showcase {
+        padding: 1.5rem 0;
+    }
+    .founder-hero-name {
+        font-size: 1.3rem;
+    }
+    .founder-hero-title {
+        font-size: 0.9rem;
+        letter-spacing: 1px;
+        margin-bottom: 1rem;
+    }
+    .founder-hero-bio {
+        gap: 1rem;
+    }
+    .founder-hero-bio p {
+        font-size: 0.9rem;
+        line-height: 1.7;
+    }
+}
+
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.gallery-item img {
+    width: 100%;
+    display: block;
+    border-radius: 8px;
+}
+
+.gallery-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+    color: #fff;
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    padding: 12px;
+    opacity: 0;
+    transition: 0.3s ease;
+}
+
+.gallery-item:hover .gallery-overlay {
+    opacity: 1;
+}
+
+.image-hover-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.25s ease;
+    z-index: 9999;
+    pointer-events: none;
+}
+
+.image-hover-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.image-hover-modal img {
+    max-width: 70vw;
+    max-height: 80vh;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+    background: #fff;
+    padding: 6px;
+}
+
+/* Khmer Font Family */
+
+@font-face {
+    font-family: "KantumruyPro";
+    src: url("static/KantumruyPro-Regular.ttf") format("truetype");
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: "KantumruyPro";
+    src: url("static/KantumruyPro-Bold.ttf") format("truetype");
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: "KantumruyPro";
+    src: url("static/KantumruyPro-Light.ttf") format("truetype");
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: "KantumruyPro";
+    src: url("static/KantumruyPro-Medium.ttf") format("truetype");
+    font-weight: 500;
+}
+/* KHMER FONT */
+/* KHMER FONT */
+
+@font-face {
+    font-family: 'KantumruyPro';
+    src: url('fonts/Kantumruy_Pro-Regular.ttf') format('truetype');
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: 'KantumruyPro';
+    src: url('fonts/Kantumruy_Pro-Bold.ttf') format('truetype');
+    font-weight: bold;
+}
+html[lang="km"] {
+    font-family: 'KantumruyPro', sans-serif;
 }

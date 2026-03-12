@@ -1,419 +1,286 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Provida Pétanque Club - Where Precision Meets Passion</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Provida Pétanque Club - HomePage</title>
+<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <!-- Navigation Bar -->
-    <nav class="navbar">
-        <div class="navbar__container">
-            <div class="navbar__logo">
-                <span class="logo-icon">⚪</span>
-                <div class="logo-text">
-                    <div class="logo-main" data-en="PROVIDA" data-kh="ប្រូវីដា">PROVIDA</div>
-                    <div class="logo-sub" data-en="Pétanque Club" data-kh="ក្លឹប Pétanque">Pétanque Club</div>
-                </div>
-            </div>
 
-            <div class="navbar__menu" id="navMenu">
-                <a href="index.html" class="navbar__link active" data-en="Home" data-kh="ដើម">Home</a>
-                <a href="about.html" class="navbar__link" data-en="About" data-kh="អំពី">About</a>
-                <a href="competition.html" class="navbar__link" data-en="Competitions" data-kh="ការប្រកួតប្រជែង">Competitions</a>
-                <a href="gallery.html" class="navbar__link" data-en="Gallery" data-kh="ギャラリー">Gallery</a>
-                <a href="news.html" class="navbar__link" data-en="News" data-kh="ព័ត៌មាន">News</a>
-                <a href="contact.html" class="navbar__link" data-en="Contact" data-kh="ទាក់ទង">Contact</a>
-            </div>
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="navbar__container">
 
-            <div class="navbar__actions">
-                <button class="lang-toggle" id="langToggle" aria-label="Toggle language">
-                    <span class="lang-en">EN</span><span class="lang-sep">/</span><span class="lang-kh">KH</span>
-                </button>
-                <button class="hamburger" id="hamburger" aria-label="Menu">
-                    <span></span><span></span><span></span>
-                </button>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <!-- <section class="hero">
-        <div class="hero__bg">
-            <div class="hero__gradient"></div>
-            <div class="hero__orb hero__orb--1"></div>
-            <div class="hero__orb hero__orb--2"></div>
-            <div class="petanque-ball" style="top: 10%; left: 5%; opacity: 0.05;"></div>
-            <div class="petanque-ball" style="top: 60%; right: 8%; opacity: 0.04;"></div>
-        </div>
-
-        <div class="hero__content">
-            <div class="hero__label" data-en="Welcome to Provida" data-kh="សូមស្វាគមន៍ដល់ប្រូវីដា">Welcome to Provida</div>
-            <h1 class="hero__title">
-                <span data-en="Where Precision" data-kh="ដែលកាល">Where Precision</span>
-                <span class="gold" data-en="Meets Passion" data-kh="ដូច្នេះកម្ពល់">Meets Passion</span>
-            </h1>
-            <p class="hero__subtitle" data-en="Master the ancient art of pétanque in Cambodia's premier sports community" data-kh="អនុវត្តសិល្បៈបុរាណនៃ pétanque នៅក្នុងសហគមន៍កីឡាលេចធ្លោបំផុតរបស់កម្ពុជា">Master the ancient art of pétanque in Cambodia's premier sports community</p>
-            
-            <div class="hero__cta">
-                <button class="btn btn--primary" id="registerMainBtn" data-en="Register for Competition" data-kh="ចុះឈ្មោះលក្ខណ្ឌការណ៍">Register for Competition</button>
-                <a href="competition.html" class="btn btn--secondary" data-en="View Events" data-kh="មើលលក្ខណ្ឌការណ៍">View Events</a>
+        <div class="navbar__logo">
+            <img src="images/provida-logo.png" alt="Provida Logo" class="logo-img">
+            <div class="logo-text">
+                <div class="logo-main">PROVIDA</div>
+                <div class="logo-sub">Pétanque Club</div>
             </div>
         </div>
 
-        <div class="hero__scroll" data-en="Scroll to explore" data-kh="រមូរដើម្បីស្វាគមន៍">Scroll to explore</div>
-    </section> -->
-  <section class="hero" >
-
-        <!-- BACKGROUND SLIDESHOW -->
-        <div class="hero__slideshow">
-            <div class="hero__slide active" style="background-image:    url('images/DSC00429.jpg');"></div>
-            <div class="hero__slide" style="background-image:           url('images/DSC09721.jpg');"></div>
-            <div class="hero__slide" style="background-image:           url('images/DSC09961.jpg');"></div>
-        </div>
-         <div class="hero__overlay"></div>
-
-        <div class="hero__content">
-           <div class="hero__bg">
-            <div class="hero__gradient"></div>
-            <div class="hero__orb hero__orb--1"></div>
-            <div class="hero__orb hero__orb--2"></div>
-            <div class="petanque-ball" style="top: 10%; left: 5%; opacity: 0.05;"></div>
-            <div class="petanque-ball" style="top: 60%; right: 8%; opacity: 0.04;"></div>
+        <div class="navbar__menu" id="navMenu">
+            <a href="index.html" class="navbar__link active" data-en="Home" data-kh="ទំព័រដើម">Home</a>
+            <a href="about.html" class="navbar__link" data-en="About" data-kh="អំពីយើង">About</a>
+            <a href="competition.html" class="navbar__link" data-en="Competitions" data-kh="ទំព័រការប្រកួត">Competitions</a>
+            <a href="gallery.html" class="navbar__link" data-en="Gallery" data-kh="រូបភាព">Gallery</a>
+            <a href="news.html" class="navbar__link" data-en="News" data-kh="ព័ត៌មាន">News</a>
+            <a href="contact.html" class="navbar__link" data-en="Contact" data-kh="ទំនាក់ទំនង">Contact</a>
         </div>
 
-        <div class="hero__content">
-            <div class="hero__label" data-en="Welcome to Provida" data-kh="សូមស្វាគមន៍ដល់ប្រូវីដា">Welcome to Provida</div>
-            <h1 class="hero__title">
-                <span data-en="Where Precision" data-kh="ដែលកាល">Where Precision</span>
-                <span class="gold" data-en="Meets Passion" data-kh="ដូច្នេះកម្ពល់">Meets Passion</span>
-            </h1>
-            <p class="hero__subtitle" data-en="Master the ancient art of pétanque in Cambodia's premier sports community" data-kh="អនុវត្តសិល្បៈបុរាណនៃ pétanque នៅក្នុងសហគមន៍កីឡាលេចធ្លោបំផុតរបស់កម្ពុជា">Master the ancient art of pétanque in Cambodia's premier sports community</p>
-            
-            <div class="hero__cta">
-                <!-- <button class="btn btn--primary" id="registerMainBtn" data-en="Register for Competition" data-kh="ចុះឈ្មោះលក្ខណ្ឌការណ៍">Register for Competition</button> -->
-               <a href="competition.html#competitionRegistration" class="btn btn--primary">
-                Register for Competition
-                </a>
-                <a href="competition.html" class="btn btn--secondary" data-en="View Events" data-kh="មើលលក្ខណ្ឌការណ៍">View Events</a>
-            </div>
-        </div>
-        
+        <div class="navbar__actions">
+            <button class="lang-toggle" id="langToggle" aria-label="Toggle language">
+                <span class="lang-en">EN</span>
+                <span class="lang-sep">/</span>
+                <span class="lang-kh">KH</span>
+            </button>
+
+            <button class="hamburger" id="hamburger" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
         </div>
 
-        <div class="hero__scroll" data-en="Scroll to explore" data-kh="រមូរដើម្បីស្វាគមន៍">Scroll to explore</div>
-    </section>
-    <!-- About Preview Section -->
-    <section class="about-preview section-light">
-        <div class="container">
-            <h2 class="section-title" data-en="About Provida" data-kh="អំពីប្រូវីដា">About Provida</h2>
-            
-            <div class="about-grid">
-                <div class="about-content">
-                    <p class="about-text" data-en="Founded in 2018, Provida Pétanque Club is Cambodia's premier destination for this elegant French sport. We unite players of all levels in a vibrant community dedicated to excellence, sportsmanship, and friendship." data-kh="បង្កើតឡើងនៅឆ្នាំ 2018 ក្លឹប Pétanque Provida គឺជាក្រុងលេចធ្លោរបស់កម្ពុជាសម្រាប់កីឡាបារាំងដ៏ឆើតឆាយនេះ។ យើងរួបរួមក្រុមលេងម្នាក់ៗក្នុងសហគមន៍ស្វាភាវៈដែលគាត់មានឧទ្ទេសដល់ភាពល្អឥតខ្ចោះ សម្ព័ន្ធភាព និងមិត្តភាព។">Founded in 2018, Provida Pétanque Club is Cambodia's premier destination for this elegant French sport. We unite players of all levels in a vibrant community dedicated to excellence, sportsmanship, and friendship.</p>
-                    
-                    <!-- <div class="about-values">
-                        <div class="value-card">
-                            <h4 data-en="Community" data-kh="សហគមន៍">Community</h4>
-                            <p data-en="Building lasting friendships through sport" data-kh="ការសាងសង់មិត្តភាពរយៈពេលវែង">Building lasting friendships through sport</p>
-                        </div>
-                        <div class="value-card">
-                            <h4 data-en="Precision" data-kh="ភាពជាក់លាក់">Precision</h4>
-                            <p data-en="Mastering the technical excellence of pétanque" data-kh="ការលេងមាហាត្មចាប់យកលក្ខណៈបច្ចេកទេស">Mastering the technical excellence of pétanque</p>
-                        </div>
-                        <div class="value-card">
-                            <h4 data-en="Sportsmanship" data-kh="សៀវភៅកីឡា">Sportsmanship</h4>
-                            <p data-en="Competing with respect and integrity" data-kh="ការប្រកួតប្រជែងដោយមានការគោរព">Competing with respect and integrity</p>
-                        </div>
-                        <div class="value-card">
-                            <h4 data-en="Excellence" data-kh="ភាពល្អឥតខ្ចោះ">Excellence</h4>
-                            <p data-en="Striving for continuous improvement" data-kh="ព្យាយាមសម្រាប់ការកែលម្អនៃការឈានដល់ពិន្ទុ">Striving for continuous improvement</p>
-                        </div>
-                    </div> -->
+    </div>
+</nav>
 
-                    <a href="about.html" class="btn btn--outline" data-en="Learn More" data-kh="រៀនលម្អិត">Learn More</a>
-                </div>
+<!-- HERO -->
+<section class="hero">
 
-                <div class="about-stats">
-                    <div class="stat-box">
-                        <div class="stat-number">450+</div>
-                        <div class="stat-label" data-en="Active Members" data-kh="សមាជិកក្នុងសកម្មភាព">Active Members</div>
-                    </div>
-                    <div class="stat-box">
-                        <div class="stat-number">12+</div>
-                        <div class="stat-label" data-en="Annual Events" data-kh="ព្រឹត្តិការណ៍ប្រចាំឆ្នាំ">Annual Events</div>
-                    </div>
-                    <div class="stat-box">
-                        <div class="stat-number">25+</div>
-                        <div class="stat-label" data-en="Registered Teams" data-kh="ក្រុមចុះឈ្មោះ">Registered Teams</div>
-                    </div>
-                    <div class="stat-box">
-                        <div class="stat-number">6+</div>
-                        <div class="stat-label" data-en="Years Strong" data-kh="ឆ្នាំរឹងមាំ">Years Strong</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Next Competition Section -->
-    <!-- <section class="next-competition section-dark"
-             style="background: url('images/DSC08724.JPG') center/cover no-repeat;">
-              -->
-        <!-- <section class="next-competition section-dark"
-            style="
-                background: 
-            linear-gradient(rgba(0, 0, 0, 0.45), rgb(0 0 0 / 69%)), url(images/DSC08700.JPG) center / cover no-repeat;
-            ">
-     
-        <div class="container">
-            <h2 class="section-title light" data-en="Next Competition" data-kh="ការប្រកួតប្រជែងបន្ទាប់">Next Competition</h2>
-            
-            <div class="competition-showcase">
-                <div class="competition-card-main">
-                    <div class="competition-badge" data-en="FEATURED" data-kh="ដាក់បង្ហាញ">FEATURED</div>
-                    <div class="competition-date">
-                        <span class="date-month" data-en="MAR" data-kh="មិនទ">MAR</span>
-                        <span class="date-day">15</span>
-                    </div>
-                    <div class="competition-info">
-                        <h3 class="competition-name" data-en="Spring Championship" data-kh="ពានរង្វាន់ឆ្នាំផ្ស័ង្ក">Spring Championship</h3>
-                        <p class="competition-location" data-en="Central Pétanque Courts, Phnom Penh" data-kh="ល្មើងលេងក្លាយកណ្តាល ភ្នំពេញ">Central Pétanque Courts, Phnom Penh</p>
-                        <p class="competition-desc" data-en="Grand opening tournament featuring elite teams from across Cambodia and international guests" data-kh="ការប្រកួតប្រជែងកាលបរិច្ឆេទដ៏អស្ចារ្យដែលបង្ហាញក្រុមលេចធ្លោពីគ្រប់ប្រទេស">Grand opening tournament featuring elite teams from across Cambodia and international guests</p>
-                        
-
-                        <a href="competition.html#competitionRegistration"
-                            class="btn btn--gold"
-                            id="registerCompetitionBtn"
-                            data-en="Register Now"
-                            data-kh="ចុះឈ្មោះឥឡូវនេះ">
-                            Register Now
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section> -->
-
-    <!-- Latest News Section -->
-    <!-- <section class="news-preview section-light">
-        <div class="container">
-            <h2 class="section-title" data-en="Latest News" data-kh="ព័ត៌មានថ្មីបំផុត">Latest News</h2>
-        
-
-            <div class="news-grid">
-
-                <article class="news-item">
-                    <div class="news-image"
-                        style="
-                            background:
-                            linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)),
-                            url('images/DSC08751.JPG') center/cover no-repeat;
-                        ">
-                    </div>
-                    <div class="news-content">
-                                    <span class="news-date" data-en="Mar 10, 2024" data-kh="ថ្ងៃទី 10 ខែមីនា 2024">Mar 10, 2024</span>
-                                    <h3 class="news-title" data-en="International Tournament Starts" data-kh="ការប្រកួតប្រជែងអន្តរជាតិចាប់ផ្តើម">International Tournament Starts</h3>
-                                    <p class="news-excerpt" data-en="Teams from France, Vietnam, and Thailand gather for Provida's biggest event ever..." data-kh="ក្រុមលេងពីបារាំង វៀតណាម និងថៃជួបគ្នាលើក។...">Teams from France, Vietnam, and Thailand gather for Provida's biggest event ever...</p>
-                                    <a href="news.html" class="news-link" data-en="Read More" data-kh="អានលម្អិត">Read More →</a>
-                    </div>
-                </article>
-
-                <article class="news-item">
-                    <div class="news-image"
-                        style="
-                            background:
-                            linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)),
-                            url('images/DSC08773.JPG') center/cover no-repeat;
-                        ">
-                    </div>
-                    <div class="news-content">
-                                    <span class="news-date" data-en="Mar 5, 2024" data-kh="ថ្ងៃទី 5 ខែមីនា 2024">Mar 5, 2024</span>
-                                    <h3 class="news-title" data-en="New Training Program Launched" data-kh="កម្មវិធីរៀបរៀងថ្មីបានបង្កើត">New Training Program Launched</h3>
-                                    <p class="news-excerpt" data-en="Beginner-friendly courses designed to help new members master the fundamentals..." data-kh="វគ្គសិក្សាដែលសមស្របសម្រាប់អ្នកចាប់ផ្តើម...">Beginner-friendly courses designed to help new members master the fundamentals...</p>
-                                    <a href="news.html" class="news-link" data-en="Read More" data-kh="អានលម្អិត">Read More →</a>
-                                </div>
-                </article>
-
-                <article class="news-item">
-                <div class="news-image"
-                style="
-                background:
-                linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)),
-                url('images/DSC02662.jpg') center/cover no-repeat;
-                ">
-                </div>
-                <div class="news-content">
-                <span class="news-date" data-en="Feb 28, 2024" data-kh="ថ្ងៃទី 28 ខែកុម្ភៈ 2024">Feb 28, 2024</span>
-                <h3 class="news-title" data-en="Member Profile: Rising Star" data-kh="ម្តងទៀត៖ តារាលេចឡើង">Member Profile: Rising Star</h3>
-                <p class="news-excerpt" data-en="Meet Sokha, who conquered the pétanque world in just 18 months..." data-kh="ស្វាគមន៍សម្រាប់សោខា ដែលបានចាប់ក្ដើម។...">Meet Sokha, who conquered the pétanque world in just 18 months...</p>
-                <a href="news.html" class="news-link" data-en="Read More" data-kh="អានលម្អិត">Read More →</a>
-                </div>
-    </article>
-
-</div>
-        </div>
-    </section> -->
-
-    <!-- Gallery Preview Section -->
-    <section class="gallery-preview section-light">
-        <div class="container">
-            <h2 class="section-title" data-en="Photo Moments" data-kh="រូបឆាយក្នុងកម្មវិធី">Photo Moments</h2>
-            
-           <div class="gallery-preview-grid">
-
-            <a href="gallery.html" class="gallery-preview-item gallery-preview-item--large">
-                <div class="gallery-prev-img"
-                    style="background:url('images/DSC01027.jpg') center/cover no-repeat;">
-                </div>
-                <div class="gallery-prev-overlay">
-                    <span class="gallery-prev-label">Championship Finals</span>
-                </div>
-            </a>
-
-            <a href="gallery.html" class="gallery-preview-item">
-                <div class="gallery-prev-img"
-                    style="background:url('images/DSC08154.JPG') center/cover no-repeat;">
-                </div>
-                <div class="gallery-prev-overlay">
-                    <span class="gallery-prev-label">Team Photos</span>
-                </div>
-            </a>
-
-            <a href="gallery.html" class="gallery-preview-item">
-                <div class="gallery-prev-img"
-                    style="background:url('images/DSC09751.jpg') center/cover no-repeat;">
-                </div>
-                <div class="gallery-prev-overlay">
-                    <span class="gallery-prev-label">Training Sessions</span>
-                </div>
-            </a>
-
-            <a href="gallery.html" class="gallery-preview-item">
-                <div class="gallery-prev-img"
-                    style="background:url('images/DSC08721.JPG') center/cover no-repeat;">
-                </div>
-                <div class="gallery-prev-overlay">
-                    <span class="gallery-prev-label">Club Events</span>
-                </div>
-            </a>
- <a href="gallery.html" class="gallery-preview-item">
-                <div class="gallery-prev-img"
-                    style="background:url('images/DSC08721.JPG') center/cover no-repeat;">
-                </div>
-                <div class="gallery-prev-overlay">
-                    <span class="gallery-prev-label">Club Events</span>
-                </div>
-            </a>
-        </div>
-
-            <div style="text-align: center; margin-top: 3rem;    margin-bottom: 3rem;">
-                <a href="gallery.html" class="btn btn--primary" data-en="View All Photos" data-kh="មើលរូបឆាយទាំងអស់">View All Photos</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <h4 data-en="About" data-kh="អំពី">About</h4>
-                    <p data-en="Provida Pétanque Club brings together passionate players in a vibrant community dedicated to excellence and friendship." data-kh="ក្លឹប Pétanque Provida នាំឱ្យក្រុមលេងម្នាក់ៗក្នុងសហគមន៍ឆ្វេងឆាយ។">Provida Pétanque Club brings together passionate players in a vibrant community dedicated to excellence and friendship.</p>
-                </div>
-
-                <div class="footer-col">
-                    <h4 data-en="Page" data-kh="តំណភ្ជាប់រហ័ស">Page</h4>
-                    <ul>
-                        <li><a href="index.html" data-en="Home" data-kh="ដើម">Home</a></li>
-                        <li><a href="about.html" data-en="About" data-kh="អំពី">About</a></li>
-                        <li><a href="competition.html" data-en="Competitions" data-kh="ការប្រកួតប្រជែង">Competitions</a></li>
-                        <li><a href="gallery.html" data-en="Gallery" data-kh="ギャラリー">Gallery</a></li>
-                        <li><a href="news.html" data-en="News" data-kh="ព័ត៌មាន">News</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-col">
-                    <h4 data-en="Contact" data-kh="ទាក់ទង">Contact</h4>
-                    <p>📍 Phnom Penh, Cambodia</p>
-                    <p>📧 info@provida.kh</p>
-                    <p>📞 +855 (23) 123-4567</p>
-                </div>
-
-                <div class="footer-col">
-                    <h4 data-en="Follow Us" data-kh="តាមដានយើងខ្ញុំ">Follow Us</h4>
-                    <div class="social-links">
-                        <a href="#" class="social-icon">f</a>
-                        <a href="#" class="social-icon">📷</a>
-                        <a href="#" class="social-icon">𝕏</a>
-                    </div>
-                </div>
-            </div>
-
-                        <!-- <div class="footer-bottom">
-                <p data-en="&copy; 2024 Provida Pétanque Club. All rights reserved." data-kh="© 2024 ក្លឹប Pétanque Provida។ រក្សាសិទ្ធិទាំងអស់។">&copy; 2024 Provida Pétanque Club. All rights reserved.</p>
-                <a href="admin.html" class="admin-link">Admin</a>
-            </div> -->
-        </div>
-    </footer>
-
-    <!-- Registration Modal -->
-    <div class="modal" id="registerModal">
-        <div class="modal__overlay"></div>
-        <div class="modal__content">
-            <button class="modal__close">×</button>
-            <h2 data-en="Register for Competition" data-kh="ចុះឈ្មោះលក្ខណ្ឌការណ៍">Register for Competition</h2>
-            <form id="registerForm" class="registration-form">
-                <div class="form-group">
-                    <input type="text" placeholder="Full Name" data-en-placeholder="Full Name" data-kh-placeholder="ឈ្មោះពេញលេញ" required>
-                </div>
-                <div class="form-group">
-                    <input type="tel" placeholder="Phone" data-en-placeholder="Phone" data-kh-placeholder="ទូរស័ព្ទ" required>
-                </div>
-                <div class="form-group">
-                    <input type="email" placeholder="Email" data-en-placeholder="Email" data-kh-placeholder="អ៊ីមែល" required>
-                </div>
-                <div class="form-group">
-                    <input type="text" placeholder="Team Name" data-en-placeholder="Team Name" data-kh-placeholder="ឈ្មោះក្រុម" required>
-                </div>
-                <div class="form-group">
-                    <select required>
-                        <option value="">Select Experience Level</option>
-                        <option value="beginner">Beginner</option>
-                        <option value="intermediate">Intermediate</option>
-                        <option value="advanced">Advanced</option>
-                        <option value="professional">Professional</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn btn--primary" style="width: 100%;" data-en="Submit Registration" data-kh="ដាក់ស្នើសុំ">Submit Registration</button>
-            </form>
-        </div>
+    <div class="hero__slideshow">
+        <div class="hero__slide active" style="background-image:url('images/DSC00429.jpg');"></div>
+        <div class="hero__slide" style="background-image:url('images/DSC09721.jpg');"></div>
+        <div class="hero__slide" style="background-image:url('images/DSC09961.jpg');"></div>
     </div>
 
-    <script src="script.js"></script>
-    <script>
-    // Select all slideshow elements
-    const slides = document.querySelectorAll('.hero__slide');
+    <div class="hero__overlay"></div>
 
-    // Track current slide index
+    <div class="hero__content">
+
+        <div class="hero__label"
+            data-en="Welcome to Provida Pétanque Club"
+            data-kh="វាគមន៍មកកាន់ ក្លឹបប៉េតង់ប្រូវីដា">
+            Welcome to Provida Pétanque Club
+        </div>
+
+        <h1 class="hero__title">
+            <span data-en="Cambodia’s Pétanque Community" data-kh="សហគមន៍កីឡាប៉េតង់នៃប្រទេសកម្ពុជា">Cambodia’s Pétanque Community</span>
+        </h1>
+
+        <p class="hero__subtitle"
+           data-en="Master the sport of pétanque in a growing community of players and competitions."
+           data-kh="បង្កើនសមត្ថភាពកីឡាប៉េតង់របស់អ្នក ក្នុងសហគមន៍ដែលកំពុងរីកចម្រើន និងពោរពេញដោយការប្រកួតប្រជែង។">
+           Master the sport of pétanque in a growing community of players and competitions.
+        </p>
+
+        <div class="hero__cta">
+            <a href="competition.html#competitionRegistration"
+               class="btn btn--primary"
+               data-en="Register for Competition"
+               data-kh="ចុះឈ្មោះចូលរួមប្រកួត">
+               Register for Competition
+            </a>
+
+            <a href="competition.html"
+               class="btn btn--secondary"
+               data-en="View Events"
+               data-kh="មើលព្រឹត្តិការណ៍ផ្សេងៗ">
+               View Events
+            </a>
+        </div>
+
+    </div>
+
+    <div class="hero__scroll"
+         data-en="Scroll to explore"
+         data-kh="រំកិលដើម្បីស្វែងយល់">
+         Scroll to explore
+    </div>
+
+</section>
+
+<!-- ABOUT -->
+<section class="about-preview section-light">
+<div class="container">
+
+    <h2 class="section-title"
+        data-en="About Provida"
+        data-kh="អំពីប្រូវីដា">
+        About Provida
+    </h2>
+
+    <div class="about-grid">
+
+        <div class="about-content">
+            <p class="about-text"
+               data-en="Provida Pétanque Club is dedicated to promoting the sport of pétanque in Cambodia. The club brings together players of all ages and backgrounds to learn, practice, and enjoy the game while building a strong and friendly community."
+               data-kh="ក្លឹបប៉េតង់ប្រូវីដា ត្រូវបានបង្កើតឡើងក្នុងគោលបំណងលើកកម្ពស់វិស័យកីឡាប៉េតង់នៅក្នុងប្រទេសកម្ពុជា។ ក្លឹបរបស់យើងគឺជាចំណុចជួបជុំសម្រាប់កីឡាករគ្រប់វ័យ និងគ្រប់មជ្ឈដ្ឋាន ដើម្បីសិក្សា ហ្វឹកហាត់ និងរីករាយជាមួយការលេងកីឡា ព្រមទាំងរួមគ្នាបង្កើតសហគមន៍មួយដែលប្រកបដោយមិត្តភាព និងសាមគ្គីភាព។">
+               Provida Pétanque Club is dedicated to promoting the sport of pétanque in Cambodia. The club brings together players of all ages and backgrounds to learn, practice, and enjoy the game while building a strong and friendly community.
+            </p>
+
+            <a href="about.html"
+               class="btn btn--outline"
+               data-en="Learn More"
+               data-kh="ស្វែងយល់បន្ថែម">
+               Learn More
+            </a>
+        </div>
+
+        <div class="about-stats">
+            <div class="stat-box">
+                <div class="stat-number">450+</div>
+                <div class="stat-label" data-en="Active Members" data-kh="សមាជិកសកម្ម">Active Members</div>
+            </div>
+
+            <div class="stat-box">
+                <div class="stat-number">12+</div>
+                <div class="stat-label" data-en="Annual Events" data-kh="ព្រឹត្តិការណ៍ប្រចាំឆ្នាំ">Annual Events</div>
+            </div>
+
+            <div class="stat-box">
+                <div class="stat-number">25+</div>
+                <div class="stat-label" data-en="Registered Teams" data-kh="ក្រុមដែលបានចុះឈ្មោះ">Registered Teams</div>
+            </div>
+
+            <div class="stat-box">
+                <div class="stat-number">1+</div>
+                <div class="stat-label" data-en="Years Strong" data-kh="ឆ្នាំ">Years Strong</div>
+            </div>
+        </div>
+
+    </div>
+</div>
+</section>
+
+<!-- GALLERY PREVIEW -->
+<section class="gallery-preview section-light">
+<div class="container">
+
+    <h2 class="section-title"
+        data-en="Photo Moments"
+        data-kh="កម្រងរូបភាពអនុស្សាវរីយ៍">
+        Photo Moments
+    </h2>
+
+    <p class="about-text"
+       data-en="Views and activities from our community"
+       data-kh="ទិដ្ឋភាព និងសកម្មភាពនានាក្នុងសហគមន៍របស់យើង"
+       style="text-align:center; max-width:800px; margin:0 auto 2rem;">
+       Views and activities from our community
+    </p>
+
+    <div class="gallery-preview-grid">
+
+        <a href="gallery.html" class="gallery-preview-item gallery-preview-item--large">
+            <div class="gallery-prev-img" style="background:url('images/DSC01027.jpg') center/cover"></div>
+            <div class="gallery-prev-overlay">
+                <span data-en="Championship Finals" data-kh="វគ្គផ្តាច់ព្រ័ត្រជើងឯក">Championship Finals</span>
+            </div>
+        </a>
+
+        <a href="gallery.html" class="gallery-preview-item">
+            <div class="gallery-prev-img" style="background:url('images/DSC08154.JPG') center/cover"></div>
+            <div class="gallery-prev-overlay">
+                <span data-en="Team Photos" data-kh="រូបថតក្រុម">Team Photos</span>
+            </div>
+        </a>
+
+        <a href="gallery.html" class="gallery-preview-item">
+            <div class="gallery-prev-img" style="background:url('images/DSC09751.jpg') center/cover"></div>
+            <div class="gallery-prev-overlay">
+                <span data-en="Training Sessions" data-kh="វគ្គហ្វឹកហាត់">Training Sessions</span>
+            </div>
+        </a>
+
+        <a href="gallery.html" class="gallery-preview-item">
+            <div class="gallery-prev-img" style="background:url('images/DSC08721.JPG') center/cover"></div>
+            <div class="gallery-prev-overlay">
+                <span data-en="Club Events" data-kh="សកម្មភាពក្លឹប">Club Events</span>
+            </div>
+        </a>
+
+    </div>
+
+    <div style="text-align:center;margin-top:3rem;">
+        <a href="gallery.html"
+           class="btn btn--primary"
+           data-en="View All Photos"
+           data-kh="មើលរូបភាពទាំងអស់">
+           View All Photos
+        </a>
+    </div>
+
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+<div class="container">
+
+    <div class="footer-grid">
+
+        <div class="footer-col">
+            <h4 data-en="About" data-kh="អំពី">About</h4>
+            <p data-en="Provida Pétanque Club brings together passionate players in a vibrant community dedicated to excellence and friendship."
+               data-kh="ក្លឹបប៉េតង់ប្រូវីដា ប្រមូលផ្តុំអ្នកលេងដែលមានចំណង់ចំណូលចិត្ត នៅក្នុងសហគមន៍ដ៏រស់រវើកដែលផ្តោតលើភាពល្អឥតខ្ចោះ និងមិត្តភាព។">
+               Provida Pétanque Club brings together passionate players in a vibrant community dedicated to excellence and friendship.
+            </p>
+        </div>
+
+        <div class="footer-col">
+            <h4 data-en="Page" data-kh="ទំព័រ">Page</h4>
+            <ul>
+                <li><a href="index.html" data-en="Home" data-kh="ទំព័រដើម">Home</a></li>
+                <li><a href="about.html" data-en="About" data-kh="អំពីយើង">About</a></li>
+                <li><a href="competition.html" data-en="Competitions" data-kh="ទំព័រការប្រកួត">Competitions</a></li>
+                <li><a href="gallery.html" data-en="Gallery" data-kh="រូបភាព">Gallery</a></li>
+                <li><a href="news.html" data-en="News" data-kh="ព័ត៌មាន">News</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-col">
+            <h4 data-en="Contact" data-kh="ទំនាក់ទំនង">Contact</h4>
+            <p>📍 Phnom Penh, Cambodia</p>
+            <p>📧 info@provida.kh</p>
+            <p>📞 +855 (23) 123-4567</p>
+        </div>
+
+        <div class="footer-col">
+            <h4 data-en="Follow Us" data-kh="តាមដានយើង">Follow Us</h4>
+            <div class="social-links">
+                <a href="#" class="social-icon">f</a>
+                <a href="#" class="social-icon">📷</a>
+                <a href="#" class="social-icon">𝕏</a>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+</footer>
+
+<script>
+    // ==========================================
+    // HERO SLIDESHOW
+    // ==========================================
+    const slides = document.querySelectorAll('.hero__slide');
     let currentSlide = 0;
 
-    // Function to move to the next slide
     function changeSlide() {
+        if (!slides.length) return;
 
-        // Remove active class from current slide
         slides[currentSlide].classList.remove('active');
-
-        // Move to next slide (loop back to first when reaching the end)
         currentSlide = (currentSlide + 1) % slides.length;
-
-        // Add active class to new slide
         slides[currentSlide].classList.add('active');
     }
 
-    // Automatically change slide every 1 second (1000ms)
-    setInterval(changeSlide, 5000);
+    if (slides.length) {
+        setInterval(changeSlide, 5000);
+    }
 </script>
+
+<script src="script.js"></script>
+
 </body>
 </html>

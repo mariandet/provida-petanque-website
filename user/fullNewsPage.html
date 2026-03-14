@@ -1,0 +1,272 @@
+<!-- fullNewsPage.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>News - Provida Pétanque Club</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- NAVBAR (same as your site) -->
+  <nav class="navbar">
+    <div class="navbar__container">
+      <div class="navbar__logo">
+        <span class="logo-icon">⚪</span>
+        <div class="logo-text">
+          <div class="logo-main">PROVIDA</div>
+          <div class="logo-sub">Pétanque Club</div>
+        </div>
+      </div>
+
+      <div class="navbar__menu" id="navMenu">
+        <a href="index.html" class="navbar__link" data-en="Home" data-kh="ដើម">Home</a>
+        <a href="about.html" class="navbar__link" data-en="About" data-kh="អំពី">About</a>
+        <a href="competition.html" class="navbar__link" data-en="Competitions" data-kh="ការប្រកួតប្រជែង">Competitions</a>
+        <a href="gallery.html" class="navbar__link" data-en="Gallery" data-kh="ギャラリー">Gallery</a>
+        <a href="news.html" class="navbar__link active" data-en="News" data-kh="ព័ត៌មាន">News</a>
+        <a href="contact.html" class="navbar__link" data-en="Contact" data-kh="ទាក់ទង">Contact</a>
+      </div>
+
+      <div class="navbar__actions">
+        <button class="lang-toggle" id="langToggle">
+          <span class="lang-en">EN</span><span class="lang-sep">/</span><span class="lang-kh">KH</span>
+        </button>
+        <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <div class="container">
+      <h1 class="page-title" data-en="News Details" data-kh="ព័ត៌មានលម្អិត">News Details</h1>
+      <p class="page-subtitle" data-en="Full story from Provida" data-kh="ព័ត៌មានពេញលេញពី Provida">Full story from Provida</p>
+    </div>
+  </div>
+
+  <main class="section-light">
+    <div class="container">
+
+      <div class="news-layout">
+
+        <!-- MAIN ARTICLE -->
+        <article class="news-article-page">
+
+          <a class="news-back" href="news.html">← Back to News</a>
+
+          <h1 id="newsTitle" class="news-article-title">
+            International Tournament Starts
+          </h1>
+
+          <div class="news-article-meta">
+            <time id="newsDate" class="news-meta-item">2024-03-10</time>
+            <!-- <span id="newsComments" class="news-meta-item">Comments 0</span>
+            <span id="newsShares" class="news-meta-item">Shares 0</span> -->
+          </div>
+
+          <div class="news-article-hero">
+            <img id="newsHeroImg" src="images/news1.jpg" alt="News hero">
+          </div>
+
+          <div class="news-article-body" id="newsBody">
+            <p>Teams from France, Vietnam, and Thailand gather for Provida's biggest event ever...</p>
+            <p>Expect group stages, knockout rounds, and a grand final at Central Pétanque Courts, Phnom Penh...</p>
+          </div>
+
+          <!-- <div class="news-article-actions">
+            <div class="news-author" id="newsAuthor">By Provida Team</div>
+
+            <div class="news-share">
+              <span class="news-share-label">Share:</span>
+              <a id="shareFb" class="news-share-btn" href="#" target="_blank" rel="noopener">Facebook</a>
+              <a id="shareX" class="news-share-btn" href="#" target="_blank" rel="noopener">X</a>
+              <a id="shareEmail" class="news-share-btn" href="#">Email</a>
+            </div>
+          </div>
+
+          <div class="news-tags" id="newsTags">
+            <a href="news.html" class="news-tag">Tournaments</a>
+            <a href="news.html" class="news-tag">International</a>
+            <a href="news.html" class="news-tag">Provida</a>
+          </div> -->
+
+        </article>
+
+        <!-- SIDEBAR -->
+        <aside class="news-sidebar">
+
+        <!-- <div class="sidebar-card">
+            <h3 class="sidebar-title">Popular</h3>
+
+            <a class="sidebar-item" href="fullNewsPage.html?id=international-tournament">
+            <img class="sidebar-thumb" src="images/news1.jpg" alt="International Tournament">
+            <div class="sidebar-text">
+                <span class="sidebar-item-title">International Tournament Starts</span>
+                <span class="sidebar-item-date">2024-03-10</span>
+            </div>
+            </a>
+
+            <a class="sidebar-item" href="fullNewsPage.html?id=training-program">
+            <img class="sidebar-thumb" src="images/news2.jpg" alt="Training Program">
+            <div class="sidebar-text">
+                <span class="sidebar-item-title">New Training Program Launched</span>
+                <span class="sidebar-item-date">2024-03-05</span>
+            </div>
+            </a>
+
+            <a class="sidebar-item" href="fullNewsPage.html?id=member-profile">
+            <img class="sidebar-thumb" src="images/news3.jpg" alt="Member Profile">
+            <div class="sidebar-text">
+                <span class="sidebar-item-title">Member Profile: Rising Star</span>
+                <span class="sidebar-item-date">2024-02-28</span>
+            </div>
+            </a>
+
+        </div> -->
+
+
+        <div class="sidebar-card">
+            <h3 class="sidebar-title">Latest</h3>
+
+            <a class="sidebar-item" href="fullNewsPage.html?id=international-tournament">
+            <img class="sidebar-thumb" src="images/news4.jpg" alt="Highlights">
+            <div class="sidebar-text">
+                <span class="sidebar-item-title">Highlights & Photos Coming Soon</span>
+                <span class="sidebar-item-date">2024-03-11</span>
+            </div>
+            </a>
+
+            <a class="sidebar-item" href="fullNewsPage.html?id=training-program">
+            <img class="sidebar-thumb" src="images/news5.jpg" alt="Beginner Schedule">
+            <div class="sidebar-text">
+                <span class="sidebar-item-title">Beginner Class Schedule Updated</span>
+                <span class="sidebar-item-date">2024-03-06</span>
+            </div>
+            </a>
+
+
+            <a class="sidebar-item" href="fullNewsPage.html?id=international-tournament">
+            <img class="sidebar-thumb" src="images/news1.jpg" alt="International Tournament">
+            <div class="sidebar-text">
+                <span class="sidebar-item-title">International Tournament Starts</span>
+                <span class="sidebar-item-date">2024-03-10</span>
+            </div>
+            </a>
+
+            <a class="sidebar-item" href="fullNewsPage.html?id=training-program">
+            <img class="sidebar-thumb" src="images/news2.jpg" alt="Training Program">
+            <div class="sidebar-text">
+                <span class="sidebar-item-title">New Training Program Launched</span>
+                <span class="sidebar-item-date">2024-03-05</span>
+            </div>
+            </a>
+
+            <a class="sidebar-item" href="fullNewsPage.html?id=member-profile">
+            <img class="sidebar-thumb" src="images/news3.jpg" alt="Member Profile">
+            <div class="sidebar-text">
+                <span class="sidebar-item-title">Member Profile: Rising Star</span>
+                <span class="sidebar-item-date">2024-02-28</span>
+            </div>
+            </a>
+        </div>
+
+        </aside>
+
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>&copy; 2024 Provida Pétanque Club. All rights reserved.</p>
+        <!-- <a href="admin.html" class="admin-link">Admin</a> -->
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // --- read article id ---
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id") || "international-tournament";
+
+    // --- your articles (edit freely) ---
+    const NEWS = {
+      "international-tournament": {
+        title: "International Tournament Starts",
+        date: "2024-03-10",
+        author: "By Provida Team",
+        img: "images/news1.jpg",
+        comments: 0,
+        shares: 0,
+        tags: ["Tournaments", "International", "Provida"],
+        body: `
+          <p>Teams from France, Vietnam, and Thailand gather for Provida's biggest event ever. This championship features elite players showcasing world-class pétanque talent.</p>
+          <p>The tournament includes group stages, knockout rounds, and a grand final held at the Central Pétanque Courts, Phnom Penh. Spectators are welcome and registration is open.</p>
+          <p>Stay tuned for match highlights, interviews, and photo coverage in our gallery.</p>
+        `
+      },
+      "training-program": {
+        title: "New Training Program Launched",
+        date: "2024-03-05",
+        author: "By Coaching Team",
+        img: "images/news2.jpg",
+        comments: 0,
+        shares: 0,
+        tags: ["Training", "Beginner", "Coaching"],
+        body: `
+          <p>Beginner-friendly courses designed to help new members master the fundamentals.</p>
+          <p>Our coaches guide players through stance, throwing technique, strategy, and match rules.</p>
+          <p>Weekly sessions available. Join now to secure your spot.</p>
+        `
+      },
+      "member-profile": {
+        title: "Member Profile: Rising Star",
+        date: "2024-02-28",
+        author: "By Provida Media",
+        img: "images/news3.jpg",
+        comments: 0,
+        shares: 0,
+        tags: ["Members", "Profile", "Inspiration"],
+        body: `
+          <p>Meet Sokha, who conquered the pétanque world in just 18 months. From beginner to champion, his journey inspires our entire community.</p>
+          <p>He shares his training routine, mindset, and what drives his passion.</p>
+        `
+      }
+    };
+
+    // --- render ---
+    const data = NEWS[id] || NEWS["international-tournament"];
+
+    document.getElementById("newsTitle").textContent = data.title;
+    document.getElementById("newsDate").textContent = data.date;
+    document.getElementById("newsHeroImg").src = data.img;
+    document.getElementById("newsBody").innerHTML = data.body;
+    document.getElementById("newsAuthor").textContent = data.author;
+
+    document.getElementById("newsComments").textContent = `Comments ${data.comments ?? 0}`;
+    document.getElementById("newsShares").textContent = `Shares ${data.shares ?? 0}`;
+
+    // tags
+    document.getElementById("newsTags").innerHTML = (data.tags || [])
+      .map(t => `<a href="news.html" class="news-tag">${t}</a>`)
+      .join("");
+
+    // share links (simple)
+    const url = encodeURIComponent(window.location.href);
+    const text = encodeURIComponent(data.title);
+
+    document.getElementById("shareFb").href = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+    document.getElementById("shareX").href = `https://twitter.com/intent/tweet?url=${url}&text=${text}`;
+
+    document.getElementById("shareEmail").addEventListener("click", (e) => {
+      e.preventDefault();
+      window.location.href = `mailto:?subject=${text}&body=${url}`;
+    });
+  </script>
+
+  <script src="script.js"></script>
+</body>
+</html>

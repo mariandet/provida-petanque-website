@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Competitions - Provida Pétanque Club</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <nav class="navbar">
+        <div class="navbar__container">
+            <div class="navbar__logo">
+                <img src="images/provida-logo.png" alt="Provida Logo" class="logo-img">
+                <div class="logo-text">
+                    <div class="logo-main">PROVIDA</div>
+                    <div class="logo-sub">Pétanque Club</div>
+                </div>
+            </div>
+
+            <div class="navbar__menu" id="navMenu">
+                <a href="index.html" class="navbar__link" data-en="Home" data-kh="ទំព័រដើម">Home</a>
+                <a href="about.html" class="navbar__link" data-en="About" data-kh="អំពីយើង">About</a>
+                <a href="competition.html" class="navbar__link active" data-en="Competitions" data-kh="ទំព័រការប្រកួត">Competitions</a>
+                <a href="gallery.html" class="navbar__link" data-en="Gallery" data-kh="រូបភាព">Gallery</a>
+                <a href="news.html" class="navbar__link" data-en="News" data-kh="ព័ត៌មាន">News</a>
+                <a href="contact.html" class="navbar__link" data-en="Contact" data-kh="ទំនាក់ទំនង">Contact</a>
+            </div>
+
+            <div class="navbar__actions">
+                <button class="lang-toggle" id="langToggle">
+                    <span class="lang-en">EN</span><span class="lang-sep">/</span><span class="lang-kh">KH</span>
+                </button>
+                <button class="hamburger" id="hamburger" aria-label="Menu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+        <div class="container">
+            <h1 class="page-title"
+                data-en="Competitions Tournaments"
+                data-kh="ទំព័រការប្រកួត (Competitions)">
+                Competitions Tournaments
+            </h1>
+            <p class="page-subtitle"
+               data-en="Events & Registration"
+               data-kh="ការប្រកួត និងព្រឹត្តិការណ៍កីឡា">
+               Events & Registration
+            </p>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main class="section-light">
+        <div class="container">
+
+            <!-- UPCOMING EVENTS -->
+            <section class="content-section">
+                <h2 class="section-title"
+                    data-en="Upcoming Events"
+                    data-kh="ព្រឹត្តិការណ៍នាពេលខាងមុខ">
+                    Upcoming Events
+                </h2>
+
+                <p class="about-text"
+                   data-en="Join exciting competitions and discover new experiences through our upcoming events."
+                   data-kh="ចូលរួមប្រកួតប្រជែងសមត្ថភាព និងស្វែងរកបទពិសោធន៍ថ្មីៗជាមួយព្រឹត្តិការណ៍ដែលនឹងមកដល់ឆាប់ៗនេះ។"
+                   style="text-align:center; max-width:800px; margin:0 auto 2rem;">
+                   Join exciting competitions and discover new experiences through our upcoming events.
+                </p>
+
+                <div class="events-grid">
+
+                    <div class="event-card">
+                        <div class="event-header">
+                            <img src="images/event1.jpg" class="event-header-img" alt="Spring Championship">
+
+                            <span class="event-badge"
+                                  data-en="Registration Open"
+                                  data-kh="បើកចុះឈ្មោះ">
+                                  Registration Open
+                            </span>
+
+                            <div class="event-date">
+                                <span class="event-month">MAR</span>
+                                <span class="event-day">15</span>
+                            </div>
+                        </div>
+
+                        <div class="event-body">
+                            <h3 data-en="Spring Championship" data-kh="ការប្រកួតជើងឯកនិទាឃរដូវ">Spring Championship</h3>
+
+                            <p class="event-location"
+                               data-en="Central Courts, Phnom Penh"
+                               data-kh="ទីលានកណ្តាល ភ្នំពេញ">
+                               Central Courts, Phnom Penh
+                            </p>
+
+                            <div class="event-details">
+                                <span data-en="⏰ 9:00 AM - 5:00 PM" data-kh="⏰ ម៉ោង 9:00 ព្រឹក - 5:00 ល្ងាច">⏰ 9:00 AM - 5:00 PM</span>
+                                <span data-en="👥 32 Teams Max" data-kh="👥 អតិបរមា 32 ក្រុម">👥 32 Teams Max</span>
+                                <span data-en="🏆 $5,000 Prize" data-kh="🏆 រង្វាន់ $5,000">🏆 $5,000 Prize</span>
+                            </div>
+
+                            <p class="event-desc"
+                               data-en="Grand opening tournament with elite teams from across the region."
+                               data-kh="ការប្រកួតបើកឆាកដ៏ធំមួយ ជាមួយក្រុមខ្លាំងៗមកពីតំបន់ផ្សេងៗ។">
+                               Grand opening tournament with elite teams from across the region.
+                            </p>
+
+                            <a href="#competitionRegistration"
+                               class="btn btn--primary event-register-btn"
+                               data-en="Register Now"
+                               data-kh="ចុះឈ្មោះឥឡូវនេះ">
+                               Register Now
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="event-card">
+                        <div class="event-header">
+                            <img src="images/event2.jpg" class="event-header-img" alt="Friendly League">
+
+                            <span class="event-badge"
+                                  data-en="Registration Open"
+                                  data-kh="បើកចុះឈ្មោះ">
+                                  Registration Open
+                            </span>
+
+                            <div class="event-date">
+                                <span class="event-month">APR</span>
+                                <span class="event-day">22</span>
+                            </div>
+                        </div>
+
+                        <div class="event-body">
+                            <h3 data-en="Friendly League" data-kh="លីគមិត្តភាព">Friendly League</h3>
+
+                            <p class="event-location"
+                               data-en="Provida Club Courts"
+                               data-kh="ទីលានក្លឹបប្រូវីដា">
+                               Provida Club Courts
+                            </p>
+
+                            <div class="event-details">
+                                <span data-en="⏰ 8:30 AM - 4:00 PM" data-kh="⏰ ម៉ោង 8:30 ព្រឹក - 4:00 ល្ងាច">⏰ 8:30 AM - 4:00 PM</span>
+                                <span data-en="👥 24 Teams Max" data-kh="👥 អតិបរមា 24 ក្រុម">👥 24 Teams Max</span>
+                                <span data-en="🏆 Special Awards" data-kh="🏆 រង្វាន់ពិសេស">🏆 Special Awards</span>
+                            </div>
+
+                            <p class="event-desc"
+                               data-en="A welcoming tournament designed for friendly competition, teamwork, and skill-building."
+                               data-kh="ការប្រកួតដែលបង្កើតឡើងសម្រាប់មិត្តភាព ការសហការ និងការអភិវឌ្ឍសមត្ថភាព។">
+                               A welcoming tournament designed for friendly competition, teamwork, and skill-building.
+                            </p>
+
+                            <a href="#competitionRegistration"
+                               class="btn btn--primary event-register-btn"
+                               data-en="Register Now"
+                               data-kh="ចុះឈ្មោះឥឡូវនេះ">
+                               Register Now
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- REGISTRATION FORM -->
+            <section class="content-section" id="competitionRegistration">
+                <h2 class="section-title"
+                    data-en="Competition Registration"
+                    data-kh="ចុះឈ្មោះចូលរួមប្រកួត">
+                    Competition Registration
+                </h2>
+
+                <p class="about-text"
+                   data-en="Complete the form below to join our upcoming competition event."
+                   data-kh="បំពេញទម្រង់បែបបទ ដើម្បីចូលរួមក្នុងព្រឹត្តិការណ៍ប្រកួតបន្ទាប់របស់យើង។"
+                   style="text-align:center; max-width:800px; margin:0 auto 2rem;">
+                   Complete the form below to join our upcoming competition event.
+                </p>
+
+                <div class="registration-container">
+                    <form id="competitionForm" class="registration-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label data-en="Full Name" data-kh="ឈ្មោះពេញ">Full Name</label>
+                                <input type="text" name="name" placeholder="John Doe" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label data-en="Email" data-kh="អ៊ីមែល">Email</label>
+                                <input type="email" name="email" placeholder="john@example.com" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label data-en="Phone" data-kh="លេខទូរស័ព្ទ">Phone</label>
+                                <input type="tel" name="phone" placeholder="+855 (23) 123-4567" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label data-en="Team Name" data-kh="ឈ្មោះក្រុម">Team Name</label>
+                                <input type="text" name="team" placeholder="Team Dragon" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label data-en="Event" data-kh="ព្រឹត្តិការណ៍">Event</label>
+                            <select name="event" required>
+                                <option value="" data-en="Select Event" data-kh="ជ្រើសរើសព្រឹត្តិការណ៍">Select Event</option>
+                                <option value="spring">Spring Championship (Mar 15)</option>
+                                <option value="friendly">Friendly League (Apr 22)</option>
+                                <option value="international">International Cup (May 10)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label data-en="Payment" data-kh="ការបង់ប្រាក់">Payment</label>
+                            <select name="paymentMethod" id="paymentMethod" required>
+                                <option value="" data-en="Select Payment Method" data-kh="ជ្រើសរើសវិធីបង់ប្រាក់">Select Payment Method</option>
+                                <option value="qr" data-en="QR Payment" data-kh="បង់ប្រាក់តាម QR">QR Payment</option>
+                            </select>
+                        </div>
+
+                        <div class="payment-qr" id="paymentQR" style="display:none;">
+                            <div class="payment-qr-head">
+                                <strong data-en="Scan to Pay" data-kh="ស្កេនដើម្បីបង់ប្រាក់">Scan to Pay</strong>
+                                <span class="payment-qr-sub"
+                                      data-en="Use your banking app to scan the QR"
+                                      data-kh="ប្រើកម្មវិធីធនាគាររបស់អ្នកដើម្បីស្កេន QR">
+                                      Use your banking app to scan the QR
+                                </span>
+                            </div>
+
+                            <img class="payment-qr-img" src="images/qr-payment.png" alt="QR Payment">
+                        </div>
+
+                        <div class="form-group">
+                            <label data-en="Upload Proof of Payment" data-kh="បញ្ចូលភស្តុតាងនៃការបង់ប្រាក់">Upload Proof of Payment</label>
+                            <input type="file" name="paymentProof" id="paymentProof" accept="image/*" required>
+                            <small class="hint"
+                                   data-en="Upload screenshot/photo of your payment receipt (JPG/PNG)."
+                                   data-kh="សូមបញ្ចូលរូបថត ឬ ស្គ្រីនស្ដ្រីននៃបង្កាន់ដៃបង់ប្រាក់ (JPG/PNG)।">
+                                   Upload screenshot/photo of your payment receipt (JPG/PNG).
+                            </small>
+                        </div>
+
+                        <label class="checkbox">
+                            <input type="checkbox" required>
+                            <span data-en="I agree to the rules and terms" data-kh="ខ្ញុំយល់ព្រមតាមលក្ខខណ្ឌ និងច្បាប់">I agree to the rules and terms</span>
+                        </label>
+
+                        <button type="submit"
+                                class="btn btn--primary"
+                                style="width: 100%;"
+                                data-en="Submit Registration"
+                                data-kh="ដាក់ស្នើការចុះឈ្មោះ">
+                                Submit Registration
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- PAST COMPETITIONS -->
+            <section class="content-section">
+                <h2 class="section-title"
+                    data-en="Past Competitions"
+                    data-kh="ការប្រកួតកន្លងមក">
+                    Past Competitions
+                </h2>
+
+                <div class="past-events">
+                    <div class="past-event">
+                        <span class="past-date">February 2024</span>
+                        <span class="past-title"
+                              data-en="Winter Showdown"
+                              data-kh="ការប្រកួតរដូវរងា">
+                              Winter Showdown
+                        </span>
+                        <span class="past-stats"
+                              data-en="16 teams | 48 players"
+                              data-kh="16 ក្រុម | អ្នកលេង 48 នាក់">
+                              16 teams | 48 players
+                        </span>
+                    </div>
+
+                    <div class="past-event">
+                        <span class="past-date">January 2024</span>
+                        <span class="past-title"
+                              data-en="New Year Challenge"
+                              data-kh="ការប្រកួតឆ្នាំថ្មី">
+                              New Year Challenge
+                        </span>
+                        <span class="past-stats"
+                              data-en="12 teams | 36 players"
+                              data-kh="12 ក្រុម | អ្នកលេង 36 នាក់">
+                              12 teams | 36 players
+                        </span>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4 data-en="About" data-kh="អំពី">About</h4>
+                    <p
+                    data-en="Provida Pétanque Club brings together passionate players in a vibrant community dedicated to excellence and friendship."
+                    data-kh="ក្លឹបប៉េតង់ប្រូវីដា ប្រមូលផ្តុំអ្នកលេងដែលមានចំណង់ចំណូលចិត្ត នៅក្នុងសហគមន៍ដ៏រស់រវើកដែលផ្តោតលើភាពល្អឥតខ្ចោះ និងមិត្តភាព។">
+                    Provida Pétanque Club brings together passionate players in a vibrant community dedicated to excellence and friendship.
+                    </p>
+                </div>
+
+                <div class="footer-col">
+                    <h4 data-en="Page" data-kh="ទំព័រ">Page</h4>
+                    <ul>
+                        <li><a href="index.html" data-en="Home" data-kh="ទំព័រដើម">Home</a></li>
+                        <li><a href="about.html" data-en="About" data-kh="អំពីយើង">About</a></li>
+                        <li><a href="competition.html" data-en="Competitions" data-kh="ទំព័រការប្រកួត">Competitions</a></li>
+                        <li><a href="gallery.html" data-en="Gallery" data-kh="រូបភាព">Gallery</a></li>
+                        <li><a href="news.html" data-en="News" data-kh="ព័ត៌មាន">News</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4 data-en="Contact" data-kh="ទំនាក់ទំនង">Contact</h4>
+                    <p>📍 Phnom Penh, Cambodia</p>
+                    <p>📧 info@provida.kh</p>
+                    <p>📞 +855 (23) 123-4567</p>
+                </div>
+
+                <div class="footer-col">
+                    <h4 data-en="Follow Us" data-kh="តាមដានយើង">Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-icon">f</a>
+                        <a href="#" class="social-icon">📷</a>
+                        <a href="#" class="social-icon">𝕏</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+
+    <script>
+        // ==========================================
+        // PAYMENT METHOD TOGGLE
+        // ==========================================
+        const paymentMethod = document.getElementById("paymentMethod");
+        const paymentQR = document.getElementById("paymentQR");
+
+        if (paymentMethod && paymentQR) {
+            paymentMethod.addEventListener("change", () => {
+                paymentQR.style.display = paymentMethod.value === "qr" ? "block" : "none";
+            });
+        }
+    </script>
+
+</body>
+</html>

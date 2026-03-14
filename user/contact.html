@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact - Provida Pétanque Club</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    /* SIDE-BY-SIDE LAYOUT */
+    .contact-layout{
+      display:grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 24px;
+      align-items:start;
+      margin-top: 10px;
+    }
+
+    /* LEFT CARD */
+    .contact-section{
+      text-align:left;
+      background:#fff;
+      border-radius:16px;
+      padding:22px;
+      box-shadow:0 10px 24px rgba(0,0,0,.08);
+    }
+
+    .contact-section .section-title{
+      margin-top:0;
+    }
+
+    .contact-info{
+      max-width:100%;
+      margin:0;
+      display:grid;
+      gap:16px;
+    }
+
+    .contact-item{
+      margin:0;
+      padding:12px 14px;
+      border:1px solid rgba(0,0,0,.08);
+      border-radius:12px;
+      background:rgba(0,0,0,.02);
+    }
+
+    .contact-item h4{
+      margin:0 0 6px;
+    }
+
+    .contact-item p{
+      margin:0;
+      line-height:1.6;
+    }
+
+    .social-links{
+      display:flex;
+      justify-content:flex-start;
+      gap:12px;
+      margin-top:8px;
+    }
+
+    .social-icon{
+      width:40px;
+      height:40px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:10px;
+      border:1px solid rgba(0,0,0,.12);
+      text-decoration:none;
+    }
+
+    /* RIGHT MAP CARD */
+    .map-section{
+      margin:0;
+      background:#fff;
+      border-radius:16px;
+      padding:22px;
+      box-shadow:0 10px 24px rgba(0,0,0,.08);
+    }
+
+    .map-section .section-title{
+      margin-top:0;
+    }
+
+    .map-container{
+      border-radius:14px;
+      overflow:hidden;
+      border:1px solid rgba(0,0,0,.10);
+    }
+
+    .map-container iframe{
+      display:block;
+      width:100%;
+      height:420px;
+      border:0;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px){
+      .contact-layout{
+        grid-template-columns: 1fr;
+      }
+
+      .map-container iframe{
+        height:360px;
+      }
+
+      .contact-section{
+        text-align:center;
+      }
+
+      .social-links{
+        justify-content:center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVIGATION -->
+  <nav class="navbar">
+    <div class="navbar__container">
+      <div class="navbar__logo">
+        <img src="images/provida-logo.png" alt="Provida Logo" class="logo-img" />
+        <div class="logo-text">
+          <div class="logo-main">PROVIDA</div>
+          <div class="logo-sub">Pétanque Club</div>
+        </div>
+      </div>
+
+      <div class="navbar__menu" id="navMenu">
+        <a href="index.html" class="navbar__link" data-en="Home" data-kh="ទំព័រដើម">Home</a>
+        <a href="about.html" class="navbar__link" data-en="About" data-kh="អំពីយើង">About</a>
+        <a href="competition.html" class="navbar__link" data-en="Competitions" data-kh="ទំព័រការប្រកួត">Competitions</a>
+        <a href="gallery.html" class="navbar__link" data-en="Gallery" data-kh="រូបភាព">Gallery</a>
+        <a href="news.html" class="navbar__link" data-en="News" data-kh="ព័ត៌មាន">News</a>
+        <a href="contact.html" class="navbar__link active" data-en="Contact" data-kh="ទំនាក់ទំនង">Contact</a>
+      </div>
+
+      <div class="navbar__actions">
+        <button class="lang-toggle" id="langToggle" aria-label="Toggle language">
+          <span class="lang-en">EN</span><span class="lang-sep">/</span><span class="lang-kh">KH</span>
+        </button>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="container">
+      <h1 class="page-title" data-en="Contact Us" data-kh="ទំនាក់ទំនងមកយើង">Contact Us</h1>
+      <p class="page-subtitle" data-en="Get in touch with Provida" data-kh="សូមទាក់ទងមកកាន់ប្រូវីដា">Get in touch with Provida</p>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main class="section-light">
+    <div class="container">
+
+      <!-- CONTACT LAYOUT -->
+      <div class="contact-layout">
+
+        <!-- LEFT: CONTACT INFO -->
+        <section class="contact-section">
+          <h2 class="section-title" data-en="Our Location" data-kh="ទីតាំងរបស់យើង">Our Location</h2>
+
+          <div class="contact-info">
+            <div class="contact-item">
+              <h4 data-en="Address" data-kh="អាសយដ្ឋាន">Address</h4>
+              <p
+                data-en="Hun Sen Boulevard, 60M Road, Phnom Penh"
+                data-kh="មហាវិថីសម្ដេចតេជោ ហ៊ុន សែន - ផ្លូវ 60M ភ្នំពេញ">
+                Hun Sen Boulevard, 60M Road, Phnom Penh<br />
+                Khan Meanchey, Phnom Penh<br />
+                Cambodia
+              </p>
+            </div>
+
+            <div class="contact-item">
+              <h4 data-en="Phone" data-kh="លេខទូរស័ព្ទ">Phone</h4>
+              <p>📞 +855 (23) 123-4567<br />📱 +855 (12) 345-6789</p>
+            </div>
+
+            <div class="contact-item">
+              <h4 data-en="Email" data-kh="អ៊ីមែល">Email</h4>
+              <p>📧 info@provida.kh<br />📧 events@provida.kh</p>
+            </div>
+
+            <div class="contact-item">
+              <h4 data-en="Hours" data-kh="ម៉ោងបើកបិទ">Hours</h4>
+              <p data-en="Monday - Friday: 6 AM - 5 PM" data-kh="ចន្ទ - សុក្រ៖ 6 ព្រឹក - 5 យប់">Monday - Friday: 6 AM - 5 PM</p>
+              <p data-en="Saturday - Sunday: 8 AM - 5 PM" data-kh="សៅរ៍ - អាទិត្យ៖ 8 ព្រឹក - 5 យប់">Saturday - Sunday: 8 AM - 5 PM</p>
+            </div>
+
+            <div class="contact-item">
+              <h4 data-en="Follow Us" data-kh="តាមដានយើង">Follow Us</h4>
+              <div class="social-links">
+                <a href="#" class="social-icon" aria-label="Facebook">f</a>
+                <a href="#" class="social-icon" aria-label="Instagram">📷</a>
+                <a href="#" class="social-icon" aria-label="X">𝕏</a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- RIGHT: MAP -->
+        <section class="map-section">
+          <h2 class="section-title" data-en="Find Us On The Map" data-kh="ស្វែងរកយើងលើផែនទី">Find Us On The Map</h2>
+          <div class="map-container">
+            <iframe
+            src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3909.5247867649296!2d104.92481947505284!3d11.514163488683065!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTHCsDMwJzUxLjAiTiAxMDTCsDU1JzM4LjYiRQ!5e0!3m2!1sen!2skh!4v1773331686879!5m2!1sen!2skh"              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              allowfullscreen
+            ></iframe>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h4 data-en="About" data-kh="អំពី">About</h4>
+          <p
+             data-en="Provida Pétanque Club brings together passionate players in a vibrant community dedicated to excellence and friendship."
+             data-kh="ក្លឹបប៉េតង់ប្រូវីដា ប្រមូលផ្តុំអ្នកលេងដែលមានចំណង់ចំណូលចិត្ត នៅក្នុងសហគមន៍ដ៏រស់រវើកដែលផ្តោតលើភាពល្អឥតខ្ចោះ និងមិត្តភាព។">
+            Provida Pétanque Club brings together passionate players in a vibrant community dedicated to excellence and friendship.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4 data-en="Page" data-kh="ទំព័រ">Page</h4>
+          <ul>
+            <li><a href="index.html" data-en="Home" data-kh="ទំព័រដើម">Home</a></li>
+            <li><a href="about.html" data-en="About" data-kh="អំពីយើង">About</a></li>
+            <li><a href="competition.html" data-en="Competitions" data-kh="ទំព័រការប្រកួត">Competitions</a></li>
+            <li><a href="gallery.html" data-en="Gallery" data-kh="រូបភាព">Gallery</a></li>
+            <li><a href="news.html" data-en="News" data-kh="ព័ត៌មាន">News</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4 data-en="Contact" data-kh="ទំនាក់ទំនង">Contact</h4>
+          <p>📍 Phnom Penh, Cambodia</p>
+          <p>📧 info@provida.kh</p>
+          <p>📞 +855 (23) 123-4567</p>
+        </div>
+
+        <div class="footer-col">
+          <h4 data-en="Follow Us" data-kh="តាមដានយើង">Follow Us</h4>
+          <div class="social-links">
+            <a href="#" class="social-icon">f</a>
+            <a href="#" class="social-icon">📷</a>
+            <a href="#" class="social-icon">𝕏</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p
+           data-en="© 2026 Provida Pétanque Club. All rights reserved."
+           data-kh="© 2026 ក្លឹបប៉េតង់ប្រូវីដា។ រក្សាសិទ្ធិគ្រប់យ៉ាង។">
+          &copy; 2026 Provida Pétanque Club. All rights reserved.
+        </p>
+        <a href="admin.html" class="admin-link" data-en="Admin" data-kh="គ្រប់គ្រង">Admin</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -4,44 +4,54 @@ require_once __DIR__ . "/../../config/db.php";
 
 header("Content-Type: application/json; charset=utf-8");
 
-$d = json_decode(file_get_contents("php://input"), true);
-$id = (int)($d["id"] ?? 0);
-
-if($id <= 0){
-  http_response_code(400);
-  echo json_encode(["status"=>"ERROR","message"=>"Invalid id"]);
-  exit;
+function json_response($status,$message,$extra=[]){
+    echo json_encode(array_merge([
+        "status"=>$status,
+        "message"=>$message
+    ],$extra),JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES);
+    exit;
 }
 
-// Get file info
-$stmt = $pdo->prepare("SELECT media_type, media_url FROM competition_media WHERE id=?");
+$data = json_decode(file_get_contents("php://input"), true);
+$id = (int)($data["id"] ?? 0);
+
+if($id <= 0){
+    json_response("ERROR","Invalid id");
+}
+
+$stmt = $pdo->prepare("SELECT media_url FROM competition_media WHERE id=?");
 $stmt->execute([$id]);
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if(!$row){
-  http_response_code(404);
-  echo json_encode(["status"=>"ERROR","message"=>"Media not found"]);
-  exit;
+    json_response("ERROR","Media not found");
 }
 
-// DELETE physical file (IMAGE + VIDEO)
-if(!empty($row["media_url"])){
+/* build path */
+$filePath = __DIR__ . "/" . $row["media_url"];
 
-  // remove domain prefix if exists
-  $relativePath = str_replace("/provida-club", "", $row["media_url"]);
-
-  // go to project root safely
-  $fullPath = realpath(__DIR__ . "/../../..") . $relativePath;
-
-  if(is_file($fullPath)){
-      @unlink($fullPath);
-  }
+/* DEBUG INFO */
+if(!file_exists($filePath)){
+    json_response("ERROR","File not found",[
+        "file_from_db"=>$row["media_url"],
+        "full_path"=>$filePath,
+        "dir"=>__DIR__
+    ]);
 }
 
-// Delete database record
+/* try delete */
+$result = unlink($filePath);
+
+if(!$result){
+    json_response("ERROR","unlink failed",[
+        "path"=>$filePath,
+        "permission"=>is_writable(dirname($filePath))
+    ]);
+}
+
+/* delete db */
 $pdo->prepare("DELETE FROM competition_media WHERE id=?")->execute([$id]);
 
-echo json_encode([
-  "status"=>"SUCCESS",
-  "message"=>"Deleted"
+json_response("SUCCESS","Deleted",[
+    "deleted"=>$filePath
 ]);

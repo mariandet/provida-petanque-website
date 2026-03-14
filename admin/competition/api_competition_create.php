@@ -2,33 +2,68 @@
 require_once __DIR__ . "/../../auth.php";
 require_once __DIR__ . "/../../config/db.php";
 
-header("Content-Type: application/json");
+header("Content-Type: application/json; charset=UTF-8");
 
-$d = json_decode(file_get_contents("php://input"), true);
-
-$title = trim($d["title"] ?? "");
-$date  = $d["event_date"] ?? null;
-$price = trim($d["price"] ?? "");
-$ccy   = trim($d["currency"] ?? "USD");
-$open  = (int)($d["is_open"] ?? 0);
-$desc  = trim($d["description"] ?? "");
-
-if($title === ""){
-  echo json_encode(["status"=>"ERROR","message"=>"Title required"]);
-  exit;
+function json_response($status, $message = "", $extra = []) {
+    echo json_encode(array_merge([
+        "status" => $status,
+        "message" => $message
+    ], $extra), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    exit;
 }
 
-$priceVal = ($price === "") ? null : (float)$price;
-$ccyVal   = ($priceVal === null) ? null : $ccy;
+try {
+    $d = json_decode(file_get_contents("php://input"), true);
 
-$stmt = $pdo->prepare("
-  INSERT INTO competitions(title,description,event_date,price,currency,is_open)
-  VALUES(?,?,?,?,?,?)
-");
+    if (!is_array($d)) {
+        json_response("ERROR", "Invalid JSON input");
+    }
 
-$stmt->execute([$title,$desc,$date ?: null,$priceVal,$ccyVal,$open]);
+    $title = trim((string)($d["title"] ?? ""));
+    $date  = $d["event_date"] ?? null;
+    $price = trim((string)($d["price"] ?? ""));
+    $ccy   = trim((string)($d["currency"] ?? "USD"));
+    $open  = (int)($d["is_open"] ?? 0);
+    $desc  = trim((string)($d["description"] ?? ""));
+    $termCondition = trim((string)($d["term_condition"] ?? ""));
 
-echo json_encode([
-  "status"=>"SUCCESS",
-  "id"=>$pdo->lastInsertId()
-]);
+    if ($title === "") {
+        json_response("ERROR", "Title required");
+    }
+
+    $priceVal = ($price === "") ? null : (float)$price;
+    $ccyVal   = ($priceVal === null) ? null : $ccy;
+    $dateVal  = (!empty($date)) ? $date : null;
+    $openVal  = ($open === 1) ? 1 : 0;
+
+    $stmt = $pdo->prepare("
+        INSERT INTO competitions (
+            title,
+            description,
+            term_condition,
+            event_date,
+            price,
+            currency,
+            is_open
+        )
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    ");
+
+    $stmt->execute([
+        $title,
+        $desc,
+        $termCondition,
+        $dateVal,
+        $priceVal,
+        $ccyVal,
+        $openVal
+    ]);
+
+    json_response("SUCCESS", "Competition created successfully", [
+        "id" => (int)$pdo->lastInsertId()
+    ]);
+
+} catch (Throwable $e) {
+    json_response("ERROR", $e->getMessage());
+}
+?>

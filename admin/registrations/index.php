@@ -1,5 +1,4 @@
 <?php
-// search + pagination (your block is already correct)
 require_once __DIR__ . "/../../auth.php";
 require_once __DIR__ . "/../../config/db.php";
 
@@ -10,9 +9,9 @@ $search = trim($_GET["search"] ?? "");
 $where = "";
 $params = [];
 
-if($search !== ""){
-  $where = "WHERE c.title LIKE :s OR r.full_name LIKE :s OR r.phone LIKE :s OR r.email LIKE :s";
-  $params[":s"] = "%".$search."%";
+if ($search !== "") {
+  $where = "WHERE c.title LIKE :s OR r.full_name LIKE :s OR r.phone LIKE :s OR r.email LIKE :s OR r.note LIKE :s";
+  $params[":s"] = "%" . $search . "%";
 }
 
 $totalStmt = $pdo->prepare("
@@ -28,7 +27,20 @@ $totalPages = max(1, (int)ceil($total / $perPage));
 $offset = ($page - 1) * $perPage;
 
 $sql = "
-  SELECT r.id, c.title AS comp_title, r.full_name, r.phone, r.email, r.created_at
+  SELECT
+    r.id,
+    c.title AS comp_title,
+    r.full_name,
+    r.phone,
+    r.email,
+    r.note,
+    r.is_agree_terms,
+    r.proof_image_url,
+    CASE
+      WHEN r.proof_image_url IS NOT NULL AND r.proof_image_url <> '' THEN 'PAID'
+      ELSE 'NOT YET PAID'
+    END AS payment_status,
+    r.created_at
   FROM registrations r
   JOIN competitions c ON c.id = r.competition_id
   $where
@@ -37,14 +49,24 @@ $sql = "
 ";
 
 $stmt = $pdo->prepare($sql);
-foreach($params as $k=>$v){ $stmt->bindValue($k, $v, PDO::PARAM_STR); }
+foreach ($params as $k => $v) {
+  $stmt->bindValue($k, $v, PDO::PARAM_STR);
+}
 $stmt->bindValue(":limit", $perPage, PDO::PARAM_INT);
 $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
 $stmt->execute();
 $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$compList = $pdo->query("SELECT id, title FROM competitions  WHERE is_open='1'  ORDER BY id DESC")
-                ->fetchAll(PDO::FETCH_ASSOC);
+$compList = $pdo->query("
+  SELECT id, title
+  FROM competitions
+  WHERE is_open = '1'
+  ORDER BY id DESC
+")->fetchAll(PDO::FETCH_ASSOC);
+
+function e($v): string {
+  return htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -53,6 +75,10 @@ $compList = $pdo->query("SELECT id, title FROM competitions  WHERE is_open='1'  
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Manage Registrations</title>
 <link rel="stylesheet" href="../assets/style.css">
+<style>
+.payment-paid{color:green;font-weight:700;}
+.payment-unpaid{color:#d97706;font-weight:700;}
+</style>
 </head>
 <body class="admin-body">
 
@@ -73,14 +99,12 @@ $compList = $pdo->query("SELECT id, title FROM competitions  WHERE is_open='1'  
 
   <div style="display:flex;justify-content:space-between;align-items:center;margin:12px 0;">
     <h2 style="color:var(--color-navy);margin:0;">Registrations</h2>
-        <a href="javascript:void(0);" class="btn btn--primary" onclick="openCreateReg()">+ Create</a>
-
+    <a href="javascript:void(0);" class="btn btn--primary" onclick="openCreateReg()">+ Create</a>
   </div>
 
-  <div  id="successMessage" id="successMessage" style="
-    margin-bottom: 20px;
+  <div id="successMessage" style="
+    margin-bottom:20px;
     display:none;
-    top:20px; right:20px;
     background:#28a745;color:#fff;
     padding:12px 30px;border-radius:8px;
     box-shadow:0 8px 20px rgba(0,0,0,0.15);
@@ -89,16 +113,14 @@ $compList = $pdo->query("SELECT id, title FROM competitions  WHERE is_open='1'  
   </div>
 
   <form method="get" style="margin-bottom:15px;display:flex;gap:8px;">
-    <input type="text" name="search" value="<?= htmlspecialchars($search) ?>"
-           placeholder="Search competition / name / phone / email..."
-           style="padding:6px 10px;border-radius:6px;border:1px solid #ccc;width:320px;">
+    <input type="text" name="search" value="<?= e($search) ?>"
+           placeholder="Search competition / name / phone / email / note..."
+           style="padding:6px 10px;border-radius:6px;border:1px solid #ccc;width:360px;">
     <button type="submit" class="btn-sm btn-view">Search</button>
     <a href="?" class="btn-sm btn-delete">Reset</a>
   </form>
 
-
   <div class="registrations-table">
-    
     <table>
       <thead>
         <tr>
@@ -106,60 +128,75 @@ $compList = $pdo->query("SELECT id, title FROM competitions  WHERE is_open='1'  
           <th>Competition</th>
           <th>Name</th>
           <th style="width:140px;">Phone</th>
+          <th style="width:120px;">Agree</th>
+          <th style="width:140px;">Payment</th>
           <th style="width:180px;">Date</th>
           <th style="width:180px;">Actions</th>
         </tr>
       </thead>
       <tbody>
-        <?php if(empty($rows)): ?>
-          <tr><td colspan="6" style="text-align:center;">No registrations found.</td></tr>
+        <?php if (empty($rows)): ?>
+          <tr><td colspan="8" style="text-align:center;">No registrations found.</td></tr>
         <?php endif; ?>
 
-        <?php foreach($rows as $r): ?>
+        <?php foreach ($rows as $r): ?>
           <tr>
             <td><?= (int)$r["id"] ?></td>
-            <td><?= htmlspecialchars($r["comp_title"]) ?></td>
-            <td><?= htmlspecialchars($r["full_name"]) ?></td>
-            <td><?= htmlspecialchars($r["phone"]) ?></td>
-            <td><?= htmlspecialchars($r["created_at"]) ?></td>
+            <td><?= e($r["comp_title"]) ?></td>
+            <td><?= e($r["full_name"]) ?></td>
+            <td><?= e($r["phone"]) ?></td>
+            <td>
+              <?php if ((int)($r["is_agree_terms"] ?? 0) === 1): ?>
+                <span style="color:green;font-weight:700;">YES</span>
+              <?php else: ?>
+                <span style="color:red;font-weight:700;">NO</span>
+              <?php endif; ?>
+            </td>
+            <td>
+              <?php if (($r["payment_status"] ?? "") === "PAID"): ?>
+                <span class="payment-paid">PAID</span>
+              <?php else: ?>
+                <span class="payment-unpaid">NOT YET PAID</span>
+              <?php endif; ?>
+            </td>
+            <td><?= e($r["created_at"]) ?></td>
             <td class="actions">
               <a href="javascript:void(0);" class="btn-sm btn-view"
                  onclick="openViewReg(<?= (int)$r['id'] ?>)">View</a>
 
+              <a href="javascript:void(0);" class="btn-sm btn-edit"
+                 onclick="openEditReg(this)"
+                 data-id="<?= (int)$r['id'] ?>"
+                 data-name="<?= e($r['full_name']) ?>"
+                 data-phone="<?= e($r['phone']) ?>"
+                 data-email="<?= e($r['email'] ?? '') ?>"
+                 data-note="<?= e($r['note'] ?? '') ?>"
+                 data-agree="<?= (int)($r['is_agree_terms'] ?? 0) ?>"
+                 data-proof="<?= e($r['proof_image_url'] ?? '') ?>">
+                 Edit
+              </a>
 
-                 <!-- EDIT BUTTON (inside each row) -->
-            <a href="javascript:void(0);" class="btn-sm btn-edit"
-              onclick="openEditReg(this)"
-              data-id="<?= (int)$r['id'] ?>"
-              data-name="<?= htmlspecialchars($r['full_name']) ?>"
-              data-phone="<?= htmlspecialchars($r['phone']) ?>"
-              data-email="<?= htmlspecialchars($r['email'] ?? '') ?>"
-              data-note="<?= htmlspecialchars($r['note'] ?? '') ?>"
-            > Edit </a>
-
-            
               <a href="javascript:void(0);" class="btn-sm btn-delete"
                  onclick="deleteReg(<?= (int)$r['id'] ?>)">Delete</a>
             </td>
           </tr>
         <?php endforeach; ?>
-        
       </tbody>
     </table>
   </div>
 
-  <?php if($totalPages > 1): ?>
+  <?php if ($totalPages > 1): ?>
     <div style="display:flex;gap:6px;justify-content:flex-end;margin-top:12px;flex-wrap:wrap;">
-      <?php if($page > 1): ?>
+      <?php if ($page > 1): ?>
         <a class="btn-sm btn-edit" href="?page=<?= $page-1 ?>&search=<?= urlencode($search) ?>">Prev</a>
       <?php endif; ?>
 
-      <?php for($p=1;$p<=$totalPages;$p++): ?>
-        <a class="btn-sm <?= $p===$page ? 'btn-view' : 'btn-edit' ?>"
+      <?php for ($p = 1; $p <= $totalPages; $p++): ?>
+        <a class="btn-sm <?= $p === $page ? 'btn-view' : 'btn-edit' ?>"
            href="?page=<?= $p ?>&search=<?= urlencode($search) ?>"><?= $p ?></a>
       <?php endfor; ?>
 
-      <?php if($page < $totalPages): ?>
+      <?php if ($page < $totalPages): ?>
         <a class="btn-sm btn-edit" href="?page=<?= $page+1 ?>&search=<?= urlencode($search) ?>">Next</a>
       <?php endif; ?>
     </div>
@@ -181,6 +218,8 @@ $compList = $pdo->query("SELECT id, title FROM competitions  WHERE is_open='1'  
       <div><div style="font-weight:700;color:var(--color-navy);">Phone</div><div id="rvPhone" style="color:var(--color-text-light);">-</div></div>
       <div><div style="font-weight:700;color:var(--color-navy);">Email</div><div id="rvEmail" style="color:var(--color-text-light);">-</div></div>
       <div><div style="font-weight:700;color:var(--color-navy);">Created</div><div id="rvDate" style="color:var(--color-text-light);">-</div></div>
+      <div><div style="font-weight:700;color:var(--color-navy);">Agree Terms</div><div id="rvAgree" style="color:var(--color-text-light);">-</div></div>
+      <div><div style="font-weight:700;color:var(--color-navy);">Payment</div><div id="rvPayment" style="color:var(--color-text-light);">-</div></div>
     </div>
 
     <div style="margin-top:10px;">
@@ -198,8 +237,8 @@ $compList = $pdo->query("SELECT id, title FROM competitions  WHERE is_open='1'  
     </div>
   </div>
 </div>
-<!-- EDIT MODAL (put once before </body>) -->
-<!-- EDIT MODAL (Registration) -->
+
+<!-- EDIT MODAL -->
 <div id="editRegModal" class="modal">
   <div class="modal__overlay" onclick="closeEditReg()"></div>
 
@@ -229,6 +268,16 @@ $compList = $pdo->query("SELECT id, title FROM competitions  WHERE is_open='1'  
         </div>
 
         <div class="form-group">
+          <label>Agree with Term and Condition</label>
+          <select id="reAgree" required>
+            <option value="1">YES</option>
+            <option value="0">NO</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
           <label>Current Proof Image (click to view)</label>
 
           <div id="reProofBox" style="
@@ -251,6 +300,13 @@ $compList = $pdo->query("SELECT id, title FROM competitions  WHERE is_open='1'  
 
           <input type="hidden" id="reCurrentProofUrl" value="">
         </div>
+
+        <div class="form-group">
+          <label>Payment Status</label>
+          <div id="rePaymentStatus" style="padding:10px 12px;border:1px solid #ddd;border-radius:6px;background:#f8fafc;">
+            NOT YET PAID
+          </div>
+        </div>
       </div>
 
       <div class="form-group">
@@ -266,6 +322,7 @@ $compList = $pdo->query("SELECT id, title FROM competitions  WHERE is_open='1'  
     </form>
   </div>
 </div>
+
 <!-- FULL IMAGE MODAL -->
 <div id="mediaModal" class="modal">
   <div class="modal__overlay" onclick="closeMedia()"></div>
@@ -274,6 +331,8 @@ $compList = $pdo->query("SELECT id, title FROM competitions  WHERE is_open='1'  
     <div id="mediaContent" style="display:flex;justify-content:center;align-items:center;"></div>
   </div>
 </div>
+
+<!-- CREATE MODAL -->
 <div id="createRegModal" class="modal">
   <div class="modal__overlay" onclick="closeCreateReg()"></div>
 
@@ -283,22 +342,18 @@ $compList = $pdo->query("SELECT id, title FROM competitions  WHERE is_open='1'  
     <h3>Create Registration</h3>
 
     <form id="createRegForm" class="admin-form" style="padding:0;box-shadow:none;">
-<!-- 
       <div class="form-group">
-        <label>Competition ID</label>
-        <input type="number" id="rCompetitionId" required>
-      </div> -->
-    <div class="form-group">
-      <label>Competition</label>
-      <select id="rCompetitionId" required>
-        <option value="">-- Select Competition --</option>
-        <?php foreach($compList as $c): ?>
-          <option value="<?= (int)$c["id"] ?>">
-            <?= htmlspecialchars($c["title"]) ?>
-          </option>
-        <?php endforeach; ?>
-      </select>
-    </div>
+        <label>Competition</label>
+        <select id="rCompetitionId" required>
+          <option value="">-- Select Competition --</option>
+          <?php foreach($compList as $c): ?>
+            <option value="<?= (int)$c["id"] ?>">
+              <?= e($c["title"]) ?>
+            </option>
+          <?php endforeach; ?>
+        </select>
+      </div>
+
       <div class="form-row">
         <div class="form-group">
           <label>Full Name</label>
@@ -315,6 +370,14 @@ $compList = $pdo->query("SELECT id, title FROM competitions  WHERE is_open='1'  
           <label>Email</label>
           <input type="email" id="rEmail">
         </div>
+
+        <div class="form-group">
+          <label>Agree with Term and Condition</label>
+          <select id="rAgree" required>
+            <option value="1">YES</option>
+            <option value="0">NO</option>
+          </select>
+        </div>
       </div>
 
       <div class="form-group">
@@ -324,66 +387,28 @@ $compList = $pdo->query("SELECT id, title FROM competitions  WHERE is_open='1'  
 
       <div class="form-group">
         <label>Upload Proof Image</label>
-        <input type="file" id="rImage" accept="image/*" required>
+        <input type="file" id="rImage" accept="image/*">
       </div>
 
       <div style="display:flex;justify-content:flex-end;gap:10px;">
         <button type="button" class="btn btn--outline" onclick="closeCreateReg()">Cancel</button>
         <button type="submit" class="btn btn--primary">Create</button>
       </div>
-
     </form>
   </div>
 </div>
+
 <script>
-
 const editRegModal = document.getElementById("editRegModal");
+const createRegModal = document.getElementById("createRegModal");
 
-function openEditReg(btn){
-  document.getElementById("reId").value = btn.dataset.id;
-  document.getElementById("reName").value = btn.dataset.name || "";
-  document.getElementById("rePhone").value = btn.dataset.phone || "";
-  document.getElementById("reEmail").value = btn.dataset.email || "";
-  document.getElementById("reNote").value = btn.dataset.note || "";
-  document.getElementById("reImage").value = "";
-  document.getElementById("reMsg").textContent = "";
-  editRegModal.classList.add("active");
-}
-
-function closeEditReg(){
-  editRegModal.classList.remove("active");
-}
-
-document.getElementById("editRegForm").addEventListener("submit", async (e)=>{
-  e.preventDefault();
-
-  const fd = new FormData();
-  fd.append("id", document.getElementById("reId").value);
-  fd.append("full_name", document.getElementById("reName").value);
-  fd.append("phone", document.getElementById("rePhone").value);
-  fd.append("email", document.getElementById("reEmail").value);
-  fd.append("note", document.getElementById("reNote").value);
-
-  const file = document.getElementById("reImage").files[0];
-  if(file) fd.append("proof_image", file);
-
-  document.getElementById("reMsg").textContent = "Saving...";
-
-  const res = await fetch("api_registration_update.php", {
-    method:"POST",
-    body: fd
-  });
-
-  const j = await res.json().catch(()=>({}));
-
-  if(res.ok && j.status === "SUCCESS"){
-    showSuccess("Registration updated successfully");
-    closeEditReg();
-    setTimeout(()=> location.reload(), 800);
-  }else{
-    document.getElementById("reMsg").textContent = j.message || ("Error " + res.status);
-  }
-});
+const reId = document.getElementById("reId");
+const reName = document.getElementById("reName");
+const rePhone = document.getElementById("rePhone");
+const reEmail = document.getElementById("reEmail");
+const reNote = document.getElementById("reNote");
+const reAgree = document.getElementById("reAgree");
+const reMsg = document.getElementById("reMsg");
 
 function showSuccess(message){
   const box = document.getElementById("successMessage");
@@ -397,13 +422,48 @@ function openImg(url){
   c.innerHTML = `<img src="${url}" style="max-width:90vw;max-height:80vh;border-radius:10px;">`;
   document.getElementById("mediaModal").classList.add("active");
 }
+
 function closeMedia(){
   document.getElementById("mediaModal").classList.remove("active");
   document.getElementById("mediaContent").innerHTML = "";
 }
 
+function openCreateReg(){
+  createRegModal.classList.add("active");
+}
+
+function closeCreateReg(){
+  createRegModal.classList.remove("active");
+}
+
+function closeEditReg(){
+  editRegModal.classList.remove("active");
+}
+
+function closeViewReg(){
+  document.getElementById("regViewModal").classList.remove("active");
+}
+
+document.getElementById("reProofBox").addEventListener("click", ()=>{
+  const url = document.getElementById("reProofImg").src;
+  if (url) openImg(url);
+});
+
+function setPaymentStatusByProof(url){
+  const box = document.getElementById("rePaymentStatus");
+  if (url) {
+    box.textContent = "PAID";
+    box.style.color = "green";
+    box.style.fontWeight = "700";
+  } else {
+    box.textContent = "NOT YET PAID";
+    box.style.color = "#d97706";
+    box.style.fontWeight = "700";
+  }
+}
+
 async function openViewReg(id){
-  const res = await fetch("api_registration_get.php?id="+id);
+  const res = await fetch("api_registration_get.php?id=" + id);
   const j = await res.json();
 
   document.getElementById("rvId").textContent = j.id || "-";
@@ -413,11 +473,23 @@ async function openViewReg(id){
   document.getElementById("rvEmail").textContent = j.email || "-";
   document.getElementById("rvDate").textContent = j.created_at || "-";
   document.getElementById("rvNote").textContent = j.note || "";
+  document.getElementById("rvAgree").textContent = parseInt(j.is_agree_terms || 0, 10) === 1 ? "YES" : "NO";
+
+  const paymentEl = document.getElementById("rvPayment");
+  if (j.proof_image_url) {
+    paymentEl.textContent = "PAID";
+    paymentEl.style.color = "green";
+    paymentEl.style.fontWeight = "700";
+  } else {
+    paymentEl.textContent = "NOT YET PAID";
+    paymentEl.style.color = "#d97706";
+    paymentEl.style.fontWeight = "700";
+  }
 
   const box = document.getElementById("rvImageBox");
   box.innerHTML = "";
 
-  if(j.proof_image_url){
+  if (j.proof_image_url) {
     const item = document.createElement("div");
     item.style.width = "140px";
     item.style.height = "100px";
@@ -442,12 +514,91 @@ async function openViewReg(id){
 
   document.getElementById("regViewModal").classList.add("active");
 }
-function closeViewReg(){
-  document.getElementById("regViewModal").classList.remove("active");
+
+async function openEditReg(btn){
+  reId.value = btn.dataset.id;
+  reName.value = btn.dataset.name || "";
+  rePhone.value = btn.dataset.phone || "";
+  reEmail.value = btn.dataset.email || "";
+  reNote.value = btn.dataset.note || "";
+  reAgree.value = String(parseInt(btn.dataset.agree || "0", 10));
+  reMsg.textContent = "";
+
+  const fileInput = document.getElementById("reImage");
+  fileInput.value = "";
+
+  const res = await fetch("api_registration_get.php?id=" + encodeURIComponent(btn.dataset.id));
+  const j = await res.json().catch(()=>({}));
+
+  const imgEl = document.getElementById("reProofImg");
+  const emptyEl = document.getElementById("reProofEmpty");
+  const hiddenUrl = document.getElementById("reCurrentProofUrl");
+
+  if (j.proof_image_url) {
+    imgEl.src = j.proof_image_url;
+    imgEl.style.display = "block";
+    emptyEl.style.display = "none";
+    hiddenUrl.value = j.proof_image_url;
+    setPaymentStatusByProof(j.proof_image_url);
+  } else {
+    imgEl.src = "";
+    imgEl.style.display = "none";
+    emptyEl.style.display = "block";
+    hiddenUrl.value = "";
+    setPaymentStatusByProof("");
+  }
+
+  editRegModal.classList.add("active");
 }
 
+document.getElementById("reImage").addEventListener("change", (e)=>{
+  const f = e.target.files && e.target.files[0];
+  if (!f) return;
+
+  const url = URL.createObjectURL(f);
+  const imgEl = document.getElementById("reProofImg");
+  const emptyEl = document.getElementById("reProofEmpty");
+
+  imgEl.src = url;
+  imgEl.style.display = "block";
+  emptyEl.style.display = "none";
+  setPaymentStatusByProof(url);
+});
+
+document.getElementById("editRegForm").addEventListener("submit", async (e)=>{
+  e.preventDefault();
+
+  const fd = new FormData();
+  fd.append("id", reId.value);
+  fd.append("full_name", reName.value);
+  fd.append("phone", rePhone.value);
+  fd.append("email", reEmail.value);
+  fd.append("note", reNote.value);
+  fd.append("is_agree_terms", reAgree.value);
+
+  const file = document.getElementById("reImage").files[0];
+  if (file) fd.append("proof_image", file);
+
+  reMsg.textContent = "Saving...";
+
+  const res = await fetch("api_registration_update.php", {
+    method:"POST",
+    body: fd
+  });
+
+  const j = await res.json().catch(()=>({}));
+
+  if (res.ok && j.status === "SUCCESS") {
+    showSuccess("Registration updated successfully");
+    closeEditReg();
+    setTimeout(()=> location.reload(), 800);
+  } else {
+    reMsg.textContent = j.message || ("Error " + res.status);
+  }
+});
+
 async function deleteReg(id){
-  if(!confirm("Delete this registration?")) return;
+  if (!confirm("Delete this registration?")) return;
 
   const res = await fetch("api_registration_delete.php",{
     method:"POST",
@@ -456,22 +607,12 @@ async function deleteReg(id){
   });
 
   const j = await res.json().catch(()=>({}));
-  if(res.ok && j.status === "SUCCESS"){
+  if (res.ok && j.status === "SUCCESS") {
     showSuccess("Registration deleted successfully");
     setTimeout(()=> location.reload(), 600);
   } else {
     alert(j.message || ("Error " + res.status));
   }
-}
-/***************CREATE******************/
-const createRegModal = document.getElementById("createRegModal");
-
-function openCreateReg(){
-  createRegModal.classList.add("active");
-}
-
-function closeCreateReg(){
-  createRegModal.classList.remove("active");
 }
 
 document.getElementById("createRegForm").addEventListener("submit", async function(e){
@@ -483,113 +624,39 @@ document.getElementById("createRegForm").addEventListener("submit", async functi
   fd.append("phone", document.getElementById("rPhone").value);
   fd.append("email", document.getElementById("rEmail").value);
   fd.append("note", document.getElementById("rNote").value);
-  fd.append("proof_image", document.getElementById("rImage").files[0]);
+  fd.append("is_agree_terms", document.getElementById("rAgree").value);
 
-  const res = await fetch("api_registration_create.php", {
-    method: "POST",
-    body: fd
-  });
-
-  const j = await res.json();
-
-  if(res.ok && j.status === "SUCCESS"){
-    showSuccess("Registration created successfully");
-    closeCreateReg();
-    setTimeout(()=> location.reload(), 800);
-  } else {
-    alert(j.message || "Error");
-  }
-});
-
-/***********************IMAGE PROFF***************************/
-// EDIT modal image (single proof image)
-
-// click current image to view full
-document.getElementById("reProofBox").addEventListener("click", ()=>{
-  const url = document.getElementById("reProofImg").src;
-  if(url) openImg(url);
-});
-
-// load current proof when opening edit
-async function openEditReg(btn){
-  reId.value = btn.dataset.id;
-  reName.value = btn.dataset.name || "";
-  rePhone.value = btn.dataset.phone || "";
-  reEmail.value = btn.dataset.email || "";
-  reNote.value = btn.dataset.note || "";
-  reMsg.textContent = "";
-
-  // reset file input
-  const fileInput = document.getElementById("reImage");
-  fileInput.value = "";
-
-  // load from API
-  const res = await fetch("api_registration_get.php?id=" + encodeURIComponent(btn.dataset.id));
-  const j = await res.json().catch(()=>({}));
-
-  const imgEl = document.getElementById("reProofImg");
-  const emptyEl = document.getElementById("reProofEmpty");
-  const hiddenUrl = document.getElementById("reCurrentProofUrl");
-
-  if(j.proof_image_url){
-    const url = j.proof_image_url;
-
-    const imgUrl = url  ;
-
-    imgEl.src = imgUrl;
-    imgEl.style.display = "block";
-    emptyEl.style.display = "none";
-    hiddenUrl.value = url;
-  } else {
-    imgEl.src = "";
-    imgEl.style.display = "none";
-    emptyEl.style.display = "block";
-    hiddenUrl.value = "";
+  const createFile = document.getElementById("rImage").files[0];
+  if (createFile) {
+    fd.append("proof_image", createFile);
   }
 
-  editRegModal.classList.add("active");
-}
+  try {
+    const res = await fetch("api_registration_create.php", {
+      method: "POST",
+      body: fd
+    });
 
-// preview selected replacement image (still single)
-document.getElementById("reImage").addEventListener("change", (e)=>{
-  const f = e.target.files && e.target.files[0];
-  if(!f) return;
+    const raw = await res.text();
+    console.log("CREATE RAW:", raw);
 
-  const url = URL.createObjectURL(f);
+    let j = {};
+    try {
+      j = JSON.parse(raw);
+    } catch (err) {
+      alert("Invalid JSON response: " + raw);
+      return;
+    }
 
-  const imgEl = document.getElementById("reProofImg");
-  const emptyEl = document.getElementById("reProofEmpty");
-
-  imgEl.src = url;
-  imgEl.style.display = "block";
-  emptyEl.style.display = "none";
-});
-
-// submit edit (replace proof_image if selected)
-document.getElementById("editRegForm").addEventListener("submit", async (e)=>{
-  e.preventDefault();
-
-  const fd = new FormData();
-  fd.append("id", reId.value);
-  fd.append("full_name", reName.value);
-  fd.append("phone", rePhone.value);
-  fd.append("email", reEmail.value);
-  fd.append("note", reNote.value);
-
-  const file = document.getElementById("reImage").files[0];
-  if(file) fd.append("proof_image", file); // PHP: $_FILES["proof_image"]
-
-  reMsg.textContent = "Saving...";
-
-  const res = await fetch("api_registration_update.php", { method:"POST", body: fd });
-  const j = await res.json().catch(()=>({}));
-
-  if(res.ok && j.status === "SUCCESS"){
-    showSuccess("Registration updated successfully");
-    closeEditReg();
-    setTimeout(()=> location.reload(), 800);
-  } else {
-    reMsg.textContent = j.message || ("Error " + res.status);
+    if (res.ok && j.status === "SUCCESS") {
+      showSuccess("Registration created successfully");
+      closeCreateReg();
+      setTimeout(()=> location.reload(), 800);
+    } else {
+      alert(j.message || ("Error " + res.status));
+    }
+  } catch (err) {
+    alert(err.message || "Unexpected error");
   }
 });
 </script>

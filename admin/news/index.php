@@ -14,8 +14,8 @@ if ($search !== "") {
         n.title LIKE :s
         OR n.subtitle LIKE :s
         OR n.author_name LIKE :s
-        OR n.excerpt LIKE :s
-        OR n.content LIKE :s
+        OR n.content_1 LIKE :s
+        OR n.content_2 LIKE :s
     )";
     $params[":s"] = "%" . $search . "%";
 }
@@ -57,6 +57,13 @@ $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 function e($value): string {
     return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
 }
+
+function slugify($text): string {
+    $text = strtolower(trim((string)$text));
+    $text = preg_replace('/[^a-z0-9]+/i', '-', $text);
+    $text = trim($text, '-');
+    return $text !== '' ? $text : 'news';
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -93,6 +100,7 @@ function e($value): string {
     border-radius: 10px;
     overflow: hidden;
     background: #fff;
+    position: relative;
 }
 .gallery-item img {
     width: 100%;
@@ -130,6 +138,49 @@ function e($value): string {
 .pagination .disabled {
     color: #aaa;
     background: #f3f4f6;
+}
+.image-delete-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    border:none;
+    background:#dc2626;
+    color:#fff;
+    border-radius:8px;
+    padding:6px 10px;
+    cursor:pointer;
+    font-size:12px;
+}
+.image-delete-btn:hover{
+    background:#b91c1c;
+}
+.image-delete-round{
+    position:absolute;
+    top:8px;
+    right:8px;
+    width:30px;
+    height:30px;
+    border:none;
+    border-radius:999px;
+    background:rgba(220,38,38,.95);
+    color:#fff;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 6px 14px rgba(0,0,0,.18);
+}
+.image-delete-round:hover{
+    background:#b91c1c;
+}
+.image-card-inline{
+    display:inline-block;
+    position:relative;
+}
+.image-icon{
+    width:14px;
+    height:14px;
+    display:inline-block;
 }
 </style>
 </head>
@@ -211,7 +262,7 @@ function e($value): string {
               <td class="actions">
                 <a href="javascript:void(0);" class="btn-sm btn-view" onclick="openView(<?= (int)$r['id'] ?>)">View</a>
                 <a href="javascript:void(0);" class="btn-sm btn-edit" onclick="openEdit(<?= (int)$r['id'] ?>)">Edit</a>
-                <a href="../../user/news-detail.php?id=<?= (int)$r['id'] ?>" target="_blank" class="btn-sm btn-view">Open</a>
+                <a href="../../user/news-detail.php?id=<?= (int)$r['id'] ?>&title=<?= urlencode(slugify($r['title'] ?? '')) ?>" target="_blank" class="btn-sm btn-view">Open</a>
                 <a href="javascript:void(0);" class="btn-sm btn-delete" onclick="deleteNews(<?= (int)$r['id'] ?>)">Delete</a>
               </td>
             </tr>
@@ -223,9 +274,7 @@ function e($value): string {
 
   <?php if ($totalPages > 1): ?>
     <div class="pagination">
-      <?php
-      $queryBase = $search !== "" ? "&search=" . urlencode($search) : "";
-      ?>
+      <?php $queryBase = $search !== "" ? "&search=" . urlencode($search) : ""; ?>
       <?php if ($page > 1): ?>
         <a href="?page=<?= $page - 1 . $queryBase ?>">← Prev</a>
       <?php else: ?>
@@ -263,8 +312,8 @@ function e($value): string {
     </div>
 
     <div style="margin-top:10px;"><b>Subtitle</b><div id="vSubtitle"></div></div>
-    <div style="margin-top:10px;"><b>Short Description</b><div id="vExcerpt"></div></div>
-    <div style="margin-top:10px;"><b>Content</b><div id="vContent" style="white-space:pre-wrap;"></div></div>
+    <div style="margin-top:10px;"><b>Content Part 1</b><div id="vContent1" style="white-space:pre-wrap;"></div></div>
+    <div style="margin-top:10px;"><b>Content Part 2</b><div id="vContent2" style="white-space:pre-wrap;"></div></div>
 
     <div style="margin-top:12px;"><b>Featured Image</b><div id="vFeatured"></div></div>
     <div style="margin-top:12px;"><b>Body Image</b><div id="vBodyImage"></div></div>
@@ -318,35 +367,44 @@ function e($value): string {
       </div>
 
       <div class="form-group">
-        <label>Excerpt</label>
-        <textarea id="eExcerpt" rows="3"></textarea>
+        <label>Content Part 1</label>
+        <textarea id="eContent1" rows="6"></textarea>
       </div>
 
       <div class="form-group">
-        <label>Content</label>
-        <textarea id="eContent" rows="8"></textarea>
+        <label>Content Part 2</label>
+        <textarea id="eContent2" rows="6"></textarea>
       </div>
 
-        <div class="form-group">
-          <label>Featured Image</label>
-          <input type="file" id="eFeaturedImage" accept="image/*">
-          <input type="hidden" id="eRemoveFeatured" value="0">
-          <div id="eFeaturedPreview" style="margin-top:10px;"></div>
-        </div>
+      <div class="form-group">
+        <label>Featured Image</label>
+        <input type="file" id="eFeaturedImage" accept="image/*">
+        <div id="eFeaturedPreview" style="margin-top:10px;"></div>
+      </div>
 
-        <div class="form-group">
-          <label>Body Image (optional)</label>
-          <input type="file" id="eBodyImage" accept="image/*">
-          <input type="hidden" id="eRemoveBody" value="0">
-          <div id="eBodyPreview" style="margin-top:10px;"></div>
-        </div>
+      <div class="form-group">
+        <label>Body Image (optional)</label>
+        <input type="file" id="eBodyImage" accept="image/*">
+        <div id="eBodyPreview" style="margin-top:10px;"></div>
+      </div>
 
-        <div class="form-group">
-          <label>Gallery Images (max 4)</label>
-          <input type="file" id="eGalleryImages" accept="image/*" multiple>
-          <small style="color:#777;">You can upload up to 4 images total.</small>
-          <div id="eGalleryPreview" style="margin-top:10px;"></div>
-        </div>
+      <!-- <div class="form-group">
+        <label>Gallery Images (max 4)</label>
+        <input type="file" id="eGalleryImages" accept="image/*" multiple>
+        <small style="color:#777;">You can upload up to 4 images total.</small>
+        <div id="eGalleryPreview" style="margin-top:10px;"></div>
+      </div> -->
+
+      <div class="form-group">
+  <label>Gallery Images (max 4)</label>
+
+  <button type="button" class="btn-sm btn-edit" onclick="addEditGalleryInput()">+ Add New Image</button>
+  <small style="color:#777;display:block;margin-top:8px;">Add one by one. Maximum 4 images total.</small>
+
+  <div id="eGalleryInputs" style="margin-top:10px;"></div>
+  <div id="eGalleryPreview" style="margin-top:10px;"></div>
+</div>
+
       <div style="display:flex;gap:10px;justify-content:flex-end;align-items:center;margin-top:12px;">
         <span id="editMsg" style="color:var(--color-text-light);font-size:0.9rem;"></span>
         <button class="btn btn--outline" type="button" onclick="closeEdit()">Cancel</button>
@@ -399,13 +457,13 @@ function e($value): string {
       </div>
 
       <div class="form-group">
-        <label>Excerpt</label>
-        <textarea id="cExcerpt" rows="3"></textarea>
+        <label>Content Part 1</label>
+        <textarea id="cContent1" rows="6"></textarea>
       </div>
 
       <div class="form-group">
-        <label>Content</label>
-        <textarea id="cContent" rows="8"></textarea>
+        <label>Content Part 2</label>
+        <textarea id="cContent2" rows="6"></textarea>
       </div>
 
       <div class="form-group">
@@ -442,6 +500,20 @@ function e($value): string {
 </div>
 
 <script>
+  let editNewGalleryFiles = [];
+  const galleryFiles = editNewGalleryFiles;
+function trashIcon() {
+  return `
+    <svg class="image-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M3 6h18"></path>
+      <path d="M8 6V4h8v2"></path>
+      <path d="M19 6l-1 14H6L5 6"></path>
+      <path d="M10 11v6"></path>
+      <path d="M14 11v6"></path>
+    </svg>
+  `;
+}
+
 function showSuccess(message) {
   const box = document.getElementById("successMessage");
   box.textContent = "✅ " + message;
@@ -488,35 +560,84 @@ function renderGalleryHtml(gallery) {
     return "<span class='small-muted'>No gallery images</span>";
   }
 
-  let html = `<div class="gallery-grid">`;
+  let html = `<div class="gallery-grid existing-gallery-grid">`;
   gallery.forEach(item => {
     const img = normalizeImagePath(item.image_path || "");
     const gid = parseInt(item.id || 0, 10);
 
     html += `
-      <div class="gallery-item" id="gallery-item-${gid}">
+      <div class="gallery-item existing-item" id="gallery-item-${gid}">
         <img src="${img}" alt="Gallery image" onclick="openImg('${img}')">
-        <div class="meta">
-          Sort: ${parseInt(item.sort_order || 0, 10)}<br>
-          <button type="button" class="btn-sm btn-delete" style="margin-top:6px;" onclick="markRemoveGalleryImage(${gid})">Delete image</button>
-          <input type="hidden" class="eRemoveGalleryValue" data-id="${gid}" value="0">
-        </div>
+        <button type="button" class="image-delete-round" onclick="deleteNewsGalleryImage(${gid})" title="Delete image">✕</button>
+        <div class="meta">Sort: ${parseInt(item.sort_order || 0, 10)}</div>
       </div>
     `;
   });
   html += `</div>`;
   return html;
 }
+async function deleteNewsGalleryImage(id){
+  if(!confirm("Delete this gallery image?")) return;
 
-function markRemoveGalleryImage(id) {
-  const hidden = document.querySelector('.eRemoveGalleryValue[data-id="' + id + '"]');
-  const box = document.getElementById("gallery-item-" + id);
+  try{
+    const res = await fetch("api_news_gallery_delete.php", {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({ id })
+    });
 
-  if (hidden) hidden.value = "1";
-  if (box) {
-    box.innerHTML = `<div class="meta" style="padding:14px;">Image will be deleted</div>`;
+    const j = await res.json().catch(() => ({}));
+
+    if(res.ok && j.status === "SUCCESS"){
+      const box = document.getElementById("gallery-item-" + id);
+      if(box) box.remove();
+      showSuccess("Gallery image deleted");
+    }else{
+      alert(j.message || "Delete failed");
+    }
+  }catch(err){
+    alert(err.message || "Unexpected error");
   }
 }
+
+async function deleteNewsSingleImage(type){
+  const newsId = parseInt(document.getElementById("eId").value, 10);
+  if(!newsId){
+    alert("Invalid news ID");
+    return;
+  }
+  if(!confirm("Delete this image?")) return;
+
+  try{
+    const res = await fetch("api_news_single_image_delete.php", {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({
+        news_id: newsId,
+        type: type
+      })
+    });
+
+    const j = await res.json().catch(() => ({}));
+
+    if(res.ok && j.status === "SUCCESS"){
+      if(type === "featured"){
+        document.getElementById("eFeaturedPreview").innerHTML = "<span class='small-muted'>No featured image</span>";
+        document.getElementById("eFeaturedImage").value = "";
+      }
+      if(type === "body"){
+        document.getElementById("eBodyPreview").innerHTML = "<span class='small-muted'>No body image</span>";
+        document.getElementById("eBodyImage").value = "";
+      }
+      showSuccess("Image deleted");
+    }else{
+      alert(j.message || "Delete failed");
+    }
+  }catch(err){
+    alert(err.message || "Unexpected error");
+  }
+}
+
 async function openView(id) {
   try {
     const res = await fetch("api_news_get.php?id=" + encodeURIComponent(id));
@@ -533,8 +654,8 @@ async function openView(id) {
     document.getElementById("vStatus").textContent = parseInt(j.is_published || 0, 10) === 1 ? "PUBLISHED" : "DRAFT";
     document.getElementById("vAuthor").textContent = j.author_name || "-";
     document.getElementById("vSubtitle").textContent = j.subtitle || "";
-    document.getElementById("vExcerpt").textContent = j.excerpt || "";
-    document.getElementById("vContent").textContent = j.content || "";
+    document.getElementById("vContent1").textContent = j.content_1 || "";
+    document.getElementById("vContent2").textContent = j.content_2 || "";
 
     const featuredBox = document.getElementById("vFeatured");
     featuredBox.innerHTML = j.featured_image
@@ -558,8 +679,28 @@ async function openView(id) {
   }
 }
 
+function renderSinglePreviewWithDelete(path, type, emptyText = "No image") {
+  const img = normalizeImagePath(path || "");
+  if (!img) {
+    return `<span class="small-muted">${emptyText}</span>`;
+  }
+
+  return `
+    <div class="image-card-inline">
+      <img src="${img}" class="preview-image" onclick="openImg('${img}')">
+      <div style="margin-top:8px;">
+        <button type="button" class="image-delete-btn" onclick="deleteNewsSingleImage('${type}')">
+          ${trashIcon()}
+          Delete image
+        </button>
+      </div>
+    </div>
+  `;
+}
+
 async function openEdit(id) {
   try {
+
     const res = await fetch("api_news_get.php?id=" + encodeURIComponent(id));
     const j = await res.json();
 
@@ -574,29 +715,34 @@ async function openEdit(id) {
     document.getElementById("eAuthor").value = j.author_name || "";
     document.getElementById("eDate").value = j.news_date || "";
     document.getElementById("ePub").value = String(j.is_published ?? 0);
-    document.getElementById("eExcerpt").value = j.excerpt || "";
-    document.getElementById("eContent").value = j.content || "";
+    document.getElementById("eContent1").value = j.content_1 || "";
+    document.getElementById("eContent2").value = j.content_2 || "";
     document.getElementById("eExternalVideo").value = j.external_video_url || "";
-document.getElementById("eFeaturedPreview").innerHTML =
-  renderSinglePreviewWithDelete(j.featured_image, "featured", "No featured image");
 
-document.getElementById("eBodyPreview").innerHTML =
-  renderSinglePreviewWithDelete(j.body_image, "body", "No body image");
+    document.getElementById("eFeaturedImage").value = "";
+    document.getElementById("eBodyImage").value = "";
 
+    const galleryInputs = document.getElementById("eGalleryInputs");
+    if (galleryInputs) {
+      galleryInputs.innerHTML = "";
+    }
 
-document.getElementById("eGalleryPreview").innerHTML =
-  renderGalleryHtml(j.gallery || []);
+    document.getElementById("eFeaturedPreview").innerHTML =
+      renderSinglePreviewWithDelete(j.featured_image, "featured", "No featured image");
+
+    document.getElementById("eBodyPreview").innerHTML =
+      renderSinglePreviewWithDelete(j.body_image, "body", "No body image");
+
+  editNewGalleryFiles = [];
+  document.getElementById("eGalleryPreview").innerHTML = renderGalleryHtml(j.gallery || []);
+
     document.getElementById("editMsg").textContent = "";
-document.getElementById("eRemoveFeatured").value = "0";
-document.getElementById("eRemoveBody").value = "0";
     document.getElementById("editModal").classList.add("active");
 
-    
   } catch (err) {
     alert(err.message || "Unexpected error");
   }
 }
-
 document.getElementById("createForm").addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -610,8 +756,8 @@ document.getElementById("createForm").addEventListener("submit", async (e) => {
       author_name: document.getElementById("cAuthor").value.trim(),
       news_date: document.getElementById("cDate").value,
       is_published: parseInt(document.getElementById("cPub").value, 10) || 0,
-      excerpt: document.getElementById("cExcerpt").value.trim(),
-      content: document.getElementById("cContent").value.trim(),
+      content_1: document.getElementById("cContent1").value.trim(),
+      content_2: document.getElementById("cContent2").value.trim(),
       external_video_url: document.getElementById("cExternalVideo").value.trim()
     };
 
@@ -679,7 +825,6 @@ document.getElementById("createForm").addEventListener("submit", async (e) => {
 
       if (!uploadRes.ok || uploadJson.status !== "SUCCESS") {
         createMsg.textContent = uploadJson.message || "Image upload failed";
-        console.log(uploadJson);
         return;
       }
     }
@@ -705,29 +850,17 @@ document.getElementById("editForm").addEventListener("submit", async (e) => {
       return;
     }
 
-    // ************************
-const removeGalleryIds = Array.from(document.querySelectorAll(".eRemoveGalleryValue"))
-  .filter(el => el.value === "1")
-  .map(el => parseInt(el.dataset.id, 10))
-  .filter(v => v > 0);
-
-
-    // ************************
-
-const payload = {
-  id: newsId,
-  title: document.getElementById("eTitle").value.trim(),
-  subtitle: document.getElementById("eSubtitle").value.trim(),
-  author_name: document.getElementById("eAuthor").value.trim(),
-  news_date: document.getElementById("eDate").value,
-  is_published: parseInt(document.getElementById("ePub").value, 10) || 0,
-  excerpt: document.getElementById("eExcerpt").value.trim(),
-  content: document.getElementById("eContent").value.trim(),
-  external_video_url: document.getElementById("eExternalVideo").value.trim(),
-  remove_featured_image: parseInt(document.getElementById("eRemoveFeatured").value, 10) || 0,
-  remove_body_image: parseInt(document.getElementById("eRemoveBody").value, 10) || 0,
-  remove_gallery_ids: removeGalleryIds
-};
+    const payload = {
+      id: newsId,
+      title: document.getElementById("eTitle").value.trim(),
+      subtitle: document.getElementById("eSubtitle").value.trim(),
+      author_name: document.getElementById("eAuthor").value.trim(),
+      news_date: document.getElementById("eDate").value,
+      is_published: parseInt(document.getElementById("ePub").value, 10) || 0,
+      content_1: document.getElementById("eContent1").value.trim(),
+      content_2: document.getElementById("eContent2").value.trim(),
+      external_video_url: document.getElementById("eExternalVideo").value.trim()
+    };
 
     const updateRes = await fetch("api_news_update.php", {
       method: "POST",
@@ -741,7 +874,7 @@ const payload = {
     try {
       updateJson = JSON.parse(updateRaw);
     } catch (e) {
-      editMsg.textContent = "api_news_update.php did not return valid JSON: " + updateRaw;
+      editMsg.textContent = "api_news_update.php invalid JSON: " + updateRaw;
       return;
     }
 
@@ -750,25 +883,27 @@ const payload = {
       return;
     }
 
-    const featured = document.getElementById("eFeaturedImage").files[0];
-    const bodyImage = document.getElementById("eBodyImage").files[0];
-    const galleryFiles = document.getElementById("eGalleryImages").files;
+    const featured = document.getElementById("eFeaturedImage").files[0] || null;
+    const bodyImage = document.getElementById("eBodyImage").files[0] || null;
+    const galleryFiles = Array.isArray(editNewGalleryFiles) ? editNewGalleryFiles : [];
 
-    if (galleryFiles.length > 4) {
+    const existingCount = document.querySelectorAll("#eGalleryPreview .gallery-item.existing-item").length;
+
+    if ((existingCount + galleryFiles.length) > 4) {
       editMsg.textContent = "Gallery allows maximum 4 images only";
       return;
     }
 
-    if (featured || bodyImage || galleryFiles.length) {
+    if (featured || bodyImage || galleryFiles.length > 0) {
       const fd = new FormData();
       fd.append("news_id", String(newsId));
 
       if (featured) fd.append("featured_image", featured);
       if (bodyImage) fd.append("body_image", bodyImage);
 
-      for (let i = 0; i < galleryFiles.length; i++) {
-        fd.append("gallery_images[]", galleryFiles[i]);
-      }
+      galleryFiles.forEach(file => {
+        fd.append("gallery_images[]", file);
+      });
 
       const uploadRes = await fetch("api_news_media_upload.php", {
         method: "POST",
@@ -787,19 +922,19 @@ const payload = {
 
       if (!uploadRes.ok || uploadJson.status !== "SUCCESS") {
         editMsg.textContent = uploadJson.message || "Image upload failed";
-        console.log(uploadJson);
         return;
       }
     }
 
+    editNewGalleryFiles = [];
     showSuccess("News updated successfully");
     closeEdit();
     setTimeout(() => location.reload(), 800);
+
   } catch (err) {
     editMsg.textContent = err.message || "Unexpected error";
   }
 });
-
 async function deleteNews(id) {
   if (!confirm("Delete this news post?")) return;
 
@@ -831,13 +966,6 @@ async function deleteNews(id) {
   }
 }
 
-function renderSinglePreview(path, emptyText = "No image") {
-  const img = normalizeImagePath(path || "");
-  if (!img) {
-    return `<span class="small-muted">${emptyText}</span>`;
-  }
-  return `<img src="${img}" class="preview-image" onclick="openImg('${img}')">`;
-}
 document.getElementById("eFeaturedImage").addEventListener("change", function () {
   const file = this.files[0];
   if (!file) return;
@@ -854,86 +982,123 @@ document.getElementById("eBodyImage").addEventListener("change", function () {
     `<img src="${url}" class="preview-image" onclick="openImg('${url}')">`;
 });
 
-document.getElementById("eGalleryImages").addEventListener("change", function () {
-  const files = Array.from(this.files || []);
-  if (!files.length) return;
+function previewEditGalleryFile(input) {
 
-  let html = `<div class="gallery-grid">`;
-  files.forEach((file, index) => {
-    const url = URL.createObjectURL(file);
-    html += `
-      <div class="gallery-item">
-        <img src="${url}" alt="Gallery image" onclick="openImg('${url}')">
-        <div class="meta">New: ${index + 1}</div>
-      </div>
-    `;
-  });
-  html += `</div>`;
+  const file = input.files && input.files[0];
+  if (!file) return;
 
-  document.getElementById("eGalleryPreview").innerHTML = html;
-});
-function renderSinglePreviewWithDelete(path, type, emptyText = "No image") {
-  const img = normalizeImagePath(path || "");
-  if (!img) {
-    return `<span class="small-muted">${emptyText}</span>`;
-  }
+  const previewBox = document.getElementById("eGalleryPreview");
 
-  return `
-    <div style="display:inline-block;">
-      <img src="${img}" class="preview-image" onclick="openImg('${img}')">
-      <div style="margin-top:8px;">
-        <button type="button" class="btn-sm btn-delete" onclick="markRemoveSingleImage('${type}')">Delete image</button>
-      </div>
-    </div>
+  const url = URL.createObjectURL(file);
+
+  const item = document.createElement("div");
+  item.className = "gallery-item";
+
+  item.innerHTML = `
+      <img src="${url}" alt="Gallery image" onclick="openImg('${url}')">
+      <div class="meta">New image</div>
   `;
+
+  previewBox.appendChild(item);
+}
+function addEditGalleryInput() {
+  const existingCount = document.querySelectorAll("#eGalleryPreview .gallery-item.existing-item").length;
+  const total = existingCount + editNewGalleryFiles.length;
+
+  if (total >= 4) {
+    alert("Maximum 4 gallery images only");
+    return;
+  }
+
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = "image/*";
+  input.style.display = "none";
+
+  input.onchange = function () {
+    const file = input.files && input.files[0];
+    if (!file) return;
+
+    const currentExisting = document.querySelectorAll("#eGalleryPreview .gallery-item.existing-item").length;
+    if ((currentExisting + editNewGalleryFiles.length) >= 4) {
+      alert("Maximum 4 gallery images only");
+      return;
+    }
+
+    editNewGalleryFiles.push(file);
+    renderEditGalleryPreview();
+  };
+
+  input.click();
 }
 
-function markRemoveSingleImage(type) {
-  if (type === "featured") {
-    document.getElementById("eRemoveFeatured").value = "1";
-    document.getElementById("eFeaturedPreview").innerHTML = "<span class='small-muted'>Featured image will be deleted</span>";
-    document.getElementById("eFeaturedImage").value = "";
+function renderEditGalleryPreview(existingHtml = null) {
+  const box = document.getElementById("eGalleryPreview");
+
+  if (existingHtml !== null) {
+    box.innerHTML = existingHtml;
   }
 
-  if (type === "body") {
-    document.getElementById("eRemoveBody").value = "1";
-    document.getElementById("eBodyPreview").innerHTML = "<span class='small-muted'>Body image will be deleted</span>";
-    document.getElementById("eBodyImage").value = "";
-  }
-}
-function renderGalleryHtml(gallery) {
-  if (!gallery || !gallery.length) {
-    return "<span class='small-muted'>No gallery images</span>";
-  }
+  const oldNewGrid = box.querySelector(".new-gallery-grid");
+  if (oldNewGrid) oldNewGrid.remove();
 
-  let html = `<div class="gallery-grid">`;
-  gallery.forEach(item => {
-    const img = normalizeImagePath(item.image_path || "");
-    const gid = parseInt(item.id || 0, 10);
+  if (!editNewGalleryFiles.length) return;
 
-    html += `
-      <div class="gallery-item" id="gallery-item-${gid}">
-        <img src="${img}" alt="Gallery image" onclick="openImg('${img}')">
-        <div class="meta">
-          Sort: ${parseInt(item.sort_order || 0, 10)}<br>
-          <button type="button" class="btn-sm btn-delete" style="margin-top:6px;" onclick="markRemoveGalleryImage(${gid})">Delete image</button>
-          <input type="hidden" class="eRemoveGalleryValue" data-id="${gid}" value="0">
-        </div>
-      </div>
+  const grid = document.createElement("div");
+  grid.className = "gallery-grid new-gallery-grid";
+  grid.style.marginTop = "12px";
+
+  editNewGalleryFiles.forEach((file, index) => {
+    const url = URL.createObjectURL(file);
+
+    const item = document.createElement("div");
+    item.className = "gallery-item";
+
+    item.innerHTML = `
+      <img src="${url}" alt="Gallery image" onclick="openImg('${url}')">
+      <button type="button" class="image-delete-round" onclick="removeEditNewGalleryImage(${index})" title="Remove image">✕</button>
+      <div class="meta">New image ${index + 1}</div>
     `;
+
+    grid.appendChild(item);
   });
-  html += `</div>`;
-  return html;
+
+  box.appendChild(grid);
 }
 
-function markRemoveGalleryImage(id) {
-  const hidden = document.querySelector('.eRemoveGalleryValue[data-id="' + id + '"]');
-  const box = document.getElementById("gallery-item-" + id);
+function removeEditNewGalleryImage(index) {
+  editNewGalleryFiles.splice(index, 1);
+  renderEditGalleryPreview();
+}
 
-  if (hidden) hidden.value = "1";
-  if (box) {
-    box.innerHTML = `<div class="meta" style="padding:14px;">Image will be deleted</div>`;
+function removeEditGalleryInput(btn) {
+  btn.closest(".gallery-upload-item").remove();
+}
+
+function previewEditGalleryFile(input) {
+
+  const file = input.files && input.files[0];
+  if (!file) return;
+
+  const url = URL.createObjectURL(file);
+
+  let grid = document.querySelector("#eGalleryPreview .gallery-grid");
+
+  if (!grid) {
+    grid = document.createElement("div");
+    grid.className = "gallery-grid";
+    document.getElementById("eGalleryPreview").appendChild(grid);
   }
+
+  const item = document.createElement("div");
+  item.className = "gallery-item";
+
+  item.innerHTML = `
+    <img src="${url}" alt="Gallery image" onclick="openImg('${url}')">
+    <div class="meta">New image</div>
+  `;
+
+  grid.appendChild(item);
 }
 </script>
 </body>

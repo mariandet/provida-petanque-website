@@ -1,42 +1,70 @@
 <?php
 require_once "../config/db.php";
 
-$setting = $pdo->query("SELECT * FROM site_settings ORDER BY id DESC LIMIT 1")->fetch(PDO::FETCH_ASSOC);
-
-$nextCompetition = $pdo->query("
+$setting = $pdo->query("
     SELECT *
-    FROM competitions
-    WHERE is_open = 1
-    ORDER BY 
-        CASE WHEN event_date IS NULL THEN 1 ELSE 0 END,
-        event_date ASC,
-        id DESC
+    FROM site_settings
+    ORDER BY id DESC
     LIMIT 1
 ")->fetch(PDO::FETCH_ASSOC);
 
+$nextCompetitionStmt = $pdo->prepare("
+    SELECT *
+    FROM competitions
+    WHERE is_open = 1
+      AND event_date IS NOT NULL
+      AND event_date >= CURDATE()
+    ORDER BY event_date ASC, id ASC
+    LIMIT 1
+");
+$nextCompetitionStmt->execute();
+$nextCompetition = $nextCompetitionStmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$nextCompetition) {
+    $fallbackStmt = $pdo->prepare("
+        SELECT *
+        FROM competitions
+        WHERE is_open = 1
+        ORDER BY
+            CASE WHEN event_date IS NULL THEN 1 ELSE 0 END,
+            event_date DESC,
+            id DESC
+        LIMIT 1
+    ");
+    $fallbackStmt->execute();
+    $nextCompetition = $fallbackStmt->fetch(PDO::FETCH_ASSOC);
+}
 $latestNews = $pdo->query("
     SELECT id, title, subtitle, excerpt, news_date, featured_image
     FROM news_posts
     WHERE is_published = 1
-    ORDER BY 
+    ORDER BY
         CASE WHEN news_date IS NULL THEN 1 ELSE 0 END,
         news_date DESC,
         id DESC
     LIMIT 3
 ")->fetchAll(PDO::FETCH_ASSOC);
 
-function e($v){
+function e($v): string {
     return htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
 }
 
-$heroTitleEn       = $setting["hero_title_en"] ?? "Welcome to Provida Pétanque Club";
-$heroTitleKh       = $setting["hero_title_kh"] ?? "សូមស្វាគមន៍មកកាន់ក្លឹប Provida Pétanque";
-$heroSubtitleEn    = $setting["hero_subtitle_en"] ?? "Cambodia’s Pétanque Community";
-$heroSubtitleKh    = $setting["hero_subtitle_kh"] ?? "សហគមន៍ប៉េតង់របស់កម្ពុជា";
-$heroDescEn        = $setting["hero_description_en"] ?? "Master the sport of pétanque in a growing community of players and competitions.";
-$heroDescKh        = $setting["hero_description_kh"] ?? "អភិវឌ្ឍជំនាញកីឡាប៉េតង់របស់អ្នកក្នុងសហគមន៍អ្នកលេង និងការប្រកួតដែលកំពុងរីកចម្រើន។";
-$aboutTextEn       = $setting["about_text_en"] ?? "Provida Pétanque Club is dedicated to promoting the sport of pétanque in Cambodia. The club brings together players of all ages and backgrounds to learn, practice, and enjoy the game while building a strong and friendly community.";
-$aboutTextKh       = $setting["about_text_kh"] ?? "ក្លឹប Provida Pétanque ផ្តោតលើការលើកស្ទួយកីឡាប៉េតង់នៅកម្ពុជា។ ក្លឹបនេះប្រមូលផ្តុំអ្នកលេងគ្រប់វ័យ និងគ្រប់មជ្ឈដ្ឋានឱ្យបានរៀន អនុវត្ត និងរីករាយជាមួយការលេង ខណៈពេលកសាងសហគមន៍ដែលរឹងមាំ និងរួសរាយរាក់ទាក់។";
+function asset_url(?string $path, string $fallback = ""): string {
+    $path = trim((string)$path);
+    if ($path === "") {
+        return $fallback;
+    }
+    return "../admin/news/" . ltrim($path, "/");
+}
+
+$heroTitleEn    = $setting["hero_title_en"] ?? "Welcome to Provida Pétanque Club";
+$heroTitleKh    = $setting["hero_title_kh"] ?? "សូមស្វាគមន៍មកកាន់ក្លឹប Provida Pétanque";
+$heroSubtitleEn = $setting["hero_subtitle_en"] ?? "Cambodia’s Pétanque Community";
+$heroSubtitleKh = $setting["hero_subtitle_kh"] ?? "សហគមន៍ប៉េតង់របស់កម្ពុជា";
+$heroDescEn     = $setting["hero_description_en"] ?? "Master the sport of pétanque in a growing community of players and competitions.";
+$heroDescKh     = $setting["hero_description_kh"] ?? "អភិវឌ្ឍជំនាញកីឡាប៉េតង់របស់អ្នកក្នុងសហគមន៍អ្នកលេង និងការប្រកួតដែលកំពុងរីករាយ។";
+$aboutTextEn    = $setting["about_text_en"] ?? "Provida Pétanque Club is dedicated to promoting the sport of pétanque in Cambodia. The club brings together players of all ages and backgrounds to learn, practice, and enjoy the game while building a strong and friendly community.";
+$aboutTextKh    = $setting["about_text_kh"] ?? "ក្លឹប Provida Pétanque ផ្តោតលើការលើកស្ទួយកីឡាប៉េតង់នៅកម្ពុជា។ ក្លឹបនេះប្រមូលផ្តុំអ្នកលេងគ្រប់វ័យ និងគ្រប់មជ្ឈដ្ឋានឱ្យបានរៀន អនុវត្ត និងរីករាយជាមួយការលេង ខណៈពេលកសាងសហគមន៍ដែលរឹងមាំ និងរួសរាយរាក់ទាក់។";
 
 $compMonthEn = "MAR";
 $compMonthKh = "មីនា";
@@ -68,12 +96,18 @@ $compTitleEn = $nextCompetition["title"] ?? "Spring Championship";
 $compTitleKh = $nextCompetition["title"] ?? "ការប្រកួតប្រចាំរដូវ";
 $compDescEn  = $nextCompetition["description"] ?? "Grand opening tournament featuring elite teams from across Cambodia and international guests";
 $compDescKh  = $nextCompetition["description"] ?? "ការប្រកួតដ៏ធំដែលមានក្រុមលេចធ្លោពីទូទាំងប្រទេស និងភ្ញៀវអន្តរជាតិ";
-$compPrize   = $nextCompetition["prize"] ?? "$5,000 Prize Pool";
-$compPrice   = isset($nextCompetition["price"]) && $nextCompetition["price"] !== null
-    ? number_format((float)$nextCompetition["price"], 2) . " " . e($nextCompetition["currency"] ?? "")
-    : "";
+$compPrice   = isset($nextCompetition["price"]) && $nextCompetition["price"] !== null && $nextCompetition["price"] !== ""
+    ? number_format((float)$nextCompetition["price"], 2) . " " . ($nextCompetition["currency"] ?? "")
+    : "FREE";
 
-$newsFallback = "../admin/siteImage/images/DSC08751.JPG";
+$newsFallback = "images/DSC08751.JPG";
+
+function slugify($text): string {
+    $text = strtolower(trim((string)$text));
+    $text = preg_replace('/[^a-z0-9]+/i', '-', $text);
+    $text = trim($text, '-');
+    return $text !== '' ? $text : 'news';
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -87,18 +121,18 @@ $newsFallback = "../admin/siteImage/images/DSC08751.JPG";
     <nav class="navbar">
         <div class="navbar__container">
             <div class="navbar__logo">
-                <span class="logo-icon">⚪</span>
+                <img src="images/provida-logo.png" alt="Provida Logo" class="logo-img">
                 <div class="logo-text">
-                    <div class="logo-main" data-en="PROVIDA" data-kh="ប្រូវីដា">PROVIDA</div>
-                    <div class="logo-sub" data-en="Pétanque Club" data-kh="ក្លឹប Pétanque">Pétanque Club</div>
+                    <div class="logo-main">PROVIDA</div>
+                    <div class="logo-sub">Pétanque Club</div>
                 </div>
             </div>
 
             <div class="navbar__menu" id="navMenu">
                 <a href="index.php" class="navbar__link active" data-en="Home" data-kh="ដើម">Home</a>
-                <a href="about.php" class="navbar__link" data-en="About" data-kh="អំពី">About</a>
+                <a href="about.html" class="navbar__link" data-en="About" data-kh="អំពី">About</a>
                 <a href="competition.php" class="navbar__link" data-en="Competitions" data-kh="ការប្រកួតប្រជែង">Competitions</a>
-                <a href="gallery.php" class="navbar__link" data-en="Gallery" data-kh="វិចិត្រសាល">Gallery</a>
+                <a href="gallery.php" class="navbar__link" data-en="Gallery" data-kh="រូបភាព">Gallery</a>
                 <a href="news.php" class="navbar__link" data-en="News" data-kh="ព័ត៌មាន">News</a>
                 <a href="contact.php" class="navbar__link" data-en="Contact" data-kh="ទាក់ទង">Contact</a>
             </div>
@@ -116,9 +150,9 @@ $newsFallback = "../admin/siteImage/images/DSC08751.JPG";
 
     <section class="hero">
         <div class="hero__slideshow">
-            <div class="hero__slide active" style="background-image:url('../admin/siteImage/images/DSC00429.jpg');"></div>
-            <div class="hero__slide" style="background-image:url('../admin/siteImage/images/DSC09721.jpg');"></div>
-            <div class="hero__slide" style="background-image:url('../admin/siteImage/images/DSC09961.jpg');"></div>
+            <div class="hero__slide active" style="background-image:url('images/DSC00429.jpg');"></div>
+            <div class="hero__slide" style="background-image:url('images/DSC09721.jpg');"></div>
+            <div class="hero__slide" style="background-image:url('images/DSC09961.jpg');"></div>
         </div>
         <div class="hero__overlay"></div>
 
@@ -187,7 +221,7 @@ $newsFallback = "../admin/siteImage/images/DSC08751.JPG";
                         <?= e($aboutTextEn) ?>
                     </p>
 
-                    <a href="about.php"
+                    <a href="about.html"
                        class="btn btn--outline"
                        data-en="Learn More"
                        data-kh="ស្វែងយល់បន្ថែម">
@@ -209,8 +243,12 @@ $newsFallback = "../admin/siteImage/images/DSC08751.JPG";
                         <div class="stat-label" data-en="Registered Teams" data-kh="ក្រុមដែលបានចុះឈ្មោះ">Registered Teams</div>
                     </div>
                     <div class="stat-box">
-                        <div class="stat-number">6+</div>
-                        <div class="stat-label" data-en="Years Strong" data-kh="រឹងមាំជាង 6 ឆ្នាំ">Years Strong</div>
+                        <div class="stat-number" id="yearsStrong">០+</div>
+                        <div class="stat-label" id="yearsLabel"
+                            data-en="Years Strong"
+                            data-kh="រឹងមាំជាង">
+                            Years Strong
+                        </div>
                     </div>
                 </div>
             </div>
@@ -220,7 +258,7 @@ $newsFallback = "../admin/siteImage/images/DSC08751.JPG";
     <section class="next-competition section-dark"
         style="background:
         linear-gradient(rgba(0, 0, 0, 0.45), rgb(0 0 0 / 69%)),
-        url(../admin/siteImage/images/DSC08700.JPG) center / cover no-repeat;">
+        url(images/DSC08700.JPG) center / cover no-repeat;">
         <div class="container">
             <h2 class="section-title light"
                 data-en="Next Competition"
@@ -260,20 +298,11 @@ $newsFallback = "../admin/siteImage/images/DSC08751.JPG";
                             <?= e($compDescEn) ?>
                         </p>
 
-                        <div class="competition-details">
-                            <?php if ($compPrice !== ""): ?>
+                        <!-- <div class="competition-details">
                             <div class="detail-item">
                                 <span class="detail-icon">💵</span>
                                 <span><?= e($compPrice) ?></span>
                             </div>
-                            <?php endif; ?>
-
-                            <?php if (!empty($compPrize)): ?>
-                            <div class="detail-item">
-                                <span class="detail-icon">🏆</span>
-                                <span><?= e($compPrize) ?></span>
-                            </div>
-                            <?php endif; ?>
 
                             <?php if (!empty($nextCompetition["event_date"])): ?>
                             <div class="detail-item">
@@ -281,7 +310,14 @@ $newsFallback = "../admin/siteImage/images/DSC08751.JPG";
                                 <span><?= e(date("Y-m-d", strtotime($nextCompetition["event_date"]))) ?></span>
                             </div>
                             <?php endif; ?>
-                        </div>
+
+                            <div class="detail-item">
+                                <span class="detail-icon">📌</span>
+                                <span data-en="<?= e($compDescEn) ?>" data-kh="<?= e($compDescKh) ?>">
+                                    <?= e($compDescEn) ?>
+                                </span>
+                            </div>
+                        </div> -->
 
                         <a href="competition.php#competitionRegistration"
                            class="btn btn--gold"
@@ -296,77 +332,99 @@ $newsFallback = "../admin/siteImage/images/DSC08751.JPG";
         </div>
     </section>
 
-    <section class="news-preview section-light">
-        <div class="container">
-            <h2 class="section-title" data-en="Latest News" data-kh="ព័ត៌មានថ្មីបំផុត">Latest News</h2>
+<section class="news-preview section-light">
+    <div class="container">
+        <h2 class="section-title" data-en="Latest News" data-kh="ព័ត៌មានថ្មីបំផុត">Latest News</h2>
 
-            <div class="news-grid">
-                <?php if (!empty($latestNews)): ?>
-                    <?php foreach ($latestNews as $news): ?>
-                        <?php
-                        $img = !empty($news["featured_image"]) ? $news["featured_image"] : $newsFallback;
-                        $dateText = !empty($news["news_date"]) ? date("M d, Y", strtotime($news["news_date"])) : "";
-                        ?>
-                        <article class="news-item">
-                            <div class="news-image"
-                                 style="
-                                    background:
+        <div class="news-grid">
+            <?php if (!empty($latestNews)): ?>
+                <?php foreach ($latestNews as $news): ?>
+                    <?php
+                    $img = !empty($news["featured_image"])
+                        ? asset_url($news["featured_image"], $newsFallback)
+                        : $newsFallback;
+
+                    $dateText = !empty($news["news_date"])
+                        ? date("M d, Y", strtotime($news["news_date"]))
+                        : "";
+                    ?>
+                  <article class="news-item">
+                        <div class="news-image"
+                            style="
+                                min-height:220px;
+                                background-image:
                                     linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)),
-                                    url('<?= e($img) ?>') center/cover no-repeat;
-                                 ">
-                            </div>
-                            <div class="news-content">
-                                <span class="news-date"><?= e($dateText) ?></span>
-                                <h3 class="news-title"><?= e($news["title"] ?? "") ?></h3>
-                                <p class="news-excerpt"><?= e($news["excerpt"] ?? "") ?></p>
-                                <a href="news.php?id=<?= (int)$news["id"] ?>"
-                                   class="news-link"
-                                   data-en="Read More →"
-                                   data-kh="អានបន្ថែម →">
-                                    Read More →
-                                </a>
-                            </div>
-                        </article>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p data-en="No news found." data-kh="មិនមានព័ត៌មានទេ។">No news found.</p>
-                <?php endif; ?>
-            </div>
-        </div>
-    </section>
+                                    url('<?= e($img) ?>');
+                                background-position:center;
+                                background-size:cover;
+                                background-repeat:no-repeat;
+                            ">
+                        </div>
 
+                        <div class="news-content">
+                            <span class="news-date"><?= e($dateText) ?></span>
+                            <h3 class="news-title"><?= e($news["title"] ?? "") ?></h3>
+
+                            <?php if (!empty(trim((string)($news["excerpt"] ?? "")))): ?>
+                                <p class="news-excerpt"><?= e($news["excerpt"]) ?></p>
+                            <?php endif; ?>
+
+                            <a href="news-detail.php?id=<?= (int)$news["id"] ?>&title=<?= urlencode(slugify($news["title"] ?? "")) ?>"
+                            class="news-link"
+                            data-en="Read More →"
+                            data-kh="អានបន្ថែម →">
+                                Read More →
+                            </a>
+                        </div>
+                    </article>
+                    </article>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p data-en="No news found." data-kh="មិនមានព័ត៌មានទេ។">No news found.</p>
+            <?php endif; ?>
+        </div>
+    </div>
+</section>
     <section class="gallery-preview section-light">
         <div class="container">
             <h2 class="section-title" data-en="Photo Moments" data-kh="រូបភាពសកម្មភាព">Photo Moments</h2>
 
             <div class="gallery-preview-grid">
                 <a href="gallery.php" class="gallery-preview-item gallery-preview-item--large">
-                    <div class="gallery-prev-img" style="background:url('../admin/siteImage/images/DSC01027.jpg') center/cover no-repeat;"></div>
+                    <div class="gallery-prev-img" style="background:url('images/DSC01027.jpg') center/cover no-repeat;"></div>
                     <div class="gallery-prev-overlay">
                         <span class="gallery-prev-label" data-en="Championship Finals" data-kh="វគ្គផ្តាច់ព្រ័ត្រ">Championship Finals</span>
                     </div>
                 </a>
 
                 <a href="gallery.php" class="gallery-preview-item">
-                    <div class="gallery-prev-img" style="background:url('../admin/siteImage/images/DSC08154.JPG') center/cover no-repeat;"></div>
+                    <div class="gallery-prev-img" style="background:url('images/DSC08154.JPG') center/cover no-repeat;"></div>
                     <div class="gallery-prev-overlay">
                         <span class="gallery-prev-label" data-en="Team Photos" data-kh="រូបថតក្រុម">Team Photos</span>
                     </div>
                 </a>
 
                 <a href="gallery.php" class="gallery-preview-item">
-                    <div class="gallery-prev-img" style="background:url('../admin/siteImage/images/DSC09751.jpg') center/cover no-repeat;"></div>
+                    <div class="gallery-prev-img" style="background:url('images/DSC09751.jpg') center/cover no-repeat;"></div>
                     <div class="gallery-prev-overlay">
                         <span class="gallery-prev-label" data-en="Training Sessions" data-kh="វគ្គហ្វឹកហាត់">Training Sessions</span>
                     </div>
                 </a>
 
                 <a href="gallery.php" class="gallery-preview-item">
-                    <div class="gallery-prev-img" style="background:url('../admin/siteImage/images/DSC08721.JPG') center/cover no-repeat;"></div>
+                    <div class="gallery-prev-img" style="background:url('images/DSC08721.JPG') center/cover no-repeat;"></div>
                     <div class="gallery-prev-overlay">
                         <span class="gallery-prev-label" data-en="Club Events" data-kh="កម្មវិធីរបស់ក្លឹប">Club Events</span>
                     </div>
                 </a>
+
+                  <a href="gallery.php" class="gallery-preview-item">
+                    <div class="gallery-prev-img" style="background:url('images/Finals.JPG') center/cover no-repeat;"></div>
+                    <div class="gallery-prev-overlay">
+                        <span class="gallery-prev-label" data-en="Club Events" data-kh="កម្មវិធីរបស់ក្លឹប">Club Events</span>
+                    </div>
+                </a>
+
             </div>
 
             <div style="text-align:center; margin-top:3rem; margin-bottom:3rem;">
@@ -380,42 +438,45 @@ $newsFallback = "../admin/siteImage/images/DSC08751.JPG";
         </div>
     </section>
 
+   <!-- FOOTER -->
     <footer class="footer">
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col">
                     <h4 data-en="About" data-kh="អំពី">About</h4>
-                    <p data-en="<?= e($aboutTextEn) ?>" data-kh="<?= e($aboutTextKh) ?>">
-                        <?= e($aboutTextEn) ?>
+                    <p
+                    data-en="Provida Pétanque Club brings together passionate players in a vibrant community dedicated to excellence and friendship."
+                    data-kh="ក្លឹបប៉េតង់ប្រូវីដា ប្រមូលផ្តុំអ្នកលេងដែលមានចំណង់ចំណូលចិត្ត នៅក្នុងសហគមន៍ដ៏រស់រវើកដែលផ្តោតលើភាពល្អឥតខ្ចោះ និងមិត្តភាព។">
+                    Provida Pétanque Club brings together passionate players in a vibrant community dedicated to excellence and friendship.
                     </p>
                 </div>
 
                 <div class="footer-col">
                     <h4 data-en="Page" data-kh="ទំព័រ">Page</h4>
                     <ul>
-                        <li><a href="index.php" data-en="Home" data-kh="ដើម">Home</a></li>
-                        <li><a href="about.php" data-en="About" data-kh="អំពី">About</a></li>
-                        <li><a href="competition.php" data-en="Competitions" data-kh="ការប្រកួតប្រជែង">Competitions</a></li>
-                        <li><a href="gallery.php" data-en="Gallery" data-kh="វិចិត្រសាល">Gallery</a></li>
+                        <li><a href="index.php" data-en="Home" data-kh="ទំព័រដើម">Home</a></li>
+                        <li><a href="about.html" data-en="About" data-kh="អំពីយើង">About</a></li>
+                        <li><a href="competition.php" data-en="Competitions" data-kh="ទំព័រការប្រកួត">Competitions</a></li>
+                        <li><a href="gallery.php" data-en="Gallery" data-kh="រូបភាព">Gallery</a></li>
                         <li><a href="news.php" data-en="News" data-kh="ព័ត៌មាន">News</a></li>
                     </ul>
                 </div>
 
                 <div class="footer-col">
-                    <h4 data-en="Contact" data-kh="ទាក់ទង">Contact</h4>
-                    <p data-en="📍 Phnom Penh, Cambodia" data-kh="📍 ភ្នំពេញ កម្ពុជា">📍 Phnom Penh, Cambodia</p>
+                    <h4 data-en="Contact" data-kh="ទំនាក់ទំនង">Contact</h4>
+                    <p>📍 Phnom Penh, Cambodia</p>
                     <p>📧 info@provida.kh</p>
                     <p>📞 +855 (23) 123-4567</p>
                 </div>
 
-                <div class="footer-col">
-                    <h4 data-en="Follow Us" data-kh="តាមដានយើង">Follow Us</h4>
-                    <div class="social-links">
-                        <a href="#" class="social-icon">f</a>
-                        <a href="#" class="social-icon">📷</a>
-                        <a href="#" class="social-icon">𝕏</a>
-                    </div>
-                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p
+                data-en="© 2026 Provida Pétanque Club. All rights reserved."
+                data-kh="© 2026 ក្លឹបប៉េតង់ប្រូវីដា។ រក្សាសិទ្ធិគ្រប់យ៉ាង។">
+                &copy; 2026 Provida Pétanque Club. All rights reserved.
+                </p>
             </div>
         </div>
     </footer>
@@ -503,6 +564,25 @@ $newsFallback = "../admin/siteImage/images/DSC08751.JPG";
     }
 
     applyLanguage(currentLang);
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+    const startDate = new Date("2025-01-01"); // change if needed
+    const today = new Date();
+
+    let years = today.getFullYear() - startDate.getFullYear();
+
+    // adjust if anniversary not reached yet
+    const m = today.getMonth() - startDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < startDate.getDate())) {
+        years--;
+    }
+
+    if (years < 1) years = 1;
+
+    document.getElementById("yearsStrong").textContent = years + "+";
+
+});
     </script>
 </body>
 </html>

@@ -2,13 +2,13 @@
 require_once __DIR__ . "/../../auth.php";
 require_once __DIR__ . "/../../config/db.php";
 
-header("Content-Type: application/json");
+header("Content-Type: application/json; charset=UTF-8");
 
 function json_response($status, $message = "", $extra = []) {
     echo json_encode(array_merge([
         "status" => $status,
         "message" => $message
-    ], $extra));
+    ], $extra), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     exit;
 }
 
@@ -26,7 +26,8 @@ try {
     $newsDate = trim((string)($data["news_date"] ?? ""));
     $isPublished = (int)($data["is_published"] ?? 0);
     $excerpt = trim((string)($data["excerpt"] ?? ""));
-    $content = trim((string)($data["content"] ?? ""));
+    $content1 = trim((string)($data["content_1"] ?? ""));
+    $content2 = trim((string)($data["content_2"] ?? ""));
     $externalVideoUrl = trim((string)($data["external_video_url"] ?? ""));
 
     if ($title === "") {
@@ -50,7 +51,8 @@ try {
             author_name,
             news_date,
             excerpt,
-            content,
+            content_1,
+            content_2,
             external_video_url,
             is_published,
             view_count,
@@ -61,7 +63,8 @@ try {
             :author_name,
             :news_date,
             :excerpt,
-            :content,
+            :content_1,
+            :content_2,
             :external_video_url,
             :is_published,
             0,
@@ -76,7 +79,8 @@ try {
         ":author_name" => $authorName,
         ":news_date" => $newsDate,
         ":excerpt" => $excerpt,
-        ":content" => $content,
+        ":content_1" => $content1,
+        ":content_2" => $content2,
         ":external_video_url" => $externalVideoUrl,
         ":is_published" => $isPublished
     ]);
@@ -90,3 +94,4 @@ try {
 } catch (Throwable $e) {
     json_response("ERROR", $e->getMessage());
 }
+?>

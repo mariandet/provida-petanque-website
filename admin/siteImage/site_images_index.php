@@ -1,39 +1,51 @@
 <?php
 require_once __DIR__ . "/../../auth.php";
 
-// $ROOT = __DIR__ . "/../../..images";
-
 function item($label,$web,$file){
   return ["label"=>$label,"web"=>$web,"file"=>$file];
+}
+
+$ROOT_IMAGES = "../../user/images/";
+$VIDEO_FILE = "../../user/images/gallery_videos.json";
+
+/* load videos */
+$videos = ["","",""];
+if(file_exists($VIDEO_FILE)){
+    $tmp = json_decode(file_get_contents($VIDEO_FILE), true);
+    if(is_array($tmp)){
+        $videos = array_pad($tmp,3,"");
+    }
 }
 
 $groups = [
 
 "Hero Slideshow" => [
-"hero_1" => item("Hero Slide 1","images/DSC00429.jpg", "images/DSC00429.jpg"),
-"hero_2" => item("Hero Slide 2","images/DSC09721.jpg", "images/DSC09721.jpg"),
-"hero_3" => item("Hero Slide 3","images/DSC09961.jpg", "images/DSC09961.jpg"),
+"hero_1" => item("Hero Slide 1",$ROOT_IMAGES."DSC00429.jpg",$ROOT_IMAGES."DSC00429.jpg"),
+"hero_2" => item("Hero Slide 2",$ROOT_IMAGES."DSC09721.jpg",$ROOT_IMAGES."DSC09721.jpg"),
+"hero_3" => item("Hero Slide 3",$ROOT_IMAGES."DSC09961.jpg",$ROOT_IMAGES."DSC09961.jpg"),
 ],
 
 "Next Competition Section" => [
-"next_comp_bg" => item("Background","images/DSC08700.JPG", "images/DSC08700.JPG"),
+"next_comp_bg" => item("Background",$ROOT_IMAGES."DSC08700.JPG",$ROOT_IMAGES."DSC08700.JPG"),
 ],
 
-"News Preview" => [
-"news_1" => item("News Image 1","images/DSC08751.JPG", "images/DSC08751.JPG"),
-"news_2" => item("News Image 2","images/DSC08773.JPG", "images/DSC08773.JPG"),
-"news_3" => item("News Image 3","images/DSC02662.jpg", "images/DSC02662.jpg"),
+"Gallery Images" => [
+"gallery_1" => item("Gallery 1",$ROOT_IMAGES."gallery-1.jpg",$ROOT_IMAGES."gallery-1.jpg"),
+"gallery_2" => item("Gallery 2",$ROOT_IMAGES."gallery-2.JPG",$ROOT_IMAGES."gallery-2.JPG"),
+"gallery_3" => item("Gallery 3",$ROOT_IMAGES."gallery-3.jpg",$ROOT_IMAGES."gallery-3.jpg"),
+"gallery_4" => item("Gallery 4",$ROOT_IMAGES."gallery-4.JPG",$ROOT_IMAGES."gallery-4.JPG"),
+"gallery_5" => item("Gallery 5",$ROOT_IMAGES."gallery-5.jpg",$ROOT_IMAGES."gallery-5.jpg"),
+"gallery_6" => item("Gallery 6",$ROOT_IMAGES."gallery-6.jpg",$ROOT_IMAGES."gallery-6.jpg"),
 ],
 
-"Gallery Preview" => [
-"gallery_1" => item("Gallery 1","images/DSC01027.jpg", "images/DSC01027.jpg"),
-"gallery_2" => item("Gallery 2","images/DSC08154.JPG", "images/DSC08154.JPG"),
-"gallery_3" => item("Gallery 3","images/DSC09751.jpg", "images/DSC09751.jpg"),
-"gallery_4" => item("Gallery 4","images/DSC08721.JPG", "images/DSC08721.JPG"),
+"About Page" => [
+"about_founder" => item("Founder Image",$ROOT_IMAGES."ABOUT.jpg",$ROOT_IMAGES."ABOUT.jpg"),
+],
+// "QR_CODE"    => $baseDir."qr-payment.png",
+"QR_CODE" => [
+"QR_CODE" => item("QR_CODE",$ROOT_IMAGES."qr-payment.png",$ROOT_IMAGES."qr-payment.png")
 ]
-
 ];
-
 function imgv($web,$file){
 $v = file_exists($file) ? filemtime($file) : time();
 return $web."?v=".$v;
@@ -106,8 +118,33 @@ Replace
 </div>
 
 <?php endforeach; ?>
-
 <?php endforeach; ?>
+
+<h3 style="grid-column:1/-1">Gallery Videos (YouTube)</h3>
+
+<div class="img-card" style="padding:15px;grid-column:1/-1;">
+
+<label>Video 1</label>
+<input type="text" id="video1"
+value="<?= htmlspecialchars($videos[0]) ?>"
+placeholder="YouTube link"
+style="width:100%;padding:8px;margin-bottom:10px;">
+
+<label>Video 2</label>
+<input type="text" id="video2"
+value="<?= htmlspecialchars($videos[1]) ?>"
+placeholder="YouTube link"
+style="width:100%;padding:8px;margin-bottom:10px;">
+
+<label>Video 3</label>
+<input type="text" id="video3"
+value="<?= htmlspecialchars($videos[2]) ?>"
+placeholder="YouTube link"
+style="width:100%;padding:8px;margin-bottom:10px;">
+
+<button class="btn-sm btn-edit" onclick="saveVideos()">Save Videos</button>
+
+</div>
 
 </div>
 
@@ -128,7 +165,6 @@ Replace
 function openImg(url){
 document.getElementById("mediaContent").innerHTML =
 `<img src="${url}" style="max-width:90vw;max-height:80vh;">`
-
 document.getElementById("mediaModal").classList.add("active")
 }
 
@@ -154,6 +190,32 @@ location.reload()
 alert(j.message)
 }
 
+}
+
+async function saveVideos(){
+
+const v1 = document.getElementById("video1").value.trim()
+const v2 = document.getElementById("video2").value.trim()
+const v3 = document.getElementById("video3").value.trim()
+
+const fd = new FormData()
+fd.append("video_1", v1)
+fd.append("video_2", v2)
+fd.append("video_3", v3)
+
+const r = await fetch("api_gallery_video_save.php", {
+  method: "POST",
+  body: fd
+})
+
+const j = await r.json().catch(() => ({}))
+
+if(j.status === "SUCCESS"){
+  alert("Videos saved")
+  location.reload()
+}else{
+  alert(j.message || "Save failed")
+}
 }
 
 </script>

@@ -30,8 +30,8 @@ require_once __DIR__ . "/../auth.php"; // session check
       <h1 class="admin-navbar__title">PROVIDA Admin Dashboard</h1>
 
       <div style="display:flex;gap:10px;align-items:center;">
-        <a class="btn btn--outline" href="/provida-club/competition.php">Public Site</a>
-        <a class="btn btn--gold" href="/provida-club/logout.php">Logout</a>
+        <a class="btn btn--outline" href="../user/index.php">Public Site</a>
+        <a class="btn btn--gold" href="logout.php">Logout</a>
       </div>
     </div>
   </nav>

@@ -2,25 +2,41 @@
 require_once __DIR__ . "/../../auth.php";
 require_once __DIR__ . "/../../config/db.php";
 
-header("Content-Type: application/json");
+header("Content-Type: application/json; charset=UTF-8");
 
 function json_response($status, $message = "", $extra = []) {
     echo json_encode(array_merge([
         "status" => $status,
         "message" => $message
-    ], $extra));
+    ], $extra), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     exit;
 }
 
-function ensure_dir($path) {
+function ensure_dir(string $path): void {
     if (!is_dir($path)) {
-        if (!mkdir($path, 0777, true) && !is_dir($path)) {
-            throw new Exception("Cannot create upload directory");
+        if (!mkdir($path, 0755, true)) {
+            throw new Exception("Cannot create upload directory: " . $path);
         }
+    }
+
+    if (!is_dir($path)) {
+        throw new Exception("Upload path is not a directory: " . $path);
+    }
+
+    if (!is_writable($path)) {
+        @chmod($path, 0755);
+    }
+
+    if (!is_writable($path)) {
+        throw new Exception("Upload directory is not writable: " . $path);
     }
 }
 
-function save_file($tmpName, $originalName, $targetDir, $prefix = "") {
+function save_file(string $tmpName, string $originalName, string $targetDir, string $prefix = ""): string {
+    if ($tmpName === "" || !file_exists($tmpName)) {
+        throw new Exception("Uploaded temp file not found");
+    }
+
     $ext = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
     $allowed = ["jpg", "jpeg", "png", "webp", "gif"];
 
@@ -34,6 +50,8 @@ function save_file($tmpName, $originalName, $targetDir, $prefix = "") {
     if (!move_uploaded_file($tmpName, $fullPath)) {
         throw new Exception("Failed to move uploaded file");
     }
+
+    @chmod($fullPath, 0644);
 
     return $safeName;
 }
@@ -56,7 +74,8 @@ try {
         json_response("ERROR", "News post not found");
     }
 
-    $imageDir = __DIR__ . "/uploads/";
+    // keep old directory
+    $imageDir = __DIR__ . "/uploads";
     ensure_dir($imageDir);
 
     $featuredPath = null;
@@ -77,7 +96,7 @@ try {
             "featured_"
         );
 
-        $featuredPath = "/uploads/" . $savedName;
+        $featuredPath = "uploads/" . $savedName;
     }
 
     if (isset($_FILES["body_image"]) && $_FILES["body_image"]["error"] !== UPLOAD_ERR_NO_FILE) {
@@ -92,7 +111,7 @@ try {
             "body_"
         );
 
-        $bodyPath = "/uploads/" . $savedName;
+        $bodyPath = "uploads/" . $savedName;
     }
 
     if ($featuredPath !== null || $bodyPath !== null) {
@@ -119,7 +138,14 @@ try {
     if (isset($_FILES["gallery_images"]) && is_array($_FILES["gallery_images"]["name"])) {
         $count = count($_FILES["gallery_images"]["name"]);
 
-        if ($count > 4) {
+        $realUploadCount = 0;
+        for ($i = 0; $i < $count; $i++) {
+            if (($_FILES["gallery_images"]["error"][$i] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_NO_FILE) {
+                $realUploadCount++;
+            }
+        }
+
+        if ($realUploadCount > 4) {
             throw new Exception("Gallery allows maximum 4 images only");
         }
 
@@ -127,7 +153,7 @@ try {
         $countStmt->execute([$newsId]);
         $existingCount = (int)$countStmt->fetchColumn();
 
-        if (($existingCount + $count) > 4) {
+        if (($existingCount + $realUploadCount) > 4) {
             throw new Exception("Total gallery images cannot exceed 4");
         }
 
@@ -170,12 +196,14 @@ try {
     ]);
 
 } catch (Throwable $e) {
-    if ($pdo->inTransaction()) {
+    if (isset($pdo) && $pdo->inTransaction()) {
         $pdo->rollBack();
     }
 
     json_response("ERROR", $e->getMessage(), [
         "post" => $_POST,
-        "files" => array_keys($_FILES)
+        "files" => array_keys($_FILES),
+        "upload_dir" => __DIR__ . "/uploads"
     ]);
 }
+?>

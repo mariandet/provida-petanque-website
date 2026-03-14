@@ -1,71 +1,21 @@
 ﻿<?php
 require_once "../config/db.php";
 
-$id = (int)($_GET["id"] ?? 0);
-
-if ($id <= 0) {
-    http_response_code(404);
-    exit("News not found.");
-}
-
-$stmt = $pdo->prepare("
-    SELECT
-        id,
-        title,
-        subtitle,
-        author_name,
-        news_date,
-        content,
-        featured_image,
-        body_image,
-        external_video_url,
-        is_published,
-        view_count,
-        created_at
-    FROM news_posts
-    WHERE id = ? AND is_published = 1
-    LIMIT 1
-");
-$stmt->execute([$id]);
-$post = $stmt->fetch(PDO::FETCH_ASSOC);
-
-if (!$post) {
-    http_response_code(404);
-    exit("News not found.");
-}
-
-/* update view count */
-$pdo->prepare("
-    UPDATE news_posts
-    SET view_count = view_count + 1
-    WHERE id = ?
-")->execute([$post["id"]]);
-
-/* popular news */
-$popularStmt = $pdo->prepare("
-    SELECT id, title, news_date, featured_image
-    FROM news_posts
-    WHERE is_published = 1 AND id <> ?
-    ORDER BY view_count DESC, id DESC
-    LIMIT 4
-");
-$popularStmt->execute([$post["id"]]);
-$popularNews = $popularStmt->fetchAll(PDO::FETCH_ASSOC);
-
-/* latest news */
-$latestStmt = $pdo->prepare("
-    SELECT id, title, news_date, featured_image
-    FROM news_posts
-    WHERE is_published = 1 AND id <> ?
-    ORDER BY news_date DESC, id DESC
-    LIMIT 4
-");
-$latestStmt->execute([$post["id"]]);
-$latestNews = $latestStmt->fetchAll(PDO::FETCH_ASSOC);
-
-/* helpers */
 function e($value): string {
     return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
+}
+
+function slugify($text): string {
+    $text = strtolower(trim((string)$text));
+    $text = preg_replace('/[^a-z0-9]+/i', '-', $text);
+    $text = trim($text, '-');
+    return $text !== '' ? $text : 'news';
+}
+
+function news_detail_url(array $item): string {
+    $id = (int)($item["id"] ?? 0);
+    $slug = slugify($item["title"] ?? "");
+    return "news-detail.php?id={$id}&title=" . urlencode($slug);
 }
 
 function asset_url(?string $path, string $fallback = "images/news-placeholder.jpg"): string {
@@ -73,7 +23,7 @@ function asset_url(?string $path, string $fallback = "images/news-placeholder.jp
     if ($path === "") {
         return $fallback;
     }
-    return "/" . ltrim($path, "/");
+    return "../admin/news/" . ltrim($path, "/");
 }
 
 function renderSidebarItems(array $items): string {
@@ -84,8 +34,10 @@ function renderSidebarItems(array $items): string {
     $html = '';
     foreach ($items as $item) {
         $thumb = asset_url($item["featured_image"] ?? "");
+        $url = news_detail_url($item);
+
         $html .= '
-            <a class="sidebar-item" href="news-detail.php?id=' . (int)$item["id"] . '">
+            <a class="sidebar-item" href="' . e($url) . '">
                 <img class="sidebar-thumb" src="' . e($thumb) . '" alt="' . e($item["title"] ?? "News") . '">
                 <div class="sidebar-text">
                     <span class="sidebar-item-title">' . e($item["title"] ?? "") . '</span>
@@ -119,21 +71,97 @@ function getEmbedUrl(string $url): string {
     return '';
 }
 
+$id = (int)($_GET["id"] ?? 0);
+
+if ($id <= 0) {
+    http_response_code(404);
+    exit("News not found.");
+}
+
+$stmt = $pdo->prepare("
+    SELECT
+        id,
+        title,
+        subtitle,
+        author_name,
+        news_date,
+        content_1,
+        content_2,
+        featured_image,
+        body_image,
+        external_video_url,
+        is_published,
+        view_count,
+        created_at
+    FROM news_posts
+    WHERE id = ? AND is_published = 1
+    LIMIT 1
+");
+$stmt->execute([$id]);
+$post = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$post) {
+    http_response_code(404);
+    exit("News not found.");
+}
+
+/* canonical title in url */
+$expectedTitle = slugify($post["title"] ?? "");
+$currentTitle = trim((string)($_GET["title"] ?? ""));
+if ($currentTitle !== $expectedTitle) {
+    header("Location: " . news_detail_url($post));
+    exit;
+}
+
+/* update view count */
+$pdo->prepare("
+    UPDATE news_posts
+    SET view_count = view_count + 1
+    WHERE id = ?
+")->execute([$post["id"]]);
+
+/* popular news */
+$popularStmt = $pdo->prepare("
+    SELECT id, title, news_date, featured_image
+    FROM news_posts
+    WHERE is_published = 1 AND id <> ?
+    ORDER BY view_count DESC, id DESC
+    LIMIT 4
+");
+$popularStmt->execute([$post["id"]]);
+$popularNews = $popularStmt->fetchAll(PDO::FETCH_ASSOC);
+
+/* latest news */
+$latestStmt = $pdo->prepare("
+    SELECT id, title, news_date, featured_image
+    FROM news_posts
+    WHERE is_published = 1 AND id <> ?
+    ORDER BY news_date DESC, id DESC
+    LIMIT 4
+");
+$latestStmt->execute([$post["id"]]);
+$latestNews = $latestStmt->fetchAll(PDO::FETCH_ASSOC);
+
 $isHttps = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off');
 $baseUrl = ($isHttps ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'];
-$pageUrl = $baseUrl . '/user/news-detail.php?id=' . (int)$post['id'];
+$pageUrl = $baseUrl . dirname($_SERVER['PHP_SELF']) . '/' . news_detail_url($post);
 
 $metaTitle = $post["title"] ?: "News";
 $metaDescription = trim((string)($post["subtitle"] ?? "")) !== ""
     ? $post["subtitle"]
     : "Latest update from Provida Pétanque Club.";
+
 $shareImage = !empty($post["featured_image"])
-    ? $baseUrl . "/" . ltrim($post["featured_image"], "/")
+    ? $baseUrl . "/admin/news/" . ltrim($post["featured_image"], "/")
     : "";
 
 $embedUrl = getEmbedUrl((string)($post["external_video_url"] ?? ""));
-$featuredImageUrl = "../../../provida-club-login/admin/news/" . asset_url($post["featured_image"] ?? "", "");
-$bodyImageUrl = asset_url($post["body_image"] ?? "", "");
+$featuredImageUrl = trim((string)($post["featured_image"] ?? "")) !== ""
+    ? "../admin/news/" . ltrim((string)$post["featured_image"], "/")
+    : "";
+$bodyImageUrl = trim((string)($post["body_image"] ?? "")) !== ""
+    ? "../admin/news/" . ltrim((string)$post["body_image"], "/")
+    : "";
 
 $galleryStmt = $pdo->prepare("
     SELECT image_path
@@ -281,6 +309,10 @@ $galleryImages = $galleryStmt->fetchAll(PDO::FETCH_ASSOC);
     font-size: 1.05rem;
     line-height: 1.9;
     color: #374151;
+  }
+
+  .news-article-body p{
+    margin: 0 0 18px;
     white-space: pre-wrap;
   }
 
@@ -508,10 +540,10 @@ $galleryImages = $galleryStmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="navbar__menu" id="navMenu">
             <a href="index.php" class="navbar__link active" data-en="Home" data-kh="ទំព័រដើម">Home</a>
             <a href="about.html" class="navbar__link" data-en="About" data-kh="អំពីយើង">About</a>
-            <a href="competition.html" class="navbar__link" data-en="Competitions" data-kh="ទំព័រការប្រកួត">Competitions</a>
-            <a href="gallery.html" class="navbar__link" data-en="Gallery" data-kh="រូបភាព">Gallery</a>
-            <a href="news.html" class="navbar__link" data-en="News" data-kh="ព័ត៌មាន">News</a>
-            <a href="contact.html" class="navbar__link" data-en="Contact" data-kh="ទំនាក់ទំនង">Contact</a>
+            <a href="competition.php" class="navbar__link" data-en="Competitions" data-kh="ទំព័រការប្រកួត">Competitions</a>
+            <a href="gallery.php" class="navbar__link" data-en="Gallery" data-kh="រូបភាព">Gallery</a>
+            <a href="news.php" class="navbar__link" data-en="News" data-kh="ព័ត៌មាន">News</a>
+            <a href="contact.php" class="navbar__link" data-en="Contact" data-kh="ទំនាក់ទំនង">Contact</a>
         </div>
 
         <div class="navbar__actions">
@@ -533,175 +565,181 @@ $galleryImages = $galleryStmt->fetchAll(PDO::FETCH_ASSOC);
 </div>
 
 <main class="section-light">
-<main class="news-main-wrap">
+  <div class="container">
+    <div class="news-layout">
 
-  <main class="news-main-wrap">
-    <div class="container">
-      <div class="news-layout">
+      <article class="news-article-page">
+        <div class="news-article-top">
+          <a class="news-back" href="news.php">← Back to News</a>
 
-        <article class="news-article-page">
-          <div class="news-article-top">
-            <a class="news-back" href="news.php">← Back to News</a>
+          <h1 class="news-article-title"><?= e($post["title"]) ?></h1>
 
-            <h1 class="news-article-title"><?= e($post["title"]) ?></h1>
-
-            <div class="news-article-meta">
-              <span class="news-meta-item"><strong>Date:</strong> <?= e($post["news_date"] ?? "") ?></span>
-              <span class="news-meta-item"><strong>Writer:</strong> <?= e($post["author_name"] ?: "Provida Team") ?></span>
-              <span class="news-meta-item"><strong>Views:</strong> <?= e((string)(($post["view_count"] ?? 0) + 1)) ?></span>
-            </div>
+          <div class="news-article-meta">
+            <span class="news-meta-item"><strong>Date:</strong> <?= e($post["news_date"] ?? "") ?></span>
+            <span class="news-meta-item"><strong>Writer:</strong> <?= e($post["author_name"] ?: "Provida Team") ?></span>
+            <span class="news-meta-item"><strong>Views:</strong> <?= e((string)(($post["view_count"] ?? 0) + 1)) ?></span>
           </div>
+        </div>
 
-          <?php if ($featuredImageUrl !== ''): ?>
-            <div class="news-article-hero">
-              <img src="<?=  e($featuredImageUrl) ?>" alt="<?= e($post["title"]) ?>">
-            </div>
-          <?php endif; ?>
+        <?php if ($featuredImageUrl !== ''): ?>
+          <div class="news-article-hero">
+            <img src="<?= e($featuredImageUrl) ?>" alt="<?= e($post["title"]) ?>">
+          </div>
+        <?php endif; ?>
 
-          <div class="news-article-content">
-            <div class="news-article-body"><?= e($post["content"] ?? "") ?></div>
+        <div class="news-article-content">
+          <div class="news-article-body">
+            <?php if (trim((string)($post["content_1"] ?? "")) !== ""): ?>
+              <p><?= nl2br(e($post["content_1"])) ?></p>
+            <?php endif; ?>
 
             <?php if ($bodyImageUrl !== ''): ?>
               <div class="news-body-image">
-                <img src="../admin/news/<?= e($bodyImageUrl) ?>" alt="<?= e($post["title"]) ?>">
+                <img src="<?= e($bodyImageUrl) ?>" alt="<?= e($post["title"]) ?>">
               </div>
             <?php endif; ?>
-            <?php if (!empty($galleryImages)): ?>
-              <h3 class="news-section-title">Gallery</h3>
-              <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;">
-                <?php foreach ($galleryImages as $g): ?>
-                  <div style="border-radius:18px;overflow:hidden;border:1px solid var(--news-border);background:#fff;">
-                    <img
-                      src="../admin/news/<?= e(ltrim($g["image_path"], "/")) ?>"
-                      alt="Gallery image"
-                      style="width:100%;height:260px;object-fit:cover;display:block;">
-                  </div>
-                <?php endforeach; ?>
+
+            <?php if (trim((string)($post["content_2"] ?? "")) !== ""): ?>
+              <p><?= nl2br(e($post["content_2"])) ?></p>
+            <?php endif; ?>
+          </div>
+
+          <?php if (!empty($galleryImages)): ?>
+            <h3 class="news-section-title">Gallery</h3>
+            <div class="news-gallery-grid">
+              <?php foreach ($galleryImages as $g): ?>
+                <div class="news-gallery-item">
+                  <img
+                    src="../admin/news/<?= e(ltrim($g["image_path"], "/")) ?>"
+                    alt="Gallery image">
+                </div>
+              <?php endforeach; ?>
+            </div>
+          <?php endif; ?>
+
+          <?php if (!empty($post["external_video_url"])): ?>
+            <h3 class="news-section-title">Video</h3>
+
+            <?php if ($embedUrl !== ''): ?>
+              <div class="news-video-box">
+                <div class="news-video-frame">
+                  <iframe
+                    src="<?= e($embedUrl) ?>"
+                    title="Video"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
+                  </iframe>
+                </div>
+              </div>
+
+              <div style="margin-top:12px;">
+                <a class="news-share-btn" href="<?= e($post["external_video_url"]) ?>" target="_blank" rel="noopener">
+                  Open original video
+                </a>
+              </div>
+            <?php else: ?>
+              <div style="margin-top:12px;">
+                <a class="news-share-btn" href="<?= e($post["external_video_url"]) ?>" target="_blank" rel="noopener">
+                  Open video link
+                </a>
               </div>
             <?php endif; ?>
-            <?php if (!empty($post["external_video_url"])): ?>
-              <h3 class="news-section-title">Video</h3>
+          <?php endif; ?>
 
-              <?php if ($embedUrl !== ''): ?>
-                <div class="news-video-box">
-                  <div class="news-video-frame">
-                    <iframe
-                      src="<?= e($embedUrl) ?>"
-                      title="Video"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowfullscreen>
-                    </iframe>
-                  </div>
-                </div>
+          <div class="news-share-row">
+            <div class="news-author">
+              By <?= e($post["author_name"] ?: "Provida Team") ?>
+            </div>
 
-                <div style="margin-top:12px;">
-                  <a class="news-share-btn" href="<?= e($post["external_video_url"]) ?>" target="_blank" rel="noopener">
-                    Open original video
-                  </a>
-                </div>
-              <?php else: ?>
-                <div style="margin-top:12px;">
-                  <a class="news-share-btn" href="<?= e($post["external_video_url"]) ?>" target="_blank" rel="noopener">
-                    Open video link
-                  </a>
-                </div>
-              <?php endif; ?>
-            <?php endif; ?>
-
-            <div class="news-share-row">
-              <div class="news-author">
-                By <?= e($post["author_name"] ?: "Provida Team") ?>
-              </div>
-
-              <div class="news-share">
-                <span class="news-share-label">Share:</span>
-                <a id="shareFb" class="news-share-btn" href="#" target="_blank" rel="noopener">Facebook</a>
-                <a id="shareTelegram" class="news-share-btn" href="#" target="_blank" rel="noopener">Telegram</a>
-                <a id="shareWhatsApp" class="news-share-btn" href="#" target="_blank" rel="noopener">WhatsApp</a>
-                <a id="shareEmail" class="news-share-btn" href="#">Email</a>
-              </div>
+            <div class="news-share">
+              <span class="news-share-label">Share:</span>
+              <a id="shareFb" class="news-share-btn" href="#" target="_blank" rel="noopener">Facebook</a>
+              <a id="shareTelegram" class="news-share-btn" href="#" target="_blank" rel="noopener">Telegram</a>
+              <a id="shareWhatsApp" class="news-share-btn" href="#" target="_blank" rel="noopener">WhatsApp</a>
+              <a id="shareEmail" class="news-share-btn" href="#">Email</a>
             </div>
           </div>
-        </article>
+        </div>
+      </article>
 
-        <aside class="news-sidebar">
-          <div class="sidebar-card">
-            <h3 class="sidebar-title">Popular</h3>
-            <?= renderSidebarItems($popularNews) ?>
-          </div>
-
-          <div class="sidebar-card">
-            <h3 class="sidebar-title">Latest</h3>
-            <?= renderSidebarItems($latestNews) ?>
-          </div>
-        </aside>
-
-      </div>
-    </div>
-  </main>
-
-<footer class="footer">
-    <div class="container">
-        <div class="footer-grid">
-            <div class="footer-col">
-                <h4>About</h4>
-                <p>Provida Pétanque Club brings together passionate players in a vibrant community dedicated to excellence and friendship.</p>
-            </div>
-
-            <div class="footer-col">
-                <h4>Page</h4>
-                <ul>
-                    <li><a href="index.php">Home</a></li>
-                    <li><a href="about.php">About</a></li>
-                    <li><a href="competition.php">Competitions</a></li>
-                    <li><a href="gallery.php">Gallery</a></li>
-                    <li><a href="news.php">News</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-col">
-                <h4>Contact</h4>
-                <p>📍 Phnom Penh, Cambodia</p>
-                <p>📧 info@provida.kh</p>
-                <p>📞 +855 (23) 123-4567</p>
-            </div>
-
-            <div class="footer-col">
-                <h4>Follow Us</h4>
-                <div class="social-links">
-                    <a href="#" class="social-icon">f</a>
-                    <a href="#" class="social-icon">📷</a>
-                    <a href="#" class="social-icon">𝕏</a>
-                </div>
-            </div>
+      <aside class="news-sidebar">
+        <div class="sidebar-card">
+          <h3 class="sidebar-title">Popular</h3>
+          <?= renderSidebarItems($popularNews) ?>
         </div>
 
-        <div class="footer-bottom">
-            <p>&copy; <?= date('Y') ?> Provida Pétanque Club. All rights reserved.</p>
-            <a href="../admin/admin.php" class="admin-link">Admin</a>
+        <div class="sidebar-card">
+          <h3 class="sidebar-title">Latest</h3>
+          <?= renderSidebarItems($latestNews) ?>
         </div>
+      </aside>
+
     </div>
-</footer>
+  </div>
+</main>
 
-  <script>
-    const currentUrl = encodeURIComponent(window.location.href);
-    const currentTitle = encodeURIComponent("<?= e($post["title"]) ?>");
+   <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4 data-en="About" data-kh="អំពី">About</h4>
+                    <p
+                    data-en="Provida Pétanque Club brings together passionate players in a vibrant community dedicated to excellence and friendship."
+                    data-kh="ក្លឹបប៉េតង់ប្រូវីដា ប្រមូលផ្តុំអ្នកលេងដែលមានចំណង់ចំណូលចិត្ត នៅក្នុងសហគមន៍ដ៏រស់រវើកដែលផ្តោតលើភាពល្អឥតខ្ចោះ និងមិត្តភាព។">
+                    Provida Pétanque Club brings together passionate players in a vibrant community dedicated to excellence and friendship.
+                    </p>
+                </div>
 
-    document.getElementById("shareFb").href =
-      `https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`;
+                <div class="footer-col">
+                    <h4 data-en="Page" data-kh="ទំព័រ">Page</h4>
+                    <ul>
+                        <li><a href="index.php" data-en="Home" data-kh="ទំព័រដើម">Home</a></li>
+                        <li><a href="about.html" data-en="About" data-kh="អំពីយើង">About</a></li>
+                        <li><a href="competition.php" data-en="Competitions" data-kh="ទំព័រការប្រកួត">Competitions</a></li>
+                        <li><a href="gallery.php" data-en="Gallery" data-kh="រូបភាព">Gallery</a></li>
+                        <li><a href="news.php" data-en="News" data-kh="ព័ត៌មាន">News</a></li>
+                    </ul>
+                </div>
 
-    document.getElementById("shareTelegram").href =
-      `https://t.me/share/url?url=${currentUrl}&text=${currentTitle}`;
+                <div class="footer-col">
+                    <h4 data-en="Contact" data-kh="ទំនាក់ទំនង">Contact</h4>
+                    <p>📍 Phnom Penh, Cambodia</p>
+                    <p>📧 info@provida.kh</p>
+                    <p>📞 +855 (23) 123-4567</p>
+                </div>
 
-    document.getElementById("shareWhatsApp").href =
-      `https://wa.me/?text=${currentTitle}%20${currentUrl}`;
+            </div>
 
-    document.getElementById("shareEmail").addEventListener("click", function(e){
-      e.preventDefault();
-      window.location.href = `mailto:?subject=${currentTitle}&body=${currentUrl}`;
-    });
-  </script>
+            <div class="footer-bottom">
+                <p
+                data-en="© 2026 Provida Pétanque Club. All rights reserved."
+                data-kh="© 2026 ក្លឹបប៉េតង់ប្រូវីដា។ រក្សាសិទ្ធិគ្រប់យ៉ាង។">
+                &copy; 2026 Provida Pétanque Club. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
 
-  <script src="script.js"></script>
+<script>
+  const currentUrl = encodeURIComponent(window.location.href);
+  const currentTitle = encodeURIComponent("<?= e($post["title"]) ?>");
+
+  document.getElementById("shareFb").href =
+    `https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`;
+
+  document.getElementById("shareTelegram").href =
+    `https://t.me/share/url?url=${currentUrl}&text=${currentTitle}`;
+
+  document.getElementById("shareWhatsApp").href =
+    `https://wa.me/?text=${currentTitle}%20${currentUrl}`;
+
+  document.getElementById("shareEmail").addEventListener("click", function(e){
+    e.preventDefault();
+    window.location.href = `mailto:?subject=${currentTitle}&body=${currentUrl}`;
+  });
+</script>
+
+<script src="script.js"></script>
 </body>
 </html>

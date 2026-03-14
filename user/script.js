@@ -190,7 +190,7 @@ function initializeNavigation() {
 }
 
 function updateActiveNav() {
-    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    const currentPage = window.location.pathname.split('/').pop() || 'index.php';
     document.querySelectorAll('.navbar__link').forEach(link => {
         link.classList.remove('active');
         if (link.getAttribute('href') === currentPage) {
@@ -685,23 +685,28 @@ function initializeScrollAnimations() {
 // ==========================================
 // GALLERY HOVER PREVIEW
 // ==========================================
-const galleryItems = document.querySelectorAll('.gallery-item');
-const hoverModal = document.getElementById('imageHoverModal');
-const hoverPreview = document.getElementById('imageHoverPreview');
+// const galleryItems = document.querySelectorAll('.gallery-item');
+// const hoverModal = document.getElementById('imageHoverModal');
+// const hoverPreview = document.getElementById('imageHoverPreview');
 
-if (galleryItems.length && hoverModal && hoverPreview) {
-    galleryItems.forEach(item => {
-        const img = item.querySelector('img');
-        if (!img) return;
+// if (galleryItems.length && hoverModal && hoverPreview) {
 
-        item.addEventListener('mouseenter', () => {
-            hoverPreview.src = img.src;
-            hoverPreview.alt = img.alt || '';
-            hoverModal.classList.add('active');
-        });
+//     galleryItems.forEach(item => {
+//         const img = item.querySelector('img');
+//         if (!img) return;
 
-        item.addEventListener('mouseleave', () => {
-            hoverModal.classList.remove('active');
-        });
-    });
-}
+//         item.addEventListener('click', () => {
+//             hoverPreview.src = img.src;
+//             hoverPreview.alt = img.alt || '';
+//             hoverModal.classList.add('active');
+//         });
+//     });
+
+//     /* close when clicking modal background */
+//     hoverModal.addEventListener('click', (e) => {
+//         if (e.target === hoverModal) {
+//             hoverModal.classList.remove('active');
+//         }
+//     });
+
+// }

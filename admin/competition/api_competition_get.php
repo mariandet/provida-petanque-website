@@ -2,44 +2,62 @@
 require_once __DIR__ . "/../../auth.php";
 require_once __DIR__ . "/../../config/db.php";
 
-header("Content-Type: application/json; charset=utf-8");
+header("Content-Type: application/json; charset=UTF-8");
 
-$id = (int)($_GET["id"] ?? 0);
-
-if($id <= 0){
-    http_response_code(400);
-    echo json_encode(["status"=>"ERROR","message"=>"Invalid ID"]);
+function json_response($status, $message = "", $extra = []) {
+    echo json_encode(array_merge([
+        "status" => $status,
+        "message" => $message
+    ], $extra), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     exit;
 }
 
-/* Get competition */
-$stmt = $pdo->prepare("
-    SELECT id,title,description,event_date,price,currency,is_open
-    FROM competitions
-    WHERE id=?
-");
-$stmt->execute([$id]);
-$competition = $stmt->fetch(PDO::FETCH_ASSOC);
+try {
+    $id = (int)($_GET["id"] ?? 0);
 
-if(!$competition){
-    http_response_code(404);
-    echo json_encode(["status"=>"ERROR","message"=>"Not found"]);
-    exit;
+    if ($id <= 0) {
+        json_response("ERROR", "Invalid ID");
+    }
+
+    $stmt = $pdo->prepare("
+        SELECT
+            id,
+            title,
+            description,
+            term_condition,
+            event_date,
+            price,
+            currency,
+            is_open
+        FROM competitions
+        WHERE id = ?
+        LIMIT 1
+    ");
+    $stmt->execute([$id]);
+    $competition = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$competition) {
+        json_response("ERROR", "Not found");
+    }
+
+    $m = $pdo->prepare("
+        SELECT
+            id,
+            media_type,
+            media_url
+        FROM competition_media
+        WHERE competition_id = ?
+        ORDER BY id DESC
+    ");
+    $m->execute([$id]);
+    $media = $m->fetchAll(PDO::FETCH_ASSOC);
+
+    json_response("SUCCESS", "Competition loaded", [
+        "data" => $competition,
+        "media" => $media
+    ]);
+
+} catch (Throwable $e) {
+    json_response("ERROR", $e->getMessage());
 }
-
-/* Get media */
-$m = $pdo->prepare("
-    SELECT id,media_type,media_url
-    FROM competition_media
-    WHERE competition_id=?
-    ORDER BY id DESC
-");
-$m->execute([$id]);
-$media = $m->fetchAll(PDO::FETCH_ASSOC);
-
-/* Return JSON */
-echo json_encode([
-    "status" => "SUCCESS",
-    "data"   => $competition,
-    "media"  => $media
-]);
+?>

@@ -1,5 +1,5 @@
 <?php
-$videoFile = "images/gallery_videos.json";
+$videoFile ="images/gallery_videos.json";
 
 $videos = ["", "", ""];
 if (file_exists($videoFile)) {
@@ -69,47 +69,6 @@ $embedVideos = array_values(array_filter(array_map('youtube_embed_url', $videos)
             color:#666;
             margin-top:20px;
         }
-.image-hover-modal{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.75);
-    display:none;
-    justify-content:center;
-    align-items:center;
-    z-index:9999;
-    padding:20px;
-}
-
-.image-hover-modal.active{
-    display:flex;
-}
-
-.image-hover-modal img{
-    max-width:90vw;
-    max-height:85vh;
-    border-radius:12px;
-    box-shadow:0 10px 30px rgba(0,0,0,.25);
-}
-
-.image-hover-close{
-    position:absolute;
-    top:20px;
-    right:20px;
-    width:42px;
-    height:42px;
-    border:none;
-    border-radius:999px;
-    background:#fff;
-    color:#111;
-    font-size:28px;
-    line-height:1;
-    cursor:pointer;
-    box-shadow:0 6px 18px rgba(0,0,0,.2);
-}
-
-.image-hover-close:hover{
-    background:#f3f4f6;
-}
     </style>
 </head>
 <body>
@@ -228,35 +187,73 @@ $embedVideos = array_values(array_filter(array_map('youtube_embed_url', $videos)
                     data-kh="វីដេអូពិសេស">
                     Featured Videos
                 </h2>
-
-                <div class="video-grid">
-                    <?php for ($i = 0; $i < 3; $i++): ?>
-                        <?php if (!empty($embedVideos[$i])): ?>
+<!-- 
+                <?php if (!empty($embedVideos)): ?>
+                    <div class="video-grid">
+                        <?php foreach ($embedVideos as $video): ?>
                             <div class="video-card">
                                 <div class="video-frame">
                                     <iframe
-                                        src="<?= htmlspecialchars($embedVideos[$i], ENT_QUOTES, 'UTF-8') ?>"
+                                        src="<?= htmlspecialchars($video, ENT_QUOTES, 'UTF-8') ?>"
                                         title="YouTube video"
                                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                         allowfullscreen>
                                     </iframe>
                                 </div>
                             </div>
-                        <?php else: ?>
-                            <div class="video-card">
-                                <div class="video-frame" style="display:flex;align-items:center;justify-content:center;color:#999;">
-                                    No Video
-                                </div>
-                            </div>
-                        <?php endif; ?>
+                        <?php endforeach; ?>
+                    </div>
+                <?php else: ?>
+                    <p class="no-video"
+                       data-en="No featured videos yet."
+                       data-kh="មិនទាន់មានវីដេអូពិសេសនៅឡើយទេ។">
+                       No featured videos yet.
+                    </p>
+                <?php endif; ?> -->
+
+                <div class="video-grid">
+
+                    <?php for ($i = 0; $i < 3; $i++): ?>
+
+                    <?php if (!empty($embedVideos[$i])): ?>
+
+                    <div class="video-card">
+                        <div class="video-frame">
+                            <iframe
+                                src="<?= htmlspecialchars($embedVideos[$i], ENT_QUOTES, 'UTF-8') ?>"
+                                title="YouTube video"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
+
+                    <?php else: ?>
+
+                    <div class="video-card">
+                        <div class="video-frame" style="display:flex;align-items:center;justify-content:center;color:#999;">
+                            No Video
+                        </div>
+                    </div>
+
+                    <?php endif; ?>
+
                     <?php endfor; ?>
-                </div>
+
+                    </div>
             </section>
         </div>
     </main>
 
     <div id="imageHoverModal" class="image-hover-modal">
         <img id="imageHoverPreview" src="" alt="Preview">
+    </div>
+
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close">×</button>
+        <img class="lightbox-img" src="" alt="">
+        <button class="lightbox-prev">❮</button>
+        <button class="lightbox-next">❯</button>
     </div>
 
     <footer class="footer">
@@ -299,41 +296,6 @@ $embedVideos = array_values(array_filter(array_map('youtube_embed_url', $videos)
             </div>
         </div>
     </footer>
-
     <script src="script.js"></script>
-    <script>
-      const hoverModal = document.getElementById("imageHoverModal");
-const hoverPreview = document.getElementById("imageHoverPreview");
-const hoverClose = document.getElementById("imageHoverClose");
-
-if (hoverModal && hoverPreview) {
-    document.querySelectorAll(".gallery-item").forEach(item => {
-        item.addEventListener("click", function () {
-            const img = item.querySelector("img");
-            if (!img) return;
-
-            hoverPreview.src = img.src;
-            hoverPreview.alt = img.alt || "";
-            hoverModal.classList.add("active");
-        });
-    });
-
-    function closeHoverModal() {
-        hoverModal.classList.remove("active");
-        hoverPreview.src = "";
-        hoverPreview.alt = "";
-    }
-
-    if (hoverClose) {
-        hoverClose.addEventListener("click", closeHoverModal);
-    }
-
-    document.addEventListener("keydown", function (e) {
-        if (e.key === "Escape") {
-            closeHoverModal();
-        }
-    });
-}
-    </script>
 </body>
 </html>

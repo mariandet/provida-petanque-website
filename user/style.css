@@ -2287,22 +2287,39 @@ KHMER FONT
 }
 
 html[lang="km"],
+html[lang="kh"],
 html[lang="km"] body,
+html[lang="kh"] body,
 html[lang="km"] button,
+html[lang="kh"] button,
 html[lang="km"] input,
+html[lang="kh"] input,
 html[lang="km"] textarea,
+html[lang="kh"] textarea,
 html[lang="km"] select,
+html[lang="kh"] select,
 html[lang="km"] a,
+html[lang="kh"] a,
 html[lang="km"] h1,
+html[lang="kh"] h1,
 html[lang="km"] h2,
+html[lang="kh"] h2,
 html[lang="km"] h3,
+html[lang="kh"] h3,
 html[lang="km"] h4,
+html[lang="kh"] h4,
 html[lang="km"] h5,
+html[lang="kh"] h5,
 html[lang="km"] h6,
+html[lang="kh"] h6,
 html[lang="km"] p,
+html[lang="kh"] p,
 html[lang="km"] span,
+html[lang="kh"] span,
 html[lang="km"] div,
-html[lang="km"] li {
+html[lang="kh"] div,
+html[lang="km"] li,
+html[lang="kh"] li {
     font-family: "KantumruyPro", sans-serif;
 }
 

@@ -31,7 +31,7 @@ function youtube_embed_url($url) {
 $embedVideos = array_values(array_filter(array_map('youtube_embed_url', $videos)));
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="km">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -86,7 +86,7 @@ $embedVideos = array_values(array_filter(array_map('youtube_embed_url', $videos)
             <div class="navbar__menu" id="navMenu">
                 <a href="index.php" class="navbar__link" data-en="Home" data-kh="ទំព័រដើម">Home</a>
                 <a href="about.html" class="navbar__link" data-en="About" data-kh="អំពីយើង">About</a>
-                <a href="competition.php" class="navbar__link" data-en="Competitions" data-kh="ទំព័រការប្រកួត">Competitions</a>
+                <a href="competition.php" class="navbar__link" data-en="Competitions" data-kh="ការប្រកួត">Competitions</a>
                 <a href="gallery.php" class="navbar__link active" data-en="Gallery" data-kh="រូបភាព">Gallery</a>
                 <a href="news.php" class="navbar__link" data-en="News" data-kh="ព័ត៌មាន">News</a>
                 <a href="contact.html" class="navbar__link" data-en="Contact" data-kh="ទំនាក់ទំនង">Contact</a>
@@ -263,7 +263,7 @@ $embedVideos = array_values(array_filter(array_map('youtube_embed_url', $videos)
                     <h4 data-en="About" data-kh="អំពី">About</h4>
                     <p
                     data-en="Provida Pétanque Club brings together passionate players in a vibrant community dedicated to excellence and friendship."
-                    data-kh="ក្លឹបប៉េតង់ប្រូវីដា ប្រមូលផ្តុំអ្នកលេងដែលមានចំណង់ចំណូលចិត្ត នៅក្នុងសហគមន៍ដ៏រស់រវើកដែលផ្តោតលើភាពល្អឥតខ្ចោះ និងមិត្តភាព។">
+                    data-kh="ក្លិបប៉េតង់ប្រូវីដា ប្រមូលផ្តុំអ្នកលេងដែលមានចំណង់ចំណូលចិត្ត នៅក្នុងសហគមន៍ដ៏រស់រវើកដែលផ្តោតលើភាពល្អឥតខ្ចោះ និងមិត្តភាព។">
                     Provida Pétanque Club brings together passionate players in a vibrant community dedicated to excellence and friendship.
                     </p>
                 </div>
@@ -290,7 +290,7 @@ $embedVideos = array_values(array_filter(array_map('youtube_embed_url', $videos)
             <div class="footer-bottom">
                 <p
                 data-en="© 2026 Provida Pétanque Club. All rights reserved."
-                data-kh="© 2026 ក្លឹបប៉េតង់ប្រូវីដា។ រក្សាសិទ្ធិគ្រប់យ៉ាង។">
+                data-kh="© 2026 ក្លិបប៉េតង់ប្រូវីដា។ រក្សាសិទ្ធិគ្រប់យ៉ាង។">
                 &copy; 2026 Provida Pétanque Club. All rights reserved.
                 </p>
             </div>

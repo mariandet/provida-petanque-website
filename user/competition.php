@@ -240,7 +240,7 @@ $competitionData = array_map(function ($comp) {
 }, $upcomingCompetitions);
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="km">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -317,7 +317,7 @@ $competitionData = array_map(function ($comp) {
         <div class="navbar__menu" id="navMenu">
             <a href="index.php" class="navbar__link" data-en="Home" data-kh="ទំព័រដើម">Home</a>
             <a href="about.html" class="navbar__link" data-en="About" data-kh="អំពីយើង">About</a>
-            <a href="competition.php" class="navbar__link active" data-en="Competitions" data-kh="ទំព័រការប្រកួត">Competitions</a>
+            <a href="competition.php" class="navbar__link active" data-en="Competitions" data-kh="ការប្រកួត">Competitions</a>
             <a href="gallery.php" class="navbar__link" data-en="Gallery" data-kh="រូបភាព">Gallery</a>
             <a href="news.php" class="navbar__link" data-en="News" data-kh="ព័ត៌មាន">News</a>
             <a href="contact.php" class="navbar__link" data-en="Contact" data-kh="ទំនាក់ទំនង">Contact</a>
@@ -404,7 +404,7 @@ $competitionData = array_map(function ($comp) {
 
                                 <p class="event-location"
                                    data-en="Provida Pétanque Club, Phnom Penh"
-                                   data-kh="ក្លឹបប្រូវីដា ប៉េតង់ ភ្នំពេញ">
+                                   data-kh="ក្លិបប្រូវីដា ប៉េតង់ ភ្នំពេញ">
                                    Provida Pétanque Club, Phnom Penh
                                 </p>
 
@@ -461,19 +461,19 @@ $competitionData = array_map(function ($comp) {
                     <div class="form-row">
                         <div class="form-group">
                             <label data-en="Full Name" data-kh="ឈ្មោះពេញ">Full Name</label>
-                            <input type="text" name="full_name" value="<?= e($oldFullName) ?>" placeholder="John Doe" required>
+                            <input type="text" name="full_name" value="<?= e($oldFullName) ?>" placeholder="សុវណ្ណ" required>
                         </div>
 
                         <div class="form-group">
                             <label data-en="Email" data-kh="អ៊ីមែល">Email</label>
-                            <input type="email" name="email" value="<?= e($oldEmail) ?>" placeholder="john@example.com">
+                            <input type="email" name="email" value="<?= e($oldEmail) ?>" placeholder="sovan@example.com">
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
                             <label data-en="Phone" data-kh="លេខទូរស័ព្ទ">Phone</label>
-                            <input type="tel" name="phone" value="<?= e($oldPhone) ?>" placeholder="+855 (23) 123-4567" required>
+                            <input type="tel" name="phone" value="<?= e($oldPhone) ?>" placeholder="+855 (15) 123-4567" required>
                         </div>
 
                         <div class="form-group">
@@ -568,7 +568,7 @@ $competitionData = array_map(function ($comp) {
                     <h4 data-en="About" data-kh="អំពី">About</h4>
                     <p
                     data-en="Provida Pétanque Club brings together passionate players in a vibrant community dedicated to excellence and friendship."
-                    data-kh="ក្លឹបប៉េតង់ប្រូវីដា ប្រមូលផ្តុំអ្នកលេងដែលមានចំណង់ចំណូលចិត្ត នៅក្នុងសហគមន៍ដ៏រស់រវើកដែលផ្តោតលើភាពល្អឥតខ្ចោះ និងមិត្តភាព។">
+                    data-kh="ក្លិបប៉េតង់ប្រូវីដា ប្រមូលផ្តុំអ្នកលេងដែលមានចំណង់ចំណូលចិត្ត នៅក្នុងសហគមន៍ដ៏រស់រវើកដែលផ្តោតលើភាពល្អឥតខ្ចោះ និងមិត្តភាព។">
                     Provida Pétanque Club brings together passionate players in a vibrant community dedicated to excellence and friendship.
                     </p>
                 </div>
@@ -596,7 +596,7 @@ $competitionData = array_map(function ($comp) {
             <div class="footer-bottom">
                 <p
                 data-en="© 2026 Provida Pétanque Club. All rights reserved."
-                data-kh="© 2026 ក្លឹបប៉េតង់ប្រូវីដា។ រក្សាសិទ្ធិគ្រប់យ៉ាង។">
+                data-kh="© 2026 ក្លិបប៉េតង់ប្រូវីដា។ រក្សាសិទ្ធិគ្រប់យ៉ាង។">
                 &copy; 2026 Provida Pétanque Club. All rights reserved.
                 </p>
             </div>
@@ -647,7 +647,7 @@ const langToggle = document.getElementById("langToggle");
 let currentLang = localStorage.getItem("site_lang") || "en";
 
 function applyLanguage(lang) {
-    document.documentElement.lang = lang;
+    document.documentElement.lang = lang === "kh" ? "km" : "en";
 
     document.querySelectorAll("[data-en][data-kh]").forEach(el => {
         el.textContent = lang === "kh" ? el.getAttribute("data-kh") : el.getAttribute("data-en");

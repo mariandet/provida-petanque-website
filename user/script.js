@@ -35,7 +35,7 @@ const translations = {
     }
 };
 
-let currentLanguage = 'en';
+let currentLanguage = 'km';
 
 // ==========================================
 // INITIALIZATION

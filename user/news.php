@@ -56,7 +56,7 @@ try {
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="km">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -79,7 +79,7 @@ try {
             <div class="navbar__menu" id="navMenu">
                 <a href="index.php" class="navbar__link" data-en="Home" data-kh="ទំព័រដើម">Home</a>
                 <a href="about.html" class="navbar__link" data-en="About" data-kh="អំពីយើង">About</a>
-                <a href="competition.php" class="navbar__link" data-en="Competitions" data-kh="ទំព័រការប្រកួត">Competitions</a>
+                <a href="competition.php" class="navbar__link" data-en="Competitions" data-kh="ការប្រកួត">Competitions</a>
                 <a href="gallery.php" class="navbar__link" data-en="Gallery" data-kh="រូបភាព">Gallery</a>
                 <a href="news.php" class="navbar__link active" data-en="News" data-kh="ព័ត៌មាន">News</a>
                 <a href="contact.html" class="navbar__link" data-en="Contact" data-kh="ទំនាក់ទំនង">Contact</a>
@@ -106,7 +106,7 @@ try {
             </h1>
             <p class="page-subtitle"
                data-en="Latest updates from Provida Pétanque Club"
-               data-kh="ព័ត៌មានថ្មីៗពីក្លឹបប៉េតង់ប្រូវីដា">
+               data-kh="ព័ត៌មានថ្មីៗពីក្លិបប៉េតង់ប្រូវីដា">
                Latest updates from Provida Pétanque Club
             </p>
         </div>
@@ -184,7 +184,7 @@ try {
                     <h4 data-en="About" data-kh="អំពី">About</h4>
                     <p
                     data-en="Provida Pétanque Club brings together passionate players in a vibrant community dedicated to excellence and friendship."
-                    data-kh="ក្លឹបប៉េតង់ប្រូវីដា ប្រមូលផ្តុំអ្នកលេងដែលមានចំណង់ចំណូលចិត្ត នៅក្នុងសហគមន៍ដ៏រស់រវើកដែលផ្តោតលើភាពល្អឥតខ្ចោះ និងមិត្តភាព។">
+                    data-kh="ក្លិបប៉េតង់ប្រូវីដា ប្រមូលផ្តុំអ្នកលេងដែលមានចំណង់ចំណូលចិត្ត នៅក្នុងសហគមន៍ដ៏រស់រវើកដែលផ្តោតលើភាពល្អឥតខ្ចោះ និងមិត្តភាព។">
                     Provida Pétanque Club brings together passionate players in a vibrant community dedicated to excellence and friendship.
                     </p>
                 </div>
@@ -212,7 +212,7 @@ try {
             <div class="footer-bottom">
                 <p
                 data-en="© 2026 Provida Pétanque Club. All rights reserved."
-                data-kh="© 2026 ក្លឹបប៉េតង់ប្រូវីដា។ រក្សាសិទ្ធិគ្រប់យ៉ាង។">
+                data-kh="© 2026 ក្លិបប៉េតង់ប្រូវីដា។ រក្សាសិទ្ធិគ្រប់យ៉ាង។">
                 &copy; 2026 Provida Pétanque Club. All rights reserved.
                 </p>
             </div>

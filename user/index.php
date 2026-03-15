@@ -58,13 +58,13 @@ function asset_url(?string $path, string $fallback = ""): string {
 }
 
 $heroTitleEn    = $setting["hero_title_en"] ?? "Welcome to Provida Pétanque Club";
-$heroTitleKh    = $setting["hero_title_kh"] ?? "សូមស្វាគមន៍មកកាន់ក្លឹប Provida Pétanque";
+$heroTitleKh    = $setting["hero_title_kh"] ?? "សូមស្វាគមន៍មកកាន់ក្លិប Provida Pétanque";
 $heroSubtitleEn = $setting["hero_subtitle_en"] ?? "Cambodia’s Pétanque Community";
 $heroSubtitleKh = $setting["hero_subtitle_kh"] ?? "សហគមន៍ប៉េតង់របស់កម្ពុជា";
 $heroDescEn     = $setting["hero_description_en"] ?? "Master the sport of pétanque in a growing community of players and competitions.";
 $heroDescKh     = $setting["hero_description_kh"] ?? "អភិវឌ្ឍជំនាញកីឡាប៉េតង់របស់អ្នកក្នុងសហគមន៍អ្នកលេង និងការប្រកួតដែលកំពុងរីករាយ។";
 $aboutTextEn    = $setting["about_text_en"] ?? "Provida Pétanque Club is dedicated to promoting the sport of pétanque in Cambodia. The club brings together players of all ages and backgrounds to learn, practice, and enjoy the game while building a strong and friendly community.";
-$aboutTextKh    = $setting["about_text_kh"] ?? "ក្លឹប Provida Pétanque ផ្តោតលើការលើកស្ទួយកីឡាប៉េតង់នៅកម្ពុជា។ ក្លឹបនេះប្រមូលផ្តុំអ្នកលេងគ្រប់វ័យ និងគ្រប់មជ្ឈដ្ឋានឱ្យបានរៀន អនុវត្ត និងរីករាយជាមួយការលេង ខណៈពេលកសាងសហគមន៍ដែលរឹងមាំ និងរួសរាយរាក់ទាក់។";
+$aboutTextKh    = $setting["about_text_kh"] ?? "ក្លិប Provida Pétanque ផ្តោតលើការលើកស្ទួយកីឡាប៉េតង់នៅកម្ពុជា។ ក្លិបនេះប្រមូលផ្តុំអ្នកលេងគ្រប់វ័យ និងគ្រប់មជ្ឈដ្ឋានឱ្យបានរៀន អនុវត្ត និងរីករាយជាមួយការលេង ខណៈពេលកសាងសហគមន៍ដែលរឹងមាំ និងរួសរាយរាក់ទាក់។";
 
 $compMonthEn = "MAR";
 $compMonthKh = "មីនា";
@@ -92,10 +92,10 @@ if (!empty($nextCompetition["event_date"])) {
     $compMonthKh = $khMonths[date("m", $timestamp)] ?? $compMonthEn;
 }
 
-$compTitleEn = $nextCompetition["title"] ?? "Spring Championship";
+$compTitleEn = $nextCompetition["title"] ?? "Provida Tournament";
 $compTitleKh = $nextCompetition["title"] ?? "ការប្រកួតប្រចាំរដូវ";
-$compDescEn  = $nextCompetition["description"] ?? "Grand opening tournament featuring elite teams from across Cambodia and international guests";
-$compDescKh  = $nextCompetition["description"] ?? "ការប្រកួតដ៏ធំដែលមានក្រុមលេចធ្លោពីទូទាំងប្រទេស និងភ្ញៀវអន្តរជាតិ";
+$compDescEn  = $nextCompetition["description"] ?? "Coming Soon!";
+$compDescKh  = $nextCompetition["description"] ?? "ការប្រកួតកីឡាប៉េតង់នឹងមកដល់ឆាប់ៗនេះ";
 $compPrice   = isset($nextCompetition["price"]) && $nextCompetition["price"] !== null && $nextCompetition["price"] !== ""
     ? number_format((float)$nextCompetition["price"], 2) . " " . ($nextCompetition["currency"] ?? "")
     : "FREE";
@@ -110,7 +110,7 @@ function slugify($text): string {
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="km">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -129,12 +129,12 @@ function slugify($text): string {
             </div>
 
             <div class="navbar__menu" id="navMenu">
-                <a href="index.php" class="navbar__link active" data-en="Home" data-kh="ដើម">Home</a>
-                <a href="about.html" class="navbar__link" data-en="About" data-kh="អំពី">About</a>
-                <a href="competition.php" class="navbar__link" data-en="Competitions" data-kh="ការប្រកួតប្រជែង">Competitions</a>
+                <a href="index.php" class="navbar__link active" data-en="Home" data-kh="ទំព័រដើម">Home</a>
+                <a href="about.html" class="navbar__link" data-en="About" data-kh="អំពីយើង">About</a>
+                <a href="competition.php" class="navbar__link" data-en="Competitions" data-kh="ការប្រកួត">Competitions</a>
                 <a href="gallery.php" class="navbar__link" data-en="Gallery" data-kh="រូបភាព">Gallery</a>
                 <a href="news.php" class="navbar__link" data-en="News" data-kh="ព័ត៌មាន">News</a>
-                <a href="contact.php" class="navbar__link" data-en="Contact" data-kh="ទាក់ទង">Contact</a>
+                <a href="contact.html" class="navbar__link" data-en="Contact" data-kh="ទំនាក់ទំនង">Contact</a>
             </div>
 
             <div class="navbar__actions">
@@ -288,7 +288,7 @@ function slugify($text): string {
 
                         <p class="competition-location"
                            data-en="Provida Pétanque Club, Phnom Penh"
-                           data-kh="ក្លឹប Provida Pétanque ភ្នំពេញ">
+                           data-kh="ក្លិប Provida Pétanque ភ្នំពេញ">
                             Provida Pétanque Club, Phnom Penh
                         </p>
 
@@ -414,14 +414,14 @@ function slugify($text): string {
                 <a href="gallery.php" class="gallery-preview-item">
                     <div class="gallery-prev-img" style="background:url('images/DSC08721.JPG') center/cover no-repeat;"></div>
                     <div class="gallery-prev-overlay">
-                        <span class="gallery-prev-label" data-en="Club Events" data-kh="កម្មវិធីរបស់ក្លឹប">Club Events</span>
+                        <span class="gallery-prev-label" data-en="Club Events" data-kh="កម្មវិធីរបស់ក្លិប">Club Events</span>
                     </div>
                 </a>
 
                   <a href="gallery.php" class="gallery-preview-item">
                     <div class="gallery-prev-img" style="background:url('images/Finals.JPG') center/cover no-repeat;"></div>
                     <div class="gallery-prev-overlay">
-                        <span class="gallery-prev-label" data-en="Club Events" data-kh="កម្មវិធីរបស់ក្លឹប">Club Events</span>
+                        <span class="gallery-prev-label" data-en="Club Events" data-kh="កម្មវិធីរបស់ក្លិប">Club Events</span>
                     </div>
                 </a>
 
@@ -446,7 +446,7 @@ function slugify($text): string {
                     <h4 data-en="About" data-kh="អំពី">About</h4>
                     <p
                     data-en="Provida Pétanque Club brings together passionate players in a vibrant community dedicated to excellence and friendship."
-                    data-kh="ក្លឹបប៉េតង់ប្រូវីដា ប្រមូលផ្តុំអ្នកលេងដែលមានចំណង់ចំណូលចិត្ត នៅក្នុងសហគមន៍ដ៏រស់រវើកដែលផ្តោតលើភាពល្អឥតខ្ចោះ និងមិត្តភាព។">
+                    data-kh="ក្លិបប៉េតង់ប្រូវីដា ប្រមូលផ្តុំអ្នកលេងដែលមានចំណង់ចំណូលចិត្ត នៅក្នុងសហគមន៍ដ៏រស់រវើកដែលផ្តោតលើភាពល្អឥតខ្ចោះ និងមិត្តភាព។">
                     Provida Pétanque Club brings together passionate players in a vibrant community dedicated to excellence and friendship.
                     </p>
                 </div>
@@ -474,7 +474,7 @@ function slugify($text): string {
             <div class="footer-bottom">
                 <p
                 data-en="© 2026 Provida Pétanque Club. All rights reserved."
-                data-kh="© 2026 ក្លឹបប៉េតង់ប្រូវីដា។ រក្សាសិទ្ធិគ្រប់យ៉ាង។">
+                data-kh="© 2026 ក្ក្លិបប៉េតង់ប្រូវីដា។ រក្សាសិទ្ធិគ្រប់យ៉ាង។">
                 &copy; 2026 Provida Pétanque Club. All rights reserved.
                 </p>
             </div>
